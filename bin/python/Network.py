@@ -73,7 +73,11 @@ class Line_segment:
         self.capex=[0]
         self.opex=[self.calculate_opex()]
         self.total_infra=[0]
-        self.environmental_restoration=[]
+        self.environmental_restoration=[0]
+        self.non_fatal=[0]
+        self.fatal=[0]
+        self.total_safety=[0]
+        self.total=[0]
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list. Also append underground status to its list.
     def update_age_and_underground_statusQuo(self):
@@ -196,11 +200,32 @@ class Line_segment:
     ###Safety and health Costs:
     #Return fatal cost which is one element of safety cost
     def calculate_non_fatal_cost(self):
-        return(nfir*employees/100000*injurycost)
+        if self.underground[-1]==1:
+            if self.underground[0]==1:
+                self.non_fatal.append((self.length/(underground_baseyear+overhead_baseyear))*nfir*employees/100000*injurycost)
+            else:
+                self.non_fatal.append(((1+self.length)/1)*(self.length/(underground_baseyear+overhead_baseyear))*nfir*employees/100000*injurycost)
+        else:
+            self.non_fatal.append((self.length/(underground_baseyear+overhead_baseyear))*nfir*employees/100000*injurycost)
+        return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
     def calculate_fatal_cost(self):
-        return(fir*employees/100000*vsl)
+        if self.underground[-1]==1:
+            if self.underground[0]==1:
+                self.fatal.append((self.length/(underground_baseyear+overhead_baseyear))*fir*employees/100000*vsl)
+            else:
+                self.fatal.append(((1+self.length)/1)*(self.length/(underground_baseyear+overhead_baseyear))*fir*employees/100000*vsl)
+        else:
+            self.fatal.append((self.length/(underground_baseyear+overhead_baseyear))*fir*employees/100000*vsl)
+        return(self.fatal)
     
+    #Return total safety cost which is summation of fatal and non fatal cost
     def calculate_total_safety(self):
-        return(nfir*employees/100000*injurycost+fir*employees/100000*vsl)
+        self.total_safety.append(self.non_fatal+self.fatal)
+        return(self.total_safety)
+    
+    #Return total cost which is summation of lifecycle cost, environmental cost and safety cost
+    def calculate_total_cost(self):
+        self.total.append(self.total_infra+self.environmental_restoration+self.total_safety)
+        return(self.total)
