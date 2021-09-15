@@ -79,36 +79,35 @@ class Line_segment:
         self.total_safety=[0]
         self.total=[0]
     ###Lifecycle Infrastructure Costs:
-    # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list. Also append underground status to its list.
-    def update_age_and_underground_statusQuo(self):
+    # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
+    def update_age(self,replace=False):
         if self.underground[-1]==1:
             lifespan_current= int(underground_line['lifespan'])
         else:
             lifespan_current= int(overhead_line['lifespan'])
         age_current=self.age[-1]
-        if age_current<(lifespan_current-1):
+        if age_current>lifespan_current:
+            self.age.append(1)
+            replace=True
+        else:
             age_current+=1
             self.age.append(age_current)
-            self.underground.append(self.underground[0])
-        else:
-            self.age.append(1)
-            self.underground.append(self.underground[0])
-            
-    def update_age_and_underground_under_after_lifespan(self):
-        underground=self.underground[-1]
-        if underground==1:
-            lifespan_x= int(underground_line['lifespan'])
-        else:
-            lifespan_x= int(overhead_line['lifespan'])
-        age=(self.age[-1])
-        if age<(lifespan_x-1):
-            age+=1
-            self.age.append(age)
-            self.underground.append(self.underground[-1])
-        else:
-            self.age.append(1)
-            self.underground.append(1)
+            replace=False
+        return(replace)
     
+    # Add underground status based on if convert is true or not to self.underground list.                  
+    def update_underground_status(self,convert=False):
+        status=self.underground[0]
+        if convert==True:
+            if status==0:
+                status+=1
+            else:
+                pass
+        else:
+            pass
+        self.underground.append(status)
+            
+        
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
     def add_replcost_intrest_rate(self):
         underground_current=self.underground[-1]
