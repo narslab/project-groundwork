@@ -36,8 +36,8 @@ def run_cost_simulation_statusQuo_strategy(years_of_analysis):
             line_segment_array[i].calculate_fatal_cost()
             line_segment_array[i].calculate_total_safety()
             line_segment_array[i].calculate_total_cost()
-            df_new=pd.DataFrame({'segment number': [i],
-                                 'year':[t],
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],
@@ -50,6 +50,7 @@ def run_cost_simulation_statusQuo_strategy(years_of_analysis):
                                  'total safety':[line_segment_array[i].total_safety[t]],
                                  'total cost':[line_segment_array[i].total[t]]})            
             df=df.append(df_new, ignore_index = True)
+    df.to_csv(r'c:\\Users\\Mahsa\\NARS\\project-groundwork\\results\\outcomes\\Simulation output-StatusQuo strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
 
@@ -71,7 +72,10 @@ def run_cost_simulation_under_after_lifespan_strategy(years_of_analysis):
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
-                pass
+                if line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
             line_segment_array[i].update_underground_status(convert=convert_new)
             line_segment_array[i].add_replcost_intrest_rate()
             line_segment_array[i].calculate_capex()
@@ -83,8 +87,8 @@ def run_cost_simulation_under_after_lifespan_strategy(years_of_analysis):
             line_segment_array[i].calculate_fatal_cost()
             line_segment_array[i].calculate_total_safety()
             line_segment_array[i].calculate_total_cost() 
-            df_new=pd.DataFrame({'segment number': [i],
-                                 'year':[t],
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],
@@ -96,7 +100,8 @@ def run_cost_simulation_under_after_lifespan_strategy(years_of_analysis):
                                  'fatal':[line_segment_array[i].fatal[t]],
                                  'total safety':[line_segment_array[i].total_safety[t]],
                                  'total cost':[line_segment_array[i].total[t]]})             
-            df=df.append(df_new, ignore_index = True)
+            df=df.append(df_new, ignore_index = True)    
+    df.to_csv(r'c:\\Users\\Mahsa\\NARS\\project-groundwork\\results\\outcomes\\Simulation output-Undergrounding strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
 # run sensitivity analysis for a parameter
