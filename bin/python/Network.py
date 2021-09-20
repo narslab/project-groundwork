@@ -72,12 +72,12 @@ class Line_segment:
             self.replcost_rate=[overhead_line['replcost']]       
         self.capex=[0]
         self.opex=[self.calculate_opex()]
-        self.total_infra=[0]
+        self.total_infra=[self.calculate_opex()]
         self.environmental_restoration=[0]
         self.non_fatal=[0]
         self.fatal=[0]
         self.total_safety=[0]
-        self.total=[0]
+        self.total=[self.calculate_opex()]
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
     def update_age(self,replace=False):
@@ -102,9 +102,9 @@ class Line_segment:
             if status==0:
                 status+=1
             else:
-                pass
+                status=self.underground[0]
         else:
-            pass
+            status=self.underground[0]
         self.underground.append(status)
             
         
@@ -221,10 +221,10 @@ class Line_segment:
     
     #Return total safety cost which is summation of fatal and non fatal cost
     def calculate_total_safety(self):
-        self.total_safety.append(self.non_fatal+self.fatal)
+        self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])
         return(self.total_safety)
     
     #Return total cost which is summation of lifecycle cost, environmental cost and safety cost
     def calculate_total_cost(self):
-        self.total.append(self.total_infra+self.environmental_restoration+self.total_safety)
+        self.total.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total)
