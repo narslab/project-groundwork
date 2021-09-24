@@ -12,17 +12,17 @@ import random
 
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
-def run_cost_simulation_statusQuo_strategy(years_of_analysis):
+def run_cost_simulation_statusQuo_strategy(data=Network.data):
     line_segment_array=[]
     line_segment_length_array=[]
-    for i in range (Network.segment_number):
-        segment=Network.Line_segment(Network.age_shape, Network.age_scale, Network.length_shape, Network.length_scale, 0.66)
+    for i in range (data.parameter_dict['segment_number']):
+        segment=Network.Line_segment()
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
     random.seed(10102)
     df=pd.DataFrame()
-    for t in range (years_of_analysis):
+    for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             line_segment_array[i].update_underground_status()
             line_segment_array[i].update_age()
@@ -55,17 +55,17 @@ def run_cost_simulation_statusQuo_strategy(years_of_analysis):
 
 
 #run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
-def run_cost_simulation_under_after_lifespan_strategy(years_of_analysis):
+def run_cost_simulation_under_after_lifespan_strategy(data=Network.data):
     line_segment_array=[]
     line_segment_length_array=[]
-    for i in range (Network.segment_number):
-        segment=Network.Line_segment(Network.age_shape, Network.age_scale, Network.length_shape, Network.length_scale, 0.66)
+    for i in range (data.parameter_dict['segment_number']):
+        segment=Network.Line_segment()
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
     random.seed(10102)
     df=pd.DataFrame()
-    for t in range (years_of_analysis):
+    for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             convert_new=False
             lifespan_exceeded=line_segment_array[i].update_age()
@@ -104,10 +104,5 @@ def run_cost_simulation_under_after_lifespan_strategy(years_of_analysis):
     df.to_csv(r'c:\\Users\\Mahsa\\NARS\\project-groundwork\\results\\outcomes\\Simulation output-Undergrounding strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
-# run sensitivity analysis for a parameter
-#def sensitivity_analysis_statusQuo_strategy(parameter_name,parameter_value,years_of_analysis):
-#    output1=run_cost_simulation_statusQuo_strategy(years_of_analysis)
-#    parameter_name=parameter_value
-#    output2=run_cost_simulation_statusQuo_strategy(years_of_analysis)
     
     
