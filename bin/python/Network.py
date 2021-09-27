@@ -44,10 +44,25 @@ class model_inputs:
     # corridor_length= length of the corridor in feet needed for calculating environmental cost.
     # over_under_raplcost= replacement cost associated with replacing an overhead line with an underground line.
     ###   
-    def modify_parameter(self,parameter, percentage_change):
-        original_param = self.parameter_dict[parameter]
-        new_param=self.parameter_dict[parameter] = (1+percentage_change) * (original_param)
+    
+    #def modify_parameter(self,parameter, percentage_change):
+    #    original_param = self.parameter_dict[parameter]
+    #    new_param=self.parameter_dict[parameter] = (1+percentage_change) * (original_param)
+    #    return (new_param)
+    
+    def modify_parameter(self,parameter,percentage_change, required_key=None):
+        new_param=0
+        if isinstance(self.parameter_dict['parameter'], dict):
+            original_param = self.parameter_dict[parameter][required_key]
+            new_param= (1+(percentage_change/100))*(original_param)
+            self.parameter_dict[parameter][required_key]= new_param
+        else:
+            original_param = self.parameter_dict[parameter]
+            new_param=(1+(percentage_change/100)) * (original_param)
+            self.parameter_dict[parameter][required_key]= new_param        
         return (new_param)
+        #if k == required_key:
+        #    d[k] = new_value
     
 model_data=model_inputs()
 data=model_data
