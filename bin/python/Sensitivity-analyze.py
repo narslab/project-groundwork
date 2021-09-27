@@ -15,19 +15,17 @@ def run_sensitivity_statusQuo(parameter1, percentage_change1,
                                                 parameter2=None, percentage_change2=None):
     if  parameter2==None:
         model_data=Network.model_inputs()
-        data=model_data
         new_data1=Network.model_inputs()
         new_data1.modify_parameter(parameter1, percentage_change1)
-        original_result=Analyze_Result.calculate_net_present_value_statusQuo(data)
+        original_result=Analyze_Result.calculate_net_present_value_statusQuo(model_data)
         new_result=Analyze_Result.calculate_net_present_value_statusQuo(new_data1)
     else:
         #data=Network.model_inputs()
         model_data=Network.model_inputs()
-        data=model_data
         new_data1=Network.model_inputs()
         new_data1=new_data1.modify_parameter(parameter1, percentage_change1)
         new_data1=new_data1.modify_parameter(parameter2, percentage_change2)
-        original_result=Analyze_Result.calculate_net_present_value_statusQuo(data)
+        original_result=Analyze_Result.calculate_net_present_value_statusQuo(model_data)
         new_result=Analyze_Result.calculate_net_present_value_statusQuo(new_data1)
     Percentage_change_result=(new_result[-1]-original_result[-1])/original_result[-1]*100
     print(Percentage_change_result)

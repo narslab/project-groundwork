@@ -12,11 +12,11 @@ import random
 
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
-def run_cost_simulation_statusQuo_strategy(data=Network.model_inputs()):
+def run_cost_simulation_statusQuo_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=Network.Line_segment()
+        segment=Network.Line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -55,7 +55,7 @@ def run_cost_simulation_statusQuo_strategy(data=Network.model_inputs()):
 
 
 #run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
-def run_cost_simulation_under_after_lifespan_strategy(data=Network.model_inputs()):
+def run_cost_simulation_under_after_lifespan_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):

@@ -72,18 +72,19 @@ class model_inputs:
 class Line_segment:
     ## The __init__ function as the constructor, which assigns random length, age and underground status for the base year to each line segment.
     #data=model_inputs()
-    def __init__(self):        
-        self.age = [np.random.gamma(data.parameter_dict['age_shape'], data.parameter_dict['age_scale'])] # set the age as a list, which can be dynamically expanded
-        self.length = np.random.gamma(data.parameter_dict['length_shape'],data.parameter_dict['length_scale']) # we can assume the length is fixed over time
+    def __init__(self, inputs): 
+        self.inputs = inputs
+        self.age = [np.random.gamma(self.inputs.parameter_dict['age_shape'], self.inputs.parameter_dict['age_scale'])] # set the age as a list, which can be dynamically expanded
+        self.length = np.random.gamma(self.inputs.parameter_dict['length_shape'],self.inputs.parameter_dict['length_scale']) # we can assume the length is fixed over time
         overhead_probability = random.uniform(0,1)
-        if overhead_probability > data.parameter_dict['overhead_proportion']: # if underground = 0, then segment is overhead.
+        if overhead_probability > self.inputs.parameter_dict['overhead_proportion']: # if underground = 0, then segment is overhead.
             self.underground = [1] # again, a dynamic list.
         else:
             self.underground = [0]
         if self.underground[0]==1:
-            self.replcost_rate=[data.parameter_dict['underground_line']['replcost']]
+            self.replcost_rate=[self.inputs.parameter_dict['underground_line']['replcost']]
         else:
-            self.replcost_rate=[data.parameter_dict['overhead_line']['replcost']]       
+            self.replcost_rate=[self.inputs.parameter_dict['overhead_line']['replcost']]       
         self.capex=[0]
         self.opex=[self.calculate_opex()]
         self.total_infra=[self.calculate_opex()]
@@ -96,9 +97,9 @@ class Line_segment:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
     def update_age(self,replace=False):
         if self.underground[-1]==1:
-            lifespan_current= int(data.parameter_dict['underground_line']['lifespan'])
+            lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
         else:
-            lifespan_current= int(data.parameter_dict['overhead_line']['lifespan'])
+            lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
         age_current=self.age[-1]
         if age_current>lifespan_current:
             self.age.append(1)
@@ -127,14 +128,14 @@ class Line_segment:
         underground_current=self.underground[-1]
         underground_baseyear=self.underground[0]
         if underground_current==1:
-            replcost_growth_rate_current=data.parameter_dict['underground_line']['replcost_growth_rate']
+            replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
         else:
-            replcost_growth_rate_current=data.parameter_dict['overhead_line']['replcost_growth_rate']
+            replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
         if underground_current==underground_baseyear:        
             replcost_new=(self.replcost_rate[-1])+((replcost_growth_rate_current)*(self.replcost_rate[-1]))
             self.replcost_rate.append(replcost_new)
         else:
-            replcost_new=data.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+            replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
             self.replcost_rate.append(replcost_new)
         return(self.replcost_rate)
     
@@ -154,9 +155,9 @@ class Line_segment:
     def calculate_opex(self):
         underground_current=self.underground[-1]
         if underground_current==1:
-            om_percentage_replcost_current=data.parameter_dict['underground_line']['om_percentage_replcost']
+            om_percentage_replcost_current=self.inputs.parameter_dict['underground_line']['om_percentage_replcost']
         else:
-            om_percentage_replcost_current=data.parameter_dict['overhead_line']['om_percentage_replcost']
+            om_percentage_replcost_current=self.inputs.parameter_dict['overhead_line']['om_percentage_replcost']
         length_current=self.length
         replcost_rate_current=self.replcost_rate[-1]
         opex=(om_percentage_replcost_current)*(length_current)*(replcost_rate_current)
@@ -168,9 +169,9 @@ class Line_segment:
     def add_opex_interest_rate(self):
         underground_current=self.underground[-1]
         if underground_current==1:
-            om_growth_rate=data.parameter_dict['underground_line']['om_growth_rate']
+            om_growth_rate=self.inputs.parameter_dict['underground_line']['om_growth_rate']
         else:
-            om_growth_rate=data.parameter_dict['overhead_line']['om_growth_rate']
+            om_growth_rate=self.inputs.parameter_dict['overhead_line']['om_growth_rate']
         opex_new=self.opex[-1]+(self.opex[-1]*om_growth_rate)
         self.opex.append(opex_new)
         return(self.opex)
@@ -186,9 +187,9 @@ class Line_segment:
         age_baseyear=self.age[0]
         underground=self.underground[0]
         if underground==0:
-            lifespan_x=data.parameter_dict['overhead_line']['lifespan']
+            lifespan_x=self.inputs.parameter_dict['overhead_line']['lifespan']
         elif underground==1:
-            lifespan_x=data.parameter_dict['underground_line']['lifespan']
+            lifespan_x=self.inputs.parameter_dict['underground_line']['lifespan']
         first_retire=(lifespan_x)-(age_baseyear)
         return (np.ceil (first_retire))
  
@@ -198,14 +199,14 @@ class Line_segment:
         environmental_restoration_current=0
         if self.underground[-1]==1:
             if self.underground[0]==1:
-                corridor_length=data.parameter_dict['overhead_line']['corridor_length']
+                corridor_length=self.inputs.parameter_dict['overhead_line']['corridor_length']
                 self.environmental_restoration.append(environmental_restoration_current)
             else:
-                corridor_length=data.parameter_dict['underground_line']['corridor_length']-data.parameter_dict['overhead_line']['corridor_length']
-                environmental_restoration_current=((self.length)*(corridor_length)*640/5280*data.parameter_dict['easment_value'])
+                corridor_length=self.inputs.parameter_dict['underground_line']['corridor_length']-self.inputs.parameter_dict['overhead_line']['corridor_length']
+                environmental_restoration_current=((self.length)*(corridor_length)*640/5280*self.inputs.parameter_dict['easment_value'])
                 self.environmental_restoration.append(environmental_restoration_current)
         else:
-            corridor_length=data.parameter_dict['underground_line']['corridor_length']
+            corridor_length=self.inputs.parameter_dict['underground_line']['corridor_length']
             self.environmental_restoration.append(environmental_restoration_current)
         return(self.environmental_restoration)
 
@@ -215,22 +216,22 @@ class Line_segment:
     def calculate_non_fatal_cost(self):
         if self.underground[-1]==1:
             if self.underground[0]==1:
-                self.non_fatal.append((self.length/(data.parameter_dict['underground_baseyear']+data.parameter_dict['overhead_baseyear']))*(data.parameter_dict['nfir'])*(data.parameter_dict['employees']/100000)*(data.parameter_dict['injurycost']))
+                self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
             else:
-                self.non_fatal.append(((1+self.length)/1)*(self.length/(data.parameter_dict['underground_baseyear']+data.parameter_dict['overhead_baseyear']))*data.parameter_dict['nfir']*data.parameter_dict['employees']/100000*data.parameter_dict['injurycost'])
+                self.non_fatal.append(((1+self.length)/1)*(self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['nfir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['injurycost'])
         else:
-            self.non_fatal.append((self.length/(data.parameter_dict['underground_baseyear']+data.parameter_dict['overhead_baseyear']))*data.parameter_dict['nfir']*data.parameter_dict['employees']/100000*data.parameter_dict['injurycost'])
+            self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['nfir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['injurycost'])
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
     def calculate_fatal_cost(self):
         if self.underground[-1]==1:
             if self.underground[0]==1:
-                self.fatal.append((self.length/(data.parameter_dict['underground_baseyear']+data.parameter_dict['overhead_baseyear']))*data.parameter_dict['fir']*data.parameter_dict['employees']/100000*data.parameter_dict['vsl'])
+                self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
             else:
-                self.fatal.append(((1+self.length)/1)*(self.length/(data.parameter_dict['underground_baseyear']+data.parameter_dict['overhead_baseyear']))*data.parameter_dict['fir']*data.parameter_dict['employees']/100000*data.parameter_dict['vsl'])
+                self.fatal.append(((1+self.length)/1)*(self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
         else:
-            self.fatal.append((self.length/(data.parameter_dict['underground_baseyear']+data.parameter_dict['overhead_baseyear']))*data.parameter_dict['fir']*data.parameter_dict['employees']/100000*data.parameter_dict['vsl'])
+            self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
         return(self.fatal)
     
     #Return total safety cost which is summation of fatal and non fatal cost
