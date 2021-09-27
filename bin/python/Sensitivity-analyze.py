@@ -12,7 +12,7 @@ import Analyze_Result
 ### run sensitivity analysis for a parameter
 
 def run_sensitivity_statusQuo(parameter1, percentage_change1,
-                                                parameter2=None, percentage_change2=None,data=Network.data):
+                                                parameter2=None, percentage_change2=None):
     if  parameter2==None:
         model_data=Network.model_inputs()
         data=model_data
@@ -30,10 +30,11 @@ def run_sensitivity_statusQuo(parameter1, percentage_change1,
         original_result=Analyze_Result.calculate_net_present_value_statusQuo(data)
         new_result=Analyze_Result.calculate_net_present_value_statusQuo(new_data1)
     Percentage_change_result=(new_result[-1]-original_result[-1])/original_result[-1]*100
+    print(Percentage_change_result)
     return (Percentage_change_result)
 
 def run_sensitivity_under(parameter1, percentage_change1,
-                                                parameter2=None, percentage_change2=None,data=Network.data):
+                                                parameter2=None, percentage_change2=None):
     if  parameter2==None:
         model_data=Network.model_inputs()
         data=model_data

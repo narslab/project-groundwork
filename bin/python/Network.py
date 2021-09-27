@@ -52,20 +52,21 @@ class model_inputs:
     
     def modify_parameter(self,parameter,percentage_change, required_key=None):
         new_param=0
-        if isinstance(self.parameter_dict['parameter'], dict):
+        if isinstance(self.parameter_dict[parameter], dict):
             original_param = self.parameter_dict[parameter][required_key]
             new_param= (1+(percentage_change/100))*(original_param)
-            self.parameter_dict[parameter][required_key]= new_param
+            self.parameter_dict[parameter][required_key] = new_param
         else:
             original_param = self.parameter_dict[parameter]
-            new_param=(1+(percentage_change/100)) * (original_param)
-            self.parameter_dict[parameter][required_key]= new_param        
+            new_param=(1+(percentage_change/100.)) * (original_param)
+            self.parameter_dict[parameter] = new_param      
+        print("Original parameter: ", original_param)
+        print("New parameter: ", new_param)  
         return (new_param)
         #if k == required_key:
         #    d[k] = new_value
     
-model_data=model_inputs()
-data=model_data
+
 
 ###Defining Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
 class Line_segment:
@@ -241,3 +242,9 @@ class Line_segment:
     def calculate_total_cost(self):
         self.total.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total)
+
+
+
+def test():
+    model_data=model_inputs()
+    model_data.modify_parameter('r',10)
