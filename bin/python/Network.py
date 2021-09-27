@@ -218,9 +218,9 @@ class Line_segment:
             if self.underground[0]==1:
                 self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
             else:
-                self.non_fatal.append(((1+self.length)/1)*(self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['nfir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['injurycost'])
+                self.non_fatal.append(((1+self.length)/1)*(self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
         else:
-            self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['nfir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['injurycost'])
+            self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
