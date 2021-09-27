@@ -29,7 +29,7 @@ def run_sensitivity_statusQuo(parameter1, percentage_change1,
         new_data1=new_data1.modify_parameter(parameter2, percentage_change2)
         original_result=Analyze_Result.calculate_net_present_value_statusQuo(data)
         new_result=Analyze_Result.calculate_net_present_value_statusQuo(new_data1)
-    Percentage_change_result=(new_result-original_result[-1])/original_result[-1]*100
+    Percentage_change_result=(new_result[-1]-original_result[-1])/original_result[-1]*100
     return (Percentage_change_result)
 
 def run_sensitivity_under(parameter1, percentage_change1,
@@ -50,7 +50,7 @@ def run_sensitivity_under(parameter1, percentage_change1,
         new_data1=new_data1.modify_parameter(parameter2, percentage_change2)
         original_result=Analyze_Result.calculate_net_present_value_under_after_lifespan(data)
         new_result=Analyze_Result.calculate_net_present_value_under_after_lifespan(new_data1)
-    Percentage_change_result=(new_result-original_result[-1])/original_result[-1]*100
+    Percentage_change_result=(new_result[-1]-original_result[-1])/original_result[-1]*100
     return (Percentage_change_result)
     
     #data=Network.model_inputs()
