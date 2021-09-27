@@ -4,8 +4,8 @@ Created on Fri Sep 10 10:42:22 2021
 
 @author: Mahsa
 """
-###Import Network.py which includes variables and line segment class defenistion
-import Network
+###Import network.py which includes variables and line segment class defenistion
+import network
 import numpy as np
 import pandas as pd
 import random
@@ -16,7 +16,7 @@ def run_cost_simulation_statusQuo_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=Network.Line_segment(data)
+        segment=network.Line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -50,7 +50,7 @@ def run_cost_simulation_statusQuo_strategy(data):
                                  'total safety':[line_segment_array[i].total_safety[t]],
                                  'total cost':[line_segment_array[i].total[t]]})            
             df=df.append(df_new, ignore_index = True)
-    df.to_csv(r'c:\\Users\\Mahsa\\NARS\\project-groundwork\\results\\outcomes\\Simulation output-StatusQuo strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Simulation output-StatusQuo strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
 
@@ -59,7 +59,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=Network.Line_segment()
+        segment=network.Line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -101,7 +101,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
                                  'total safety':[line_segment_array[i].total_safety[t]],
                                  'total cost':[line_segment_array[i].total[t]]})             
             df=df.append(df_new, ignore_index = True)    
-    df.to_csv(r'c:\\Users\\Mahsa\\NARS\\project-groundwork\\results\\outcomes\\Simulation output-Undergrounding strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Simulation output-Undergrounding strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
     
