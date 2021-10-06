@@ -1,0 +1,15 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+r,-9.934647308,15.18077925
+over_corridor_length,0,0
+under_corridor_length,0,0
+over_replcost,1.717189679,-1.717189679
+under_replcost,7.355160104,-7.355160104
+overhead_proportion,-10.467071,14.78839426
+over_lifespan,-1.563804637,3.829998851
+under_lifespan,-14.55326515,21.43023638
+over_om_percentage_replcost,1.491141742,-1.491141742
+under_om_percentage_replcost,2.678070824,-2.678070824
+length_shape,13.36277854,-6.616469574
+length_scale,10,-10
+age_shape,11.94503856,-9.602251356
+age_scale,13.42979996,-10.65268764
