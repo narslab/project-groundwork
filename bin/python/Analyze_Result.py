@@ -4,17 +4,18 @@ Created on Wed Sep 15 09:42:52 2021
 
 @author: Mahsa
 """
+import pandas as pd
 import network
 import simulate
 
-inputs  = network.model_inputs()
+data  = network.model_inputs()
 
 ###Calculate aggregrated cost result of status-quo strategy based on each year for 40 years 
 def aggregate_through_years_statusQuo(data):
     df_output_statusQuo=simulate.run_cost_simulation_statusQuo_strategy(data)
     df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['capex','opex','total infra','environmental restoration','non fatal','fatal','total safety','total cost']].sum()
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/Analyze result-StatusQuo strategy.csv', index = False)
+    df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/analyze-result-statusQuo_strategy.csv', index = False)
     return(df_analyze_result_statusQuo)
 
 ###Calculate aggregrated cost result of undergrounding after lifespan strategy based on each year for 40 years 
@@ -22,7 +23,7 @@ def aggregate_through_years_under_after_lifespan(data):
     df_output_under=simulate.run_cost_simulation_under_after_lifespan_strategy(data)
     df_analyze_result_under=df_output_under.groupby(level=[0])[['capex','opex','total infra','environmental restoration','non fatal','fatal','total safety','total cost']].sum()
     df_analyze_result_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_under.to_csv(r'../../results/outcomes/Analyze result-Undergrounding strategy.csv', index = False)
+    df_analyze_result_under.to_csv(r'../../results/outcomes/analyze-result-undergrounding_strategy.csv', index = False)
     return(df_analyze_result_under)
 
 ###Calculate additional cost due to undergrounding after lifespan strategy
@@ -32,7 +33,7 @@ def calculate_additional_cost_from_under_after_lifespan(data):
     df_analyze_additional=df1.subtract(df2)
     del df_analyze_additional['year']
     df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_additional.to_csv(r'../../results/outcomes/Analyze result-Additional cost.csv', index = False)
+    df_analyze_additional.to_csv(r'../../results/outcomes/analyze-result-additional-cost.csv', index = False)
     return(df_analyze_additional)
 
 ###Calculate net present value of infrastructure, environmental, safety and total cost for statusQuo strategy
@@ -51,6 +52,11 @@ def calculate_net_present_value_statusQuo(data):
     total_environmental=sum(net_present_value_environmental_cost)
     total_safety=sum(net_present_value_safety_cost)
     total_total=sum(net_present_value_total_under_after_lifespan_strategy_cost)
+    df_net_present_value_statusQuo= pd.DataFrame({'total_infrastructre':[total_infrastructre],
+                                                  'total_environmental':[total_environmental],
+                                                  'total_safety':[total_safety],
+                                                  'total_total':[total_total]})
+    df_net_present_value_statusQuo.to_csv(r'../../results/outcomes/net-present-value-statusQuo.csv', index = False)
     return([total_infrastructre,total_environmental,total_safety,total_total])
 
 ###Calculate net present value of infrastructure, environmental, safety and total cost for undergrounding after lifespan strategy
@@ -69,6 +75,11 @@ def calculate_net_present_value_under_after_lifespan(data):
     total_environmental=sum(net_present_value_environmental_cost)
     total_safety=sum(net_present_value_safety_cost)
     total_total=sum(net_present_value_total_under_after_lifespan_strategy_cost)
+    df_net_present_value_under= pd.DataFrame({'total_infrastructre':[total_infrastructre],
+                                                  'total_environmental':[total_environmental],
+                                                  'total_safety':[total_safety],
+                                                  'total_total':[total_total]})
+    df_net_present_value_under.to_csv(r'../../results/outcomes/net-present-value-under.csv', index = False)
     return([total_infrastructre,total_environmental,total_safety,total_total])
 
 ###Calculate net present value for additional cost associate with undergrounding after lifespan strategy
@@ -79,4 +90,9 @@ def calculate_net_present_value_of_additional_cost(data):
       zip_object = zip(list1, list2)
       for list1_i, list2_i in zip_object:
           difference.append(list1_i-list2_i)
+      df_net_present_value_additional= pd.DataFrame({'total_infrastructre':[difference[0]],
+                                                  'total_environmental':[difference[1]],
+                                                  'total_safety':[difference[2]],
+                                                  'total_total':[difference[3]]})
+      df_net_present_value_additional.to_csv(r'../../results/outcomes/net-present-value-additional.csv', index = False)
       return(difference)
