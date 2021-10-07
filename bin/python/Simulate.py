@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import random
 
+data  = network.model_inputs()
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
 def run_cost_simulation_statusQuo_strategy(data):
@@ -105,4 +106,37 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
     return(df.set_index(["year","segment number"]))
 
     
-    
+def run_benefit_simulation_under_after_lifespan_strategy(data):
+    line_segment_array=[]
+    line_segment_length_array=[]
+    for i in range (data.parameter_dict['segment_number']):
+        segment=network.Line_segment(data)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            line_segment_array[i].update_underground_status()
+            line_segment_array[i].update_age()
+            #line_segment_array[i].add_replcost_intrest_rate()
+            #line_segment_array[i].calculate_capex()
+            #line_segment_array[i].calculate_opex()
+            #line_segment_array[i].add_opex_interest_rate()
+            #line_segment_array[i].calculate_total_infrastructure_cost()
+            #line_segment_array[i].calculate_environmental_restoration()
+            #line_segment_array[i].calculate_non_fatal_cost()
+            #line_segment_array[i].calculate_fatal_cost()
+            #line_segment_array[i].calculate_total_safety()
+            #line_segment_array[i].calculate_total_cost()
+            line_segment_array[i].calculate_economic_benefits()
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
+                                 'length':[line_segment_array[i].length],
+                                 'age': [line_segment_array[i].age[t]],
+                                 'under': [line_segment_array[i].underground[t]],                            
+                                 'economic_benefits':[line_segment_array[i].total_economic_benefits[t]]})            
+            df=df.append(df_new, ignore_index = True)
+    df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
+    return(df.set_index(["year","segment number"]))    

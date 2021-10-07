@@ -33,7 +33,21 @@ class model_inputs:
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             "overhead_line":{'lifespan':60,'replcost':104000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':60},
-            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':120,'over_under_raplcost':357000}}
+            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':120,'over_under_raplcost':357000},
+            "SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
+            "SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
+            #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
+            "USD_per_Customer_Hour_Interruption_Residential":4.2,
+            "USD_per_Customer_Hour_Interruption_Commercial":1260,
+            "USD_per_Customer_Hour_Interruption_Industry":42600,
+            "USD_per_Customer_Hour_Interruption_Transportation":21930,
+
+            #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
+            "Total_Customers_Residential_Shrewsbury":14633,
+            "Total_Customers_Commercial_Shrewsbury":1541,
+            "Total_Customers_Industry_Shrewsbury":122,
+            "Total_Customers_Transportation_Shrewsbury":5422,
+            }
 
     #Assigning overhead and underground line's specification (parameters) as a dictionary
     
@@ -93,6 +107,9 @@ class Line_segment:
         self.fatal=[0]
         self.total_safety=[0]
         self.total=[self.calculate_opex()]
+        self.total_economic_benefits = [0]
+        #self.total_aesthetic_benefits = [self.calculate_total_aesthetic_benefits()]
+        
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
     def update_age(self,replace=False):
@@ -243,6 +260,31 @@ class Line_segment:
     def calculate_total_cost(self):
         self.total.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total)
+    
+    #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead
+    def calculate_economic_benefits(self):
+        SAIDI_Current=0
+        if self.underground[-1]==1:
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
+        else:
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
+            
+        #Total_Amount_Lost_Revenue_Residential__Shrewsbury_2019 = SAIDI_MA_average_hours * USD_per_Customer_Hour_Interruption_Residential * Total_Customers_Residential_Shrewsbury
+        residential_benefit=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
+
+    #def calculate_commercial_economic_benefits(self):
+    #Total_Amount_Lost_Revenue_Commercial__Shrewsbury_2019 = SAIDI_MA_average_hours * USD_per_Customer_Hour_Interruption_Commercial * Total_Customers_Commercial_Shrewsbury
+        commercial_benefit=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
+
+    #def calculate_industry_economic_benefits(self):
+    #Total_Amount_Lost_Revenue_Industry__Shrewsbury_2019 = SAIDI_MA_average_hours * USD_per_Customer_Hour_Interruption_Industry * Total_Customers_Industry_Shrewsbury
+        industry_benefit=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*(self.inputs.parameter_dict['Total_Customers_Industry_Shrewsbury'])
+        
+    #def calculate_total_economic_benefits(self):
+        total_economic_benefit = 0
+        total_economic_benefit = (residential_benefit + commercial_benefit + industry_benefit)
+        self.total_economic_benefits.append(total_economic_benefit)
+        return(self.total_economic_benefits)    
 
 
 
