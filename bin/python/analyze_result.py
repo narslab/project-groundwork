@@ -96,3 +96,13 @@ def calculate_net_present_value_of_additional_cost(data):
                                                   'total_total':[difference[3]]})
       df_net_present_value_additional.to_csv(r'../../results/outcomes/net-present-value-additional.csv', index = False)
       return(difference)
+  
+###Calculate aggregrated benefit result of undergrounding after lifespan strategy based on each year for 40 years 
+def aggregate_benefits_through_years_under_after_lifespan(data):
+    df_benefit_under=simulate.run_benefit_simulation_under_after_lifespan_strategy(data)
+    df_analyze_benefit_under=df_benefit_under.groupby(level=[0])[['economic_benefits']].sum()
+    df_analyze_benefit_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
+    df_analyze_benefit_under.to_csv(r'../../results/outcomes/benefit-analyze-undergrounding-strategy.csv', index = False)
+    return(df_analyze_benefit_under)
+
+#Define net present value of benefits
