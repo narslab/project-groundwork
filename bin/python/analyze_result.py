@@ -15,7 +15,7 @@ def aggregate_through_years_statusQuo(data):
     df_output_statusQuo=simulate.run_cost_simulation_statusQuo_strategy(data)
     df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['capex','opex','total infra','environmental restoration','non fatal','fatal','total safety','total cost']].sum()
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/analyze-result-statusQuo_strategy.csv', index = False)
+    df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/analyze-result-statusQuo-strategy.csv', index = False)
     return(df_analyze_result_statusQuo)
 
 ###Calculate aggregrated cost result of undergrounding after lifespan strategy based on each year for 40 years 
@@ -23,7 +23,7 @@ def aggregate_through_years_under_after_lifespan(data):
     df_output_under=simulate.run_cost_simulation_under_after_lifespan_strategy(data)
     df_analyze_result_under=df_output_under.groupby(level=[0])[['capex','opex','total infra','environmental restoration','non fatal','fatal','total safety','total cost']].sum()
     df_analyze_result_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_under.to_csv(r'../../results/outcomes/analyze-result-undergrounding_strategy.csv', index = False)
+    df_analyze_result_under.to_csv(r'../../results/outcomes/analyze-result-undergrounding-strategy.csv', index = False)
     return(df_analyze_result_under)
 
 ###Calculate additional cost due to undergrounding after lifespan strategy
