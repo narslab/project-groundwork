@@ -44,14 +44,14 @@ def run_cost_simulation_statusQuo_strategy(data):
                                  'under': [line_segment_array[i].underground[t]],
                                  'capex':[line_segment_array[i].capex[t]],
                                  'opex':[line_segment_array[i].opex[t]],
-                                 'total infra':[line_segment_array[i].total_infra[t]],
+                                 'lifecycle infrastructure':[line_segment_array[i].total_infra[t]],
                                  'environmental restoration':[line_segment_array[i].environmental_restoration[t]],
                                  'non fatal':[line_segment_array[i].non_fatal[t]],
                                  'fatal':[line_segment_array[i].fatal[t]],
-                                 'total safety':[line_segment_array[i].total_safety[t]],
+                                 'safety':[line_segment_array[i].total_safety[t]],
                                  'total cost':[line_segment_array[i].total[t]]})            
             df=df.append(df_new, ignore_index = True)
-    df.to_csv(r'../../results/outcomes/Simulation output-StatusQuo strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/simulation-output-statusQuo-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
 
@@ -95,14 +95,14 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
                                  'under': [line_segment_array[i].underground[t]],
                                  'capex':[line_segment_array[i].capex[t]],
                                  'opex':[line_segment_array[i].opex[t]],
-                                 'total infra':[line_segment_array[i].total_infra[t]],
+                                 'lifecycle infrastructure':[line_segment_array[i].total_infra[t]],
                                  'environmental restoration':[line_segment_array[i].environmental_restoration[t]],
                                  'non fatal':[line_segment_array[i].non_fatal[t]],
                                  'fatal':[line_segment_array[i].fatal[t]],
-                                 'total safety':[line_segment_array[i].total_safety[t]],
+                                 'safety':[line_segment_array[i].total_safety[t]],
                                  'total cost':[line_segment_array[i].total[t]]})             
             df=df.append(df_new, ignore_index = True)    
-    df.to_csv(r'../../results/outcomes/Simulation output-Undergrounding strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/simulation-output-undergrounding-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
     
