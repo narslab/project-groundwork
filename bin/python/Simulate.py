@@ -118,25 +118,26 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
     df=pd.DataFrame()
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
-            line_segment_array[i].update_underground_status()
+            convert_new=False
+            lifespan_exceeded=line_segment_array[i].update_age()
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            line_segment_array[i].update_underground_status(convert=convert_new)
             line_segment_array[i].update_age()
-            #line_segment_array[i].add_replcost_intrest_rate()
-            #line_segment_array[i].calculate_capex()
-            #line_segment_array[i].calculate_opex()
-            #line_segment_array[i].add_opex_interest_rate()
-            #line_segment_array[i].calculate_total_infrastructure_cost()
-            #line_segment_array[i].calculate_environmental_restoration()
-            #line_segment_array[i].calculate_non_fatal_cost()
-            #line_segment_array[i].calculate_fatal_cost()
-            #line_segment_array[i].calculate_total_safety()
-            #line_segment_array[i].calculate_total_cost()
             line_segment_array[i].calculate_economic_benefits()
+            line_segment_array[i].calculate_aesthetic_benefits()
             df_new=pd.DataFrame({'year':[t],
                                  'segment number': [i],
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],                            
-                                 'economic_benefits':[line_segment_array[i].total_economic_benefits[t]]})            
+                                 'economic_benefits':[line_segment_array[i].total_economic_benefits[t]],            
+                                 'aesthetic_benefits':[line_segment_array[i].total_aesthetic_benefits[t]]}) 
             df=df.append(df_new, ignore_index = True)
     df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))    

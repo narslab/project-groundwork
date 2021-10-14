@@ -48,6 +48,8 @@ class model_inputs:
             "total_length":326.21997, #summation of underground and overhead miles generated based on gamma simulation
             "total_length_overhead":227.3577026, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":98.86226968, #summation of underground miles generated based on gamma simulation}
+            "Shrewsbury_tax_levy_2021": 85713912.0,
+            "aesthetic_benefit_percentage":0.03
             }
     #Assigning overhead and underground line's specification (parameters) as a dictionary
     
@@ -107,8 +109,11 @@ class Line_segment:
         self.fatal=[0]
         self.total_safety=[0]
         self.total=[self.calculate_opex()]
+        self.residential_benefit=[0]
+        self.commercial_benefit=[0]
+        self.industry_benefit=[0]
         self.total_economic_benefits = [0]
-        #self.total_aesthetic_benefits = [self.calculate_total_aesthetic_benefits()]
+        self.total_aesthetic_benefits=[0]
         
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
@@ -262,33 +267,52 @@ class Line_segment:
         return(self.total)
     
     #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead
+    
     def calculate_economic_benefits(self):
         SAIDI_Current=0
-        total_length_current=1
+        total_length_current=0
+        total_economic_benefit_current= 0
         if self.underground[-1]==1:
             SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
-            total_length_current=self.inputs.parameter_dict['total_length_overhead']
+            total_length_current=self.inputs.parameter_dict['total_length_underground']            
         else:
             SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
-            total_length_current=self.inputs.parameter_dict['total_length_underground']
-        #Total_Amount_Lost_Revenue_Residential__Shrewsbury_2019 = SAIDI_MA_average_hours * USD_per_Customer_Hour_Interruption_Residential * Total_Customers_Residential_Shrewsbury
-        residential_benefit=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
-
-    #def calculate_commercial_economic_benefits(self):
-    #Total_Amount_Lost_Revenue_Commercial__Shrewsbury_2019 = SAIDI_MA_average_hours * USD_per_Customer_Hour_Interruption_Commercial * Total_Customers_Commercial_Shrewsbury
-        commercial_benefit=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
-
-    #def calculate_industry_economic_benefits(self):
-    #Total_Amount_Lost_Revenue_Industry__Shrewsbury_2019 = SAIDI_MA_average_hours * USD_per_Customer_Hour_Interruption_Industry * Total_Customers_Industry_Shrewsbury
-        industry_benefit=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*(self.inputs.parameter_dict['Total_Customers_Industry_Shrewsbury'])
-        
-    #def calculate_total_economic_benefits(self):
-        total_economic_benefit = 0
-        total_economic_benefit = (self.length/total_length_current) * (residential_benefit + commercial_benefit + industry_benefit)
-        self.total_economic_benefits.append(total_economic_benefit)
-        return(self.total_economic_benefits)    
-
-
+            total_length_current=self.inputs.parameter_dict['total_length_overhead']
+        if self.underground[-1]==1:
+            if self.underground[0]==0:
+                residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
+                commercial_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
+                industry_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*(self.inputs.parameter_dict['Total_Customers_Industry_Shrewsbury'])
+                self.residential_benefit.append(residential_benefit_current)
+                self.commercial_benefit.append(commercial_benefit_current)
+                self.industry_benefit.append(industry_benefit_current)
+            else:
+                residential_benefit_current=0
+                commercial_benefit_current=0
+                industry_benefit_current=0
+                self.residential_benefit.append(residential_benefit_current)
+                self.commercial_benefit.append(commercial_benefit_current)
+                self.industry_benefit.append(industry_benefit_current)
+        else:
+            residential_benefit_current=0
+            commercial_benefit_current=0
+            industry_benefit_current=0
+            self.residential_benefit.append(residential_benefit_current)
+            self.commercial_benefit.append(commercial_benefit_current)
+            self.industry_benefit.append(industry_benefit_current)
+        total_economic_benefit_current = (self.length/total_length_current) * (residential_benefit_current + commercial_benefit_current + industry_benefit_current)
+        self.total_economic_benefits.append(total_economic_benefit_current)
+        return(self.total_economic_benefits)  
+    
+    def calculate_aesthetic_benefits(self):
+        if self.underground[-1]==1:
+            if self.underground[0]==0:
+                self.total_aesthetic_benefits.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_percentage'])
+            else:
+                self.total_aesthetic_benefits.append(0)
+        else:
+            self.total_aesthetic_benefits.append(0)
+        return(self.total_aesthetic_benefits)              
 
 def test():
     model_data=model_inputs()
