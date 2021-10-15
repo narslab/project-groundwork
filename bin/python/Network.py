@@ -157,8 +157,12 @@ class Line_segment:
             replcost_new=(self.replcost_rate[-1])+((replcost_growth_rate_current)*(self.replcost_rate[-1]))
             self.replcost_rate.append(replcost_new)
         else:
-            replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-            self.replcost_rate.append(replcost_new)
+            if self.underground[:-1]==0:
+               replcost_new=self.inputs.parameter_dict['underground_line']['over_under_raplcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+               self.replcost_rate.append(replcost_new)                
+            else:
+               replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+               self.replcost_rate.append(replcost_new)
         return(self.replcost_rate)
     
     #Determine capital expenses which is replacement cost for each line segment based on the rate of replacement cost in that year and length of the circuit.
