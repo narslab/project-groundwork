@@ -49,7 +49,8 @@ class model_inputs:
             "total_length_overhead":227.3577026, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":98.86226968, #summation of underground miles generated based on gamma simulation}
             "Shrewsbury_tax_levy_2021": 85713912.0,
-            "aesthetic_benefit_percentage":0.03
+            "aesthetic_benefit_percentage":0.03,
+            "inflation_rate_benefit":0.02
             }
     #Assigning overhead and underground line's specification (parameters) as a dictionary
     
@@ -113,7 +114,9 @@ class Line_segment:
         self.commercial_benefit=[0]
         self.industry_benefit=[0]
         self.total_economic_benefits = [0]
+        self.total_inflated_economic_benefits=[0]
         self.total_aesthetic_benefits=[0]
+        self.total_inflated_aesthetic_benefits=[0]
         
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
@@ -244,7 +247,7 @@ class Line_segment:
             if self.underground[0]==1:
                 self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
             else:
-                self.non_fatal.append(((1+self.length)/1)*(self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+                self.non_fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
         else:
             self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
         return(self.non_fatal)
@@ -255,7 +258,7 @@ class Line_segment:
             if self.underground[0]==1:
                 self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
             else:
-                self.fatal.append(((1+self.length)/1)*(self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+                self.fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
         else:
             self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
         return(self.fatal)
@@ -307,7 +310,13 @@ class Line_segment:
         total_economic_benefit_current = (self.length/total_length_current) * (residential_benefit_current + commercial_benefit_current + industry_benefit_current)
         self.total_economic_benefits.append(total_economic_benefit_current)
         return(self.total_economic_benefits)  
-    
+
+    #Add interest rate to economic benefit.
+    def add_economic_benefits_interest_rate(self):
+        economic_benefit_new=self.total_economic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_economic_benefits.append(economic_benefit_new)
+        return(self.total_inflated_economic_benefits)    
+
     def calculate_aesthetic_benefits(self):
         if self.underground[-1]==1:
             if self.underground[0]==0:
@@ -316,7 +325,14 @@ class Line_segment:
                 self.total_aesthetic_benefits.append(0)
         else:
             self.total_aesthetic_benefits.append(0)
-        return(self.total_aesthetic_benefits)              
+        return(self.total_aesthetic_benefits) 
+
+    #Add interest rate to aesthetic benefit.
+    def add_aesthetic_benefits_interest_rate(self):
+        aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
+        return(self.total_inflated_aesthetic_benefits)
+             
 
 def test():
     model_data=model_inputs()

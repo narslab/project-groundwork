@@ -66,6 +66,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
     np.random.seed(10101)
     random.seed(10102)
     df=pd.DataFrame()
+    #underground_length=[]
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             convert_new=False
@@ -87,7 +88,8 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
             line_segment_array[i].calculate_non_fatal_cost()
             line_segment_array[i].calculate_fatal_cost()
             line_segment_array[i].calculate_total_safety()
-            line_segment_array[i].calculate_total_cost() 
+            line_segment_array[i].calculate_total_cost()
+            #line_segment_array[i].
             df_new=pd.DataFrame({'year':[t],
                                  'segment number': [i],
                                  'length':[line_segment_array[i].length],
@@ -131,13 +133,14 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
             line_segment_array[i].update_age()
             line_segment_array[i].calculate_economic_benefits()
             line_segment_array[i].calculate_aesthetic_benefits()
+            line_segment_array[i].add_aesthetic_benefits_interest_rate()
             df_new=pd.DataFrame({'year':[t],
                                  'segment number': [i],
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],                            
                                  'economic_benefits':[line_segment_array[i].total_economic_benefits[t]],            
-                                 'aesthetic_benefits':[line_segment_array[i].total_aesthetic_benefits[t]]}) 
+                                 'aesthetic_benefits':[line_segment_array[i].total_inflated_aesthetic_benefits[t]]}) 
             df=df.append(df_new, ignore_index = True)
     df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))    
