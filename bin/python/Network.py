@@ -42,15 +42,21 @@ class model_inputs:
             "USD_per_Customer_Hour_Interruption_Industry":42600,
 
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
-            "Total_Customers_Residential_Shrewsbury":14633,
-            "Total_Customers_Commercial_Shrewsbury":1541,
-            "Total_Customers_Industry_Shrewsbury":122,
+            "Total_Customers_Residential_Shrewsbury":31819.2,
+            "Total_Customers_Commercial_Shrewsbury":3977.4,
+            "Total_Customers_Industry_Shrewsbury":3977.4,
             "total_length":326.21997, #summation of underground and overhead miles generated based on gamma simulation
             "total_length_overhead":227.3577026, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":98.86226968, #summation of underground miles generated based on gamma simulation}
             "Shrewsbury_tax_levy_2021": 85713912.0,
             "aesthetic_benefit_percentage":0.03,
-            "inflation_rate_benefit":0.02
+            "inflation_rate_benefit":0.02,
+            "shrewsbury_population":39774,
+            "residential_percentage":0.8,
+            "industrial_percentage":0.1,
+            "commercial_percentage":0.1,
+            "outage_overhead":0.8,
+            "outage_underground":0.2              
             }
     #Assigning overhead and underground line's specification (parameters) as a dictionary
     
@@ -111,12 +117,19 @@ class Line_segment:
         self.total_safety=[0]
         self.total=[self.calculate_opex()]
         self.residential_benefit=[0]
+        self.residential_loss=[0]
         self.commercial_benefit=[0]
+        self.commercial_loss=[0]
         self.industry_benefit=[0]
+        self.industry_loss=[0]
         self.total_economic_benefits = [0]
         self.total_inflated_economic_benefits=[0]
         self.total_aesthetic_benefits=[0]
         self.total_inflated_aesthetic_benefits=[0]
+        self.total_aesthetic_losses=[0]
+        self.total_inflated_aesthetic_losses=[0]
+        self.total_economic_losses=[0]
+        self.total_inflated_economic_losses=[0]
         
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
@@ -315,7 +328,34 @@ class Line_segment:
     def add_economic_benefits_interest_rate(self):
         economic_benefit_new=self.total_economic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
         self.total_inflated_economic_benefits.append(economic_benefit_new)
-        return(self.total_inflated_economic_benefits)    
+        return(self.total_inflated_economic_benefits)  
+
+    def calculate_economic_outage_losses(self):
+        #SAIDI_Current=0
+        #outage_percentage_current=0
+        if self.underground[-1]==1:
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
+            outage_percentage_current=self.inputs.parameter_dict['outage_underground']
+        else:
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
+            outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
+
+        residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["shrewsbury_population"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
+        commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["shrewsbury_population"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
+        industry_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["shrewsbury_population"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
+        self.residential_loss.append(residential_loss_current)
+        self.commercial_loss.append(commercial_loss_current)
+        self.industry_loss.append(industry_loss_current)
+        total_economic_loss_current = residential_loss_current + commercial_loss_current + industry_loss_current
+        self.total_economic_losses.append(total_economic_loss_current)
+        return(self.total_economic_losses)  
+
+    #Add interest rate to economic benefit.
+    def add_economic_outage_losses_interest_rate(self):
+        economic_loss_new=self.total_economic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_economic_losses.append(economic_loss_new)
+        return(self.total_inflated_economic_losses)    
+
 
     def calculate_aesthetic_benefits(self):
         if self.underground[-1]==1:
@@ -332,7 +372,22 @@ class Line_segment:
         aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
         self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
         return(self.total_inflated_aesthetic_benefits)
-             
+
+    def calculate_aesthetic_losses(self):
+        if self.underground[-1]==1:
+            if self.underground[0]==0:
+                self.total_aesthetic_losses.append(0)
+            else:
+                self.total_aesthetic_losses.append(0)
+                
+        else:
+            self.total_aesthetic_losses.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_percentage'])
+        return(self.total_aesthetic_losses) 
+
+    def add_aesthetic_losses_interest_rate(self):
+        aesthetic_loss_new=self.total_aesthetic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_aesthetic_losses.append(aesthetic_loss_new)
+        return(self.total_inflated_aesthetic_losses)             
 
 def test():
     model_data=model_inputs()
