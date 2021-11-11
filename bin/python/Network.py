@@ -40,11 +40,10 @@ class model_inputs:
             "USD_per_Customer_Hour_Interruption_Residential":4.2,
             "USD_per_Customer_Hour_Interruption_Commercial":1260,
             "USD_per_Customer_Hour_Interruption_Industry":42600,
-
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
-            "Total_Customers_Residential_Shrewsbury":31819.2,
-            "Total_Customers_Commercial_Shrewsbury":3977.4,
-            "Total_Customers_Industry_Shrewsbury":3977.4,
+            "Total_Customers_Residential_Shrewsbury":6400,
+            "Total_Customers_Commercial_Shrewsbury":8000,
+            "Total_Customers_Industry_Shrewsbury":1600,
             "total_length":326.21997, #summation of underground and overhead miles generated based on gamma simulation
             "total_length_overhead":227.3577026, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":98.86226968, #summation of underground miles generated based on gamma simulation}
