@@ -49,9 +49,9 @@ def run_cost_simulation_statusQuo_strategy(data):
                                  'non fatal':[line_segment_array[i].non_fatal[t]],
                                  'fatal':[line_segment_array[i].fatal[t]],
                                  'safety':[line_segment_array[i].total_safety[t]],
-                                 'total cost':[line_segment_array[i].total[t]]})            
+                                 'total cost':[line_segment_array[i].total_cost[t]]})            
             df=df.append(df_new, ignore_index = True)
-    df.to_csv(r'../../results/outcomes/simulation-output-statusQuo-strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/cost-simulation-output-statusQuo-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
 
@@ -102,12 +102,49 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
                                  'non fatal':[line_segment_array[i].non_fatal[t]],
                                  'fatal':[line_segment_array[i].fatal[t]],
                                  'safety':[line_segment_array[i].total_safety[t]],
-                                 'total cost':[line_segment_array[i].total[t]]})             
+                                 'total cost':[line_segment_array[i].total_cost[t]]})             
             df=df.append(df_new, ignore_index = True)    
-    df.to_csv(r'../../results/outcomes/simulation-output-undergrounding-strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/cost-simulation-output-undergrounding-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
-    
+def run_benefit_simulation_statusQuo_strategy(data):
+    line_segment_array=[]
+    line_segment_length_array=[]
+    for i in range (data.parameter_dict['segment_number']):
+        segment=network.Line_segment(data)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            line_segment_array[i].update_underground_status()
+            line_segment_array[i].update_age()
+            line_segment_array[i].calculate_economic_benefits()
+            line_segment_array[i].calculate_aesthetic_benefits()
+            line_segment_array[i].add_aesthetic_benefits_interest_rate()
+            line_segment_array[i].calculate_aesthetic_losses()
+            line_segment_array[i].add_aesthetic_losses_interest_rate()
+            line_segment_array[i].calculate_economic_outage_losses()
+            line_segment_array[i].add_economic_outage_losses_interest_rate()
+            line_segment_array[i].calculate_total_losses()
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
+                                 'length':[line_segment_array[i].length],
+                                 'age': [line_segment_array[i].age[t]],
+                                 'under': [line_segment_array[i].underground[t]],                            
+                                 'economic benefits':[line_segment_array[i].total_economic_benefits[t]],            
+                                 'aesthetic benefits':[line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic losses':[line_segment_array[i].total_inflated_aesthetic_losses[t]],
+                                 'economic losses':[line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total losses':[line_segment_array[i].total_losses[t]]
+                                 }) 
+            df=df.append(df_new, ignore_index = True)
+    df.to_csv(r'../../results/outcomes/benefit-simulation-output-statusQuo-strategy.csv', index = False)
+    return(df.set_index(["year","segment number"]))       
+
+
 def run_benefit_simulation_under_after_lifespan_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
@@ -138,15 +175,17 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
             line_segment_array[i].add_aesthetic_losses_interest_rate()
             line_segment_array[i].calculate_economic_outage_losses()
             line_segment_array[i].add_economic_outage_losses_interest_rate()
+            line_segment_array[i].calculate_total_losses()
             df_new=pd.DataFrame({'year':[t],
                                  'segment number': [i],
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],                            
-                                 'economic_benefits':[line_segment_array[i].total_economic_benefits[t]],            
-                                 'aesthetic_benefits':[line_segment_array[i].total_inflated_aesthetic_benefits[t]],
-                                 'aesthetic_losses':[line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses':[line_segment_array[i].total_inflated_economic_losses[t]]
+                                 'economic benefits':[line_segment_array[i].total_economic_benefits[t]],            
+                                 'aesthetic benefits':[line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic losses':[line_segment_array[i].total_inflated_aesthetic_losses[t]],
+                                 'economic losses':[line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total losses':[line_segment_array[i].total_losses[t]]
                                  }) 
             df=df.append(df_new, ignore_index = True)
     df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
