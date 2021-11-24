@@ -117,10 +117,10 @@ def aggregate_benefit_through_years_under_after_lifespan(data):
 def calculate_additional_benefit_from_under_after_lifespan(data):
     df1=aggregate_benefit_through_years_under_after_lifespan(data)
     df2=aggregate_benefit_through_years_statusQuo(data)
-    df_analyze_additional=df2.subtract(df1)
+    df_analyze_additional=df1.subtract(df2)
     del df_analyze_additional['year']
     df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_additional.to_csv(r'../../results/outcomes/benefit-analyze-result-additional-cost.csv', index = False)
+    df_analyze_additional.to_csv(r'../../results/outcomes/benefit-analyze-result-additional.csv', index = False)
     return(df_analyze_additional)
 
 ###Calculate net present value of losses for statusQuo strategy
@@ -145,11 +145,11 @@ def calculate_benefit_net_present_value_statusQuo(data):
 
 ###Calculate net present value of infrastructure, environmental, safety and total cost for undergrounding after lifespan strategy
 def calculate_benefit_net_present_value_under_after_lifespan(data):
-    df_net_present_statusQuo=aggregate_benefit_through_years_under_after_lifespan(data)
+    df_net_present_under=aggregate_benefit_through_years_under_after_lifespan(data)
     net_present_value_economic=[]
     net_present_value_aesthetic=[]
     net_present_value_total=[]
-    for index, row in df_net_present_statusQuo.iterrows():
+    for index, row in df_net_present_under.iterrows():
         net_present_value_aesthetic.append(row['aesthetic losses']/(1+data.parameter_dict['r'])**index)
         net_present_value_economic.append(row['economic losses']/(1+data.parameter_dict['r'])**index)
         net_present_value_total.append(row['total losses']/(1+data.parameter_dict['r'])**index)
@@ -169,9 +169,9 @@ def calculate_net_present_value_of_additional_benefit(data):
       difference = []
       zip_object = zip(list1, list2)
       for list1_i, list2_i in zip_object:
-          difference.append(list2_i-list1_i)
-      df_net_present_value_additional= pd.DataFrame({'avoided aesthetic losses':[difference[0]],
-                                                  'avoided economic losses':[difference[1]],
-                                                  'avoided total losses':[difference[2]]})
+          difference.append(list1_i-list2_i)
+      df_net_present_value_additional= pd.DataFrame({'aesthetic losses':[difference[0]],
+                                                  'economic losses':[difference[1]],
+                                                  'total losses':[difference[2]]})
       df_net_present_value_additional.to_csv(r'../../results/outcomes/benefit-net-present-value-additional.csv', index = False)
       return(difference)
