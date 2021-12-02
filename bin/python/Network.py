@@ -32,8 +32,16 @@ class model_inputs:
             "injurycost":130658, # A randomly determined annual injury cost, per accident
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
+            #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':60,'replcost':104000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':60},
             "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':120,'over_under_raplcost':357000},
+            #lifespan=Useful lifespan of overhead line and underground lines
+            #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
+            #replcost_growth_rate= replacement cost annual growth/decay rate 
+            # om_percentage_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
+            # corridor_length= length of the corridor in feet needed for calculating environmental cost.
+            # over_under_raplcost= replacement cost associated with replacing an overhead line with an underground line.
+            ### 
             "SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             "SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
@@ -57,21 +65,10 @@ class model_inputs:
             "outage_overhead":0.8,
             "outage_underground":0.2              
             }
-    #Assigning overhead and underground line's specification (parameters) as a dictionary
     
-    #lifespan=Useful lifespan of overhead line and underground lines
-    #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
-    #replcost_growth_rate= replacement cost annual growth/decay rate 
-    # om_percentage_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
-    # corridor_length= length of the corridor in feet needed for calculating environmental cost.
-    # over_under_raplcost= replacement cost associated with replacing an overhead line with an underground line.
-    ###   
+  
     
-    #def modify_parameter(self,parameter, percentage_change):
-    #    original_param = self.parameter_dict[parameter]
-    #    new_param=self.parameter_dict[parameter] = (1+percentage_change) * (original_param)
-    #    return (new_param)
-    
+    #defining a function to modify parameters for sensitivity anlysis based on percentage change
     def modify_parameter(self,parameter,percentage_change, required_key=None):
         new_param=0
         if isinstance(self.parameter_dict[parameter], dict):

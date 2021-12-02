@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import random
 
-data  = network.model_inputs()
+data = network.model_inputs()
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
 def run_cost_simulation_statusQuo_strategy(data):
@@ -167,7 +167,6 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
                 else:
                     convert_new=False
             line_segment_array[i].update_underground_status(convert=convert_new)
-            line_segment_array[i].update_age()
             line_segment_array[i].calculate_economic_benefits()
             line_segment_array[i].calculate_aesthetic_benefits()
             line_segment_array[i].add_aesthetic_benefits_interest_rate()
@@ -189,4 +188,48 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
                                  }) 
             df=df.append(df_new, ignore_index = True)
     df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
-    return(df.set_index(["year","segment number"]))    
+    return(df.set_index(["year","segment number"]))   
+
+# calculate total length of underground line on each year
+def calculate_percentage_underground_UL_strategy(data):    
+    line_segment_array=[]
+    line_segment_length_array=[]
+    for i in range (data.parameter_dict['segment_number']):
+        segment=network.Line_segment(data)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    underground_length=[0]
+    underground_percentage=[]
+    total_length=0
+    for t in range (data.parameter_dict['analysis_years']-1):
+        underground_length.append(0)
+    for i in range (len(line_segment_array)):
+        total_length+=line_segment_array[i].length
+        if line_segment_array[i].underground[0]==1:
+          underground_length[0]+=line_segment_array[i].length
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            convert_new=False
+            lifespan_exceeded=line_segment_array[i].update_age()
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            line_segment_array[i].update_underground_status(convert=convert_new)
+            retire_age=line_segment_array[i].determine_first_retire()
+            if line_segment_array[i].underground[0]==0:
+                if t==retire_age:
+                    underground_length[t]+=underground_length[t-1]+line_segment_array[i].length
+                else:
+                    pass
+        df_new=pd.DataFrame({'year':[t],
+                             'underground_length': underground_length[t]})             
+        df=df.append(df_new, ignore_index = True)    
+    df.to_csv(r'../../results/outcomes/under-length-undergrounding-strategy.csv', index = False)
+    return(df)
