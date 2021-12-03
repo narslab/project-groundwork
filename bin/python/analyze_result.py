@@ -117,7 +117,7 @@ def aggregate_benefit_through_years_under_after_lifespan(data):
 def calculate_additional_benefit_from_under_after_lifespan(data):
     df1=aggregate_benefit_through_years_under_after_lifespan(data)
     df2=aggregate_benefit_through_years_statusQuo(data)
-    df_analyze_additional=df1.subtract(df2)
+    df_analyze_additional=df2.subtract(df1)
     del df_analyze_additional['year']
     df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_additional.to_csv(r'../../results/outcomes/benefit-analyze-result-additional.csv', index = False)
