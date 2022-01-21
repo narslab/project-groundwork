@@ -34,13 +34,13 @@ class model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':60,'replcost':104000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':60},
-            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':120,'over_under_raplcost':357000},
+            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':120,'over_under_convertcost':357000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
             # om_percentage_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_length= length of the corridor in feet needed for calculating environmental cost.
-            # over_under_raplcost= replacement cost associated with replacing an overhead line with an underground line.
+            # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
             ### 
             "SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             "SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
@@ -171,7 +171,7 @@ class Line_segment:
             self.replcost_rate.append(replcost_new)
         else:
             if self.underground[:-1]==0:
-               replcost_new=self.inputs.parameter_dict['underground_line']['over_under_raplcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+               replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                self.replcost_rate.append(replcost_new)                
             else:
                replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
