@@ -17,8 +17,8 @@ class model_inputs:
             "average_age":20, # Average ages in base year for underground and overhead distribution lines (in years)
             "age_shape":10, # We selected age shape and scale in a way that age_shape*age_scale=average_age
             "age_scale":2,  # We selected age shape and scale in a way that length_shape*age scale=average_length
-            "length_shape":2, # We selected length shape and scale in a way that length_shape*length_age=average_length
-            "length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_age=average_length
+            "length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
+            "length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             "average_length":0.5, # Average length for underground and overhead distribution lines (in miles)
             "segment_number":625, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
