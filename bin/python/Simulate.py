@@ -25,9 +25,10 @@ def run_cost_simulation_statusQuo_strategy(data):
     df=pd.DataFrame()
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
+            #disaggregated_function=True
             line_segment_array[i].update_underground_status()
             line_segment_array[i].update_age()
-            line_segment_array[i].add_replcost_intrest_rate()
+            line_segment_array[i].calculate_replcost(disaggregated_function=True)
             line_segment_array[i].calculate_capex()
             line_segment_array[i].calculate_opex()
             line_segment_array[i].add_opex_interest_rate()
@@ -42,6 +43,7 @@ def run_cost_simulation_statusQuo_strategy(data):
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],
+                                 #'replecost': [line_segment_array[i].replcost[t]],
                                  'capex':[line_segment_array[i].capex[t]],
                                  'opex':[line_segment_array[i].opex[t]],
                                  'lifecycle infrastructure':[line_segment_array[i].total_infra[t]],
@@ -49,7 +51,8 @@ def run_cost_simulation_statusQuo_strategy(data):
                                  'non fatal':[line_segment_array[i].non_fatal[t]],
                                  'fatal':[line_segment_array[i].fatal[t]],
                                  'safety':[line_segment_array[i].total_safety[t]],
-                                 'total cost':[line_segment_array[i].total_cost[t]]})            
+                                 'total cost':[line_segment_array[i].total_cost[t]],
+                                 })            
             df=df.append(df_new, ignore_index = True)
     df.to_csv(r'../../results/outcomes/cost-simulation-output-statusQuo-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
@@ -70,6 +73,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             convert_new=False
+            #disaggregated_function=True
             lifespan_exceeded=line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -79,7 +83,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
                 else:
                     convert_new=False
             line_segment_array[i].update_underground_status(convert=convert_new)
-            line_segment_array[i].add_replcost_intrest_rate()
+            line_segment_array[i].calculate_replcost(disaggregated_function=True)
             line_segment_array[i].calculate_capex()
             line_segment_array[i].calculate_opex()
             line_segment_array[i].add_opex_interest_rate()
@@ -89,12 +93,13 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
             line_segment_array[i].calculate_fatal_cost()
             line_segment_array[i].calculate_total_safety()
             line_segment_array[i].calculate_total_cost()
-            #line_segment_array[i].
             df_new=pd.DataFrame({'year':[t],
                                  'segment number': [i],
                                  'length':[line_segment_array[i].length],
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],
+                                 #'replecost': [line_segment_array[i].replcost[t]],
+                                 #'conversioncost': [line_segment_array[i].conversion_cost[t]],
                                  'capex':[line_segment_array[i].capex[t]],
                                  'opex':[line_segment_array[i].opex[t]],
                                  'lifecycle infrastructure':[line_segment_array[i].total_infra[t]],

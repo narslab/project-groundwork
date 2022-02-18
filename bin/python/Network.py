@@ -15,15 +15,15 @@ class model_inputs:
         self.parameter_dict = {
             "analysis_years":40, #Analysis_years
             "average_age":20, # Average ages in base year for underground and overhead distribution lines (in years)
-            "age_shape":10, # We selected age shape and scale in a way that age_shape*age_scale=average_age
-            "age_scale":2,  # We selected age shape and scale in a way that length_shape*age scale=average_length
+            "age_shape":15, # We selected age shape and scale in a way that age_shape*age_scale=average_age
+            "age_scale":3,  # We selected age shape and scale in a way that age_shape*age scale=average_length
             "length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             "length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             "average_length":0.5, # Average length for underground and overhead distribution lines (in miles)
             "segment_number":625, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
-            "underground_baseyear":121, #Length of undergeound lines in miles in base year
-            "overhead_baseyear":191, #Length of overhead lines in miles in base year
+            "underground_baseyear":181, #Length of undergeound lines in miles in base year
+            "overhead_baseyear":311, #Length of overhead lines in miles in base year
             "r":0.1, # Discount rate=10%
             "easment_value":3000, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
@@ -33,12 +33,12 @@ class model_inputs:
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':60,'replcost':104000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':60},
-            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0,'om_growth_rate':0.05,'om_percentage_replcost':0.005,'corridor_length':120,'over_under_convertcost':357000},
+            "overhead_line":{'lifespan':60,'replcost':104000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_length':60},
+            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_length':120,'over_under_convertcost':357000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
-            # om_percentage_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
+            # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_length= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
             ### 
@@ -63,7 +63,12 @@ class model_inputs:
             "industrial_percentage":0.1,
             "commercial_percentage":0.1,
             "outage_overhead":0.8,
-            "outage_underground":0.2              
+            "outage_underground":0.2,
+            "single_phase_probability":0.6,
+            "log_clay_probabiliy":[0.0004,0.1649,0.0202,0.0002,0.0667,0.0078,0.397,0.2282,0.0401,0.0714,0.003],
+            "log_clay":[0,0.301,0.602,0.663,0.732,0.778,0.845,0.863,0.903,0.954,0.978],
+            "log_density_mu": -1.55,
+            "log_density_sigma": 0.76
             }
     
   
@@ -101,9 +106,9 @@ class Line_segment:
         else:
             self.underground = [0]
         if self.underground[0]==1:
-            self.replcost_rate=[self.inputs.parameter_dict['underground_line']['replcost']]
+            self.replcost=[self.inputs.parameter_dict['underground_line']['replcost']]
         else:
-            self.replcost_rate=[self.inputs.parameter_dict['overhead_line']['replcost']]       
+            self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
         self.capex=[0]
         self.opex=[self.calculate_opex()]
         self.total_infra=[self.calculate_opex()]
@@ -127,6 +132,37 @@ class Line_segment:
         self.total_economic_losses=[0]
         self.total_inflated_economic_losses=[0]
         self.total_losses=[0]
+        single_phase_probability = random.uniform(0,1)
+        if single_phase_probability > self.inputs.parameter_dict['single_phase_probability']: # if underground = 0, then segment is overhead.
+            self.single_phase = [1] 
+        else:
+            self.single_phase = [0]
+        log_clay = random.uniform(0,1)    
+        if log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:1]): 
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][0]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:1])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:2]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][1]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:2])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:3]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][2]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:3])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:4]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][3]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:4])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:5]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][4]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:5])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:6]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][5]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:6])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:7]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][6]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:7])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:8]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][7]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:8])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:9]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][8]]
+        elif sum(self.inputs.parameter_dict['log_clay_probabiliy'][:9])< log_clay <= sum(self.inputs.parameter_dict['log_clay_probabiliy'][:10]):
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][9]]
+        else:
+            self.log_clay=[self.inputs.parameter_dict['log_clay'][10]]
+            
+        self.log_density=[np.random.normal(self.inputs.parameter_dict['log_density_mu'], self.inputs.parameter_dict['log_density_sigma'])]
+        self.conversion_cost=[0]
         
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
@@ -157,32 +193,66 @@ class Line_segment:
             status=self.underground[0]
         self.underground.append(status)
             
+    #Disaggregated cost model
+    def calculate_disaggregated_conversion_cost(self):
+        if self.underground[-1]==0:
+            conversion_cost_current=0
+            self.conversion_cost.append(conversion_cost_current)
+        else:
+            if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                conversion_cost_current=5280*((-61*self.log_density[-1])-(64*self.single_phase[-1])+(137*self.log_clay[-1]))
+                self.conversion_cost.append(conversion_cost_current)
+            else:
+                conversion_cost_current=0
+                self.conversion_cost.append(conversion_cost_current)
+        return(self.conversion_cost)
         
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
-    def add_replcost_intrest_rate(self):
-        underground_current=self.underground[-1]
-        underground_baseyear=self.underground[0]
-        if underground_current==1:
-            replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
-        else:
-            replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
-        if underground_current==underground_baseyear:        
-            replcost_new=(self.replcost_rate[-1])+((replcost_growth_rate_current)*(self.replcost_rate[-1]))
-            self.replcost_rate.append(replcost_new)
-        else:
-            if self.underground[:-1]==0:
-               replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-               self.replcost_rate.append(replcost_new)                
+    def calculate_replcost(self,disaggregated_function=False):
+        if disaggregated_function==False:
+            underground_current=self.underground[-1]
+            underground_baseyear=self.underground[0]
+            if underground_current==1:
+                replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
             else:
-               replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-               self.replcost_rate.append(replcost_new)
-        return(self.replcost_rate)
+                replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
+            if underground_current==underground_baseyear:        
+                replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+                self.replcost.append(replcost_new)
+            else:
+                if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                    replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)                
+                else:
+                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)            
+        else:
+            conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]
+            underground_current=self.underground[-1]
+            underground_baseyear=self.underground[0]
+            if underground_current==1:
+                replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
+            else:
+                replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
+            if underground_current==underground_baseyear:        
+                replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+                self.replcost.append(replcost_new)
+            else:
+                if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                    replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)
+                else:
+                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)
+        #print(replcost_new)
+        return(self.replcost)
+        
     
     #Determine capital expenses which is replacement cost for each line segment based on the rate of replacement cost in that year and length of the circuit.
     def calculate_capex(self):
         if (self.age[-1])==1:
             length_current=self.length
-            replcost_rate_current=self.replcost_rate[-1]
+            replcost_rate_current=self.replcost[-1]
             replcost_new=(replcost_rate_current)*(length_current)
             self.capex.append(replcost_new)
         else:
@@ -194,12 +264,12 @@ class Line_segment:
     def calculate_opex(self):
         underground_current=self.underground[-1]
         if underground_current==1:
-            om_percentage_replcost_current=self.inputs.parameter_dict['underground_line']['om_percentage_replcost']
+            om_proportion_replcost_current=self.inputs.parameter_dict['underground_line']['om_proportion_replcost']
         else:
-            om_percentage_replcost_current=self.inputs.parameter_dict['overhead_line']['om_percentage_replcost']
+            om_proportion_replcost_current=self.inputs.parameter_dict['overhead_line']['om_proportion_replcost']
         length_current=self.length
-        replcost_rate_current=self.replcost_rate[-1]
-        opex=(om_percentage_replcost_current)*(length_current)*(replcost_rate_current)
+        replcost_rate_current=self.replcost[-1]
+        opex=(om_proportion_replcost_current)*(length_current)*(replcost_rate_current)
         #opex_new=opex[-1]+om_growth_rate*opex[-1]
         #self.opex.append(opex)
         return(opex) 
@@ -375,7 +445,7 @@ class Line_segment:
                 self.total_aesthetic_losses.append(0)
                 
         else:
-            self.total_aesthetic_losses.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_percentage'])
+            self.total_aesthetic_losses.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
         return(self.total_aesthetic_losses) 
 
     def add_aesthetic_losses_interest_rate(self):
