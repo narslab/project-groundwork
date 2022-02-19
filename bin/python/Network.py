@@ -17,8 +17,8 @@ class model_inputs:
             "average_age":20, # Average ages in base year for underground and overhead distribution lines (in years)
             "age_shape":15, # We selected age shape and scale in a way that age_shape*age_scale=average_age
             "age_scale":3,  # We selected age shape and scale in a way that age_shape*age scale=average_length
-            "length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
-            "length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
+            #"length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
+            #"length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             "average_length":0.5, # Average length for underground and overhead distribution lines (in miles)
             "segment_number":625, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
@@ -56,7 +56,7 @@ class model_inputs:
             "total_length_overhead":227.3577026, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":98.86226968, #summation of underground miles generated based on gamma simulation}
             "Shrewsbury_tax_levy_2021": 85713912.0,
-            "aesthetic_benefit_percentage":0.03,
+            "aesthetic_benefit_proportion":0.03,
             "inflation_rate_benefit":0.02,
             "shrewsbury_population":39774,
             "residential_percentage":0.8,
@@ -68,7 +68,10 @@ class model_inputs:
             "log_clay_probabiliy":[0.0004,0.1649,0.0202,0.0002,0.0667,0.0078,0.397,0.2282,0.0401,0.0714,0.003],
             "log_clay":[0,0.301,0.602,0.663,0.732,0.778,0.845,0.863,0.903,0.954,0.978],
             "log_density_mu": -1.55,
-            "log_density_sigma": 0.76
+            "log_density_sigma": 0.76,
+            "length_s": 0.711,
+            "length_scale": 0.019,
+            "length_loc": -0.004,
             }
     
   
@@ -99,7 +102,8 @@ class Line_segment:
     def __init__(self, inputs): 
         self.inputs = inputs
         self.age = [np.random.gamma(self.inputs.parameter_dict['age_shape'], self.inputs.parameter_dict['age_scale'])] # set the age as a list, which can be dynamically expanded
-        self.length = np.random.gamma(self.inputs.parameter_dict['length_shape'],self.inputs.parameter_dict['length_scale']) # we can assume the length is fixed over time
+        #self.length = np.random.gamma(self.inputs.parameter_dict['length_shape'],self.inputs.parameter_dict['length_scale']) # we can assume the length is fixed over time
+        self.length = np.random.lognormal(np.log(self.inputs.parameter_dict['length_scale']),self.inputs.parameter_dict['length_s'])
         overhead_probability = random.uniform(0,1)
         if overhead_probability > self.inputs.parameter_dict['overhead_proportion']: # if underground = 0, then segment is overhead.
             self.underground = [1] # again, a dynamic list.
@@ -359,13 +363,15 @@ class Line_segment:
         SAIDI_Current=0
         total_length_current=0
         total_economic_benefit_current= 0
-        if self.underground[-1]==1:
+        """ if self.underground[-1]==1:
             SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
             total_length_current=self.inputs.parameter_dict['total_length_underground']            
         else:
             SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
-            total_length_current=self.inputs.parameter_dict['total_length_overhead']
+            total_length_current=self.inputs.parameter_dict['total_length_overhead']"""
         if self.underground[-1]==1:
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
+            total_length_current=self.inputs.parameter_dict['total_length_underground'] 
             if self.underground[0]==0:
                 residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
                 commercial_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
@@ -381,6 +387,8 @@ class Line_segment:
                 self.commercial_benefit.append(commercial_benefit_current)
                 self.industry_benefit.append(industry_benefit_current)
         else:
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
+            total_length_current=self.inputs.parameter_dict['total_length_overhead']
             residential_benefit_current=0
             commercial_benefit_current=0
             industry_benefit_current=0
@@ -424,7 +432,7 @@ class Line_segment:
     def calculate_aesthetic_benefits(self):
         if self.underground[-1]==1:
             if self.underground[0]==0:
-                self.total_aesthetic_benefits.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_percentage'])
+                self.total_aesthetic_benefits.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
             else:
                 self.total_aesthetic_benefits.append(0)
         else:
