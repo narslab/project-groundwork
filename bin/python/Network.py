@@ -14,16 +14,16 @@ class model_inputs:
     def __init__(self):
         self.parameter_dict = {
             "analysis_years":40, #Analysis_years
-            "average_age":20, # Average ages in base year for underground and overhead distribution lines (in years)
-            "age_shape":15, # We selected age shape and scale in a way that age_shape*age_scale=average_age
-            "age_scale":3,  # We selected age shape and scale in a way that age_shape*age scale=average_length
+            "average_age":27, # Average ages in base year for underground and overhead distribution lines (in years)=0.5(0.66*60+0.36*40)
+            "age_shape":13.5, # We selected age shape and scale in a way that age_shape*age_scale=average_age
+            "age_scale":2,  # We selected age shape and scale in a way that age_shape*age scale=average_length
             #"length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             #"length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
-            "average_length":0.5, # Average length for underground and overhead distribution lines (in miles)
-            "segment_number":625, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
+            "average_length":0.21, # Average length for underground and overhead distribution lines (in miles)
+            "segment_number":2299, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
-            "underground_baseyear":181, #Length of undergeound lines in miles in base year
-            "overhead_baseyear":311, #Length of overhead lines in miles in base year
+            "underground_baseyear":167, #Length of undergeound lines in miles in base year
+            "overhead_baseyear":325, #Length of overhead lines in miles in base year
             "r":0.1, # Discount rate=10%
             "easment_value":3000, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
@@ -52,9 +52,9 @@ class model_inputs:
             "Total_Customers_Residential_Shrewsbury":6400,
             "Total_Customers_Commercial_Shrewsbury":8000,
             "Total_Customers_Industry_Shrewsbury":1600,
-            "total_length":326.21997, #summation of underground and overhead miles generated based on gamma simulation
-            "total_length_overhead":227.3577026, #summation of overhead miles generated based on gamma simulation
-            "total_length_underground":98.86226968, #summation of underground miles generated based on gamma simulation}
+            "total_length":492, #summation of underground and overhead miles generated based on gamma simulation
+            "total_length_overhead":325, #summation of overhead miles generated based on gamma simulation
+            "total_length_underground":167, #summation of underground miles generated based on gamma simulation}
             "Shrewsbury_tax_levy_2021": 85713912.0,
             "aesthetic_benefit_proportion":0.03,
             "inflation_rate_benefit":0.02,
