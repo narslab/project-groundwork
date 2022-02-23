@@ -140,7 +140,7 @@ def run_benefit_simulation_statusQuo_strategy(data):
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],                            
                                  'economic benefits':[line_segment_array[i].total_economic_benefits[t]],            
-                                 'aesthetic benefits':[line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic benefits':[line_segment_array[i].total_aesthetic_benefits[t]], 
                                  'aesthetic losses':[line_segment_array[i].total_inflated_aesthetic_losses[t]],
                                  'economic losses':[line_segment_array[i].total_inflated_economic_losses[t]],
                                  'total losses':[line_segment_array[i].total_losses[t]]

@@ -164,8 +164,8 @@ def calculate_benefit_net_present_value_under_after_lifespan(data):
 
 ###Calculate net present value for additional cost associate with undergrounding after lifespan strategy
 def calculate_net_present_value_of_additional_benefit(data):
-      list1=calculate_benefit_net_present_value_under_after_lifespan(data)
-      list2=calculate_benefit_net_present_value_statusQuo(data)
+      list2=calculate_benefit_net_present_value_under_after_lifespan(data)
+      list1=calculate_benefit_net_present_value_statusQuo(data)
       difference = []
       zip_object = zip(list1, list2)
       for list1_i, list2_i in zip_object:
