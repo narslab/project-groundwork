@@ -42,8 +42,9 @@ class model_inputs:
             # corridor_length= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
             ### 
-            "SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
-            "SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
+            #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
+            #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
+            "SAIDI":4.17,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
             "USD_per_Customer_Hour_Interruption_Residential":4.2,
             "USD_per_Customer_Hour_Interruption_Commercial":1260,
@@ -364,13 +365,13 @@ class Line_segment:
         total_length_current=0
         total_economic_benefit_current= 0
         """ if self.underground[-1]==1:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_underground']            
         else:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_overhead']"""
         if self.underground[-1]==1:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_underground'] 
             if self.underground[0]==0:
                 residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
@@ -387,7 +388,7 @@ class Line_segment:
                 self.commercial_benefit.append(commercial_benefit_current)
                 self.industry_benefit.append(industry_benefit_current)
         else:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_overhead']
             residential_benefit_current=0
             commercial_benefit_current=0
@@ -407,10 +408,10 @@ class Line_segment:
 
     def calculate_economic_outage_losses(self):
         if self.underground[-1]==1:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI_underground']
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
         else:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI_overhead']
+            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
         residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
         commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
