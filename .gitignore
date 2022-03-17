@@ -3,6 +3,7 @@
 
 __pycache__/
 ipython.html
+.ipynb_checkpoints/
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
