@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import random
 
-data = network.model_inputs()
+data = network.Electric_model_inputs()
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
 def run_cost_simulation_statusQuo_strategy(data):

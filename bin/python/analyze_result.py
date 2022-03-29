@@ -8,7 +8,7 @@ import pandas as pd
 import network
 import simulate
 
-data  = network.model_inputs()
+data  = network.Electric_model_inputs()
 
 ###Calculate aggregrated cost result of status-quo strategy based on each year for 40 years 
 def aggregate_cost_through_years_statusQuo(data):

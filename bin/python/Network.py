@@ -9,7 +9,7 @@ import numpy as np
 import random
 ###
 
-class model_inputs:
+class Electric_model_inputs:
     ###Model Variables and Parameters
     def __init__(self):
         self.parameter_dict = {
@@ -99,7 +99,7 @@ class model_inputs:
 ###Defining Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
 class Electric_line_segment:
     ## The __init__ function as the constructor, which assigns random length, age and underground status for the base year to each line segment.
-    #data=model_inputs()
+    #data=Electric_model_inputs()
     def __init__(self, inputs): 
         self.inputs = inputs
         self.age = [np.random.gamma(self.inputs.parameter_dict['age_shape'], self.inputs.parameter_dict['age_scale'])] # set the age as a list, which can be dynamically expanded
@@ -467,5 +467,5 @@ class Electric_line_segment:
         return(self.total_losses)         
 
 def test():
-    model_data=model_inputs()
+    model_data=Electric_model_inputs()
     model_data.modify_parameter('r',10)
