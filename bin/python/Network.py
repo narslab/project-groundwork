@@ -97,7 +97,7 @@ class model_inputs:
 
 
 ###Defining Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
-class Line_segment:
+class Electric_line_segment:
     ## The __init__ function as the constructor, which assigns random length, age and underground status for the base year to each line segment.
     #data=model_inputs()
     def __init__(self, inputs): 

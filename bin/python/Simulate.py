@@ -17,7 +17,7 @@ def run_cost_simulation_statusQuo_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -63,7 +63,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -116,7 +116,7 @@ def run_benefit_simulation_statusQuo_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -154,7 +154,7 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -200,7 +200,7 @@ def calculate_percentage_underground_UL_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
