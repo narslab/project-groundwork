@@ -28,18 +28,18 @@ class model_inputs:
             "easment_value":3000, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
-            "employees":8514/255, #The number of IOU employees
+            "employees":35, #The number of IOU employees
             "injurycost":130658, # A randomly determined annual injury cost, per accident
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':60,'replcost':104000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_length':60},
-            "underground_line":{'lifespan':40,'replcost':357000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_length':120,'over_under_convertcost':357000},
+            "overhead_line":{'lifespan':40,'replcost':104000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':357000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
-            # corridor_length= length of the corridor in feet needed for calculating environmental cost.
+            # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
             ### 
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
@@ -313,14 +313,14 @@ class Line_segment:
         environmental_restoration_current=0
         if self.underground[-1]==1:
             if self.underground[0]==1:
-                corridor_length=self.inputs.parameter_dict['overhead_line']['corridor_length']
+                corridor_width=self.inputs.parameter_dict['overhead_line']['corridor_width']
                 self.environmental_restoration.append(environmental_restoration_current)
             else:
-                corridor_length=self.inputs.parameter_dict['underground_line']['corridor_length']-self.inputs.parameter_dict['overhead_line']['corridor_length']
-                environmental_restoration_current=((self.length)*(corridor_length)*640/5280*self.inputs.parameter_dict['easment_value'])
+                corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']-self.inputs.parameter_dict['overhead_line']['corridor_width']
+                environmental_restoration_current=((self.length)*(corridor_width)*640/5280*self.inputs.parameter_dict['easment_value'])
                 self.environmental_restoration.append(environmental_restoration_current)
         else:
-            corridor_length=self.inputs.parameter_dict['underground_line']['corridor_length']
+            corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']
             self.environmental_restoration.append(environmental_restoration_current)
         return(self.environmental_restoration)
 
