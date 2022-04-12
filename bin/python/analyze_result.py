@@ -11,25 +11,25 @@ import simulate
 data  = network.Electric_model_inputs()
 
 ###Calculate aggregrated cost result of status-quo strategy based on each year for 40 years 
-def aggregate_cost_through_years_statusQuo(data):
-    df_output_statusQuo=simulate.run_cost_simulation_statusQuo_strategy(data)
+def aggregate_cost_through_years_SQ_electric(data):
+    df_output_statusQuo=simulate.run_cost_simulation_SQ_strategy_electric(data)
     df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['capex','opex','lifecycle infrastructure','environmental restoration','non fatal','fatal','safety','total cost']].sum()
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/cost-analyze-result-statusQuo-strategy.csv', index = False)
     return(df_analyze_result_statusQuo)
 
 ###Calculate aggregrated cost result of undergrounding after lifespan strategy based on each year for 40 years 
-def aggregate_cost_through_years_under_after_lifespan(data):
-    df_output_under=simulate.run_cost_simulation_under_after_lifespan_strategy(data)
+def aggregate_cost_through_years_UL_electric(data):
+    df_output_under=simulate.run_cost_simulation_UL_strategy_electric(data)
     df_analyze_result_under=df_output_under.groupby(level=[0])[['capex','opex','lifecycle infrastructure','environmental restoration','non fatal','fatal','safety','total cost']].sum()
     df_analyze_result_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_under.to_csv(r'../../results/outcomes/cost-analyze-result-undergrounding-strategy.csv', index = False)
     return(df_analyze_result_under)
 
 ###Calculate additional cost due to undergrounding after lifespan strategy
-def calculate_additional_cost_from_under_after_lifespan(data):
-    df1=aggregate_cost_through_years_under_after_lifespan(data)
-    df2=aggregate_cost_through_years_statusQuo(data)
+def calculate_additional_cost_from_UL_electric(data):
+    df1=aggregate_cost_through_years_UL_electric(data)
+    df2=aggregate_cost_through_years_SQ_electric(data)
     df_analyze_additional=df1.subtract(df2)
     del df_analyze_additional['year']
     df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
@@ -37,8 +37,8 @@ def calculate_additional_cost_from_under_after_lifespan(data):
     return(df_analyze_additional)
 
 ###Calculate net present value of infrastructure, environmental, safety and total cost for statusQuo strategy
-def calculate_cost_net_present_value_statusQuo(data):
-    df_net_present_statusQuo=aggregate_cost_through_years_statusQuo(data)
+def calculate_cost_net_present_value_SQ_electric(data):
+    df_net_present_statusQuo=aggregate_cost_through_years_SQ_electric(data)
     net_present_value_lifecycle_infrastructure_cost=[]
     net_present_value_environmental_cost=[]
     net_present_value_safety_cost=[]
@@ -60,8 +60,8 @@ def calculate_cost_net_present_value_statusQuo(data):
     return([total_infrastructre,total_environmental,total_safety,total_total])
 
 ###Calculate net present value of infrastructure, environmental, safety and total cost for undergrounding after lifespan strategy
-def calculate_cost_net_present_value_under_after_lifespan(data):
-    df_net_present_statusQuo=aggregate_cost_through_years_under_after_lifespan(data)
+def calculate_cost_net_present_value_UL_electric(data):
+    df_net_present_statusQuo=aggregate_cost_through_years_UL_electric(data)
     net_present_value_lifecycle_infrastructure_cost=[]
     net_present_value_environmental_cost=[]
     net_present_value_safety_cost=[]
@@ -83,9 +83,9 @@ def calculate_cost_net_present_value_under_after_lifespan(data):
     return([total_infrastructre,total_environmental,total_safety,total_total])
 
 ###Calculate net present value for additional cost associate with undergrounding after lifespan strategy
-def calculate_net_present_value_of_additional_cost(data):
-      list1=calculate_cost_net_present_value_under_after_lifespan(data)
-      list2=calculate_cost_net_present_value_statusQuo(data)
+def calculate_net_present_value_of_additional_cost_electric(data):
+      list1=calculate_cost_net_present_value_UL_electric(data)
+      list2=calculate_cost_net_present_value_SQ_electric(data)
       difference = []
       zip_object = zip(list1, list2)
       for list1_i, list2_i in zip_object:
@@ -98,15 +98,15 @@ def calculate_net_present_value_of_additional_cost(data):
       return(difference)
 
 ###Calculate aggregrated benefit result of statusQuo strategy based on each year for 40 years 
-def aggregate_benefit_through_years_statusQuo(data):
-    df_output_statusQuo=simulate.run_benefit_simulation_statusQuo_strategy(data)
+def aggregate_benefit_through_years_SQ_electric(data):
+    df_output_statusQuo=simulate.run_benefit_simulation_SQ_strategy_electric(data)
     df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['aesthetic losses','economic losses','total losses']].sum()
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/benefit-analyze-result-statusQuo-strategy.csv', index = False)
     return(df_analyze_result_statusQuo)    
 
 ###Calculate aggregrated benefit result of undergrounding after lifespan strategy based on each year for 40 years 
-def aggregate_benefit_through_years_under_after_lifespan(data):
+def aggregate_benefit_through_years_UL_electric(data):
     df_benefit_under=simulate.run_benefit_simulation_under_after_lifespan_strategy(data)
     df_analyze_benefit_under=df_benefit_under.groupby(level=[0])[['aesthetic losses','economic losses','total losses']].sum()
     df_analyze_benefit_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
@@ -114,9 +114,9 @@ def aggregate_benefit_through_years_under_after_lifespan(data):
     return(df_analyze_benefit_under)
 
 ###Calculate additional benefits due to undergrounding after lifespan strategy
-def calculate_additional_benefit_from_under_after_lifespan(data):
-    df1=aggregate_benefit_through_years_under_after_lifespan(data)
-    df2=aggregate_benefit_through_years_statusQuo(data)
+def calculate_additional_benefit_from_UL_electric(data):
+    df1=aggregate_benefit_through_years_UL_electric(data)
+    df2=aggregate_benefit_through_years_SQ_electric(data)
     df_analyze_additional=df2.subtract(df1)
     del df_analyze_additional['year']
     df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
@@ -124,8 +124,8 @@ def calculate_additional_benefit_from_under_after_lifespan(data):
     return(df_analyze_additional)
 
 ###Calculate net present value of losses for statusQuo strategy
-def calculate_benefit_net_present_value_statusQuo(data):
-    df_net_present_statusQuo=aggregate_benefit_through_years_statusQuo(data)
+def calculate_benefit_net_present_value_SQ_electric(data):
+    df_net_present_statusQuo=aggregate_benefit_through_years_SQ_electric(data)
     net_present_value_economic_benefit=[]
     net_present_value_aesthetic_benefit=[]
     net_present_value_total_benefit=[]
@@ -144,8 +144,8 @@ def calculate_benefit_net_present_value_statusQuo(data):
     return([total_aesthetic,total_economic,total_total])
 
 ###Calculate net present value of infrastructure, environmental, safety and total cost for undergrounding after lifespan strategy
-def calculate_benefit_net_present_value_under_after_lifespan(data):
-    df_net_present_under=aggregate_benefit_through_years_under_after_lifespan(data)
+def calculate_benefit_net_present_value_UL_electric(data):
+    df_net_present_under=aggregate_benefit_through_years_UL_electric(data)
     net_present_value_economic=[]
     net_present_value_aesthetic=[]
     net_present_value_total=[]
@@ -163,9 +163,9 @@ def calculate_benefit_net_present_value_under_after_lifespan(data):
     return([total_aesthetic,total_economic,total_total])
 
 ###Calculate net present value for additional cost associate with undergrounding after lifespan strategy
-def calculate_net_present_value_of_additional_benefit(data):
-      list2=calculate_benefit_net_present_value_under_after_lifespan(data)
-      list1=calculate_benefit_net_present_value_statusQuo(data)
+def calculate_net_present_value_of_additional_benefit_electric(data):
+      list2=calculate_benefit_net_present_value_UL_electric(data)
+      list1=calculate_benefit_net_present_value_SQ_electric(data)
       difference = []
       zip_object = zip(list1, list2)
       for list1_i, list2_i in zip_object:

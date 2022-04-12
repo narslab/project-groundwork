@@ -14,7 +14,7 @@ data = network.Electric_model_inputs()
 data_broadband=network.Broadband_model_inputs()
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
-def run_cost_simulation_statusQuo_strategy(data):
+def run_cost_simulation_SQ_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -60,7 +60,7 @@ def run_cost_simulation_statusQuo_strategy(data):
 
 
 #run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
-def run_cost_simulation_under_after_lifespan_strategy(data):
+def run_cost_simulation_UL_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -113,7 +113,7 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
     df.to_csv(r'../../results/outcomes/cost-simulation-output-undergrounding-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
-def run_benefit_simulation_statusQuo_strategy(data):
+def run_benefit_simulation_SQ_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -151,7 +151,7 @@ def run_benefit_simulation_statusQuo_strategy(data):
     return(df.set_index(["year","segment number"]))       
 
 
-def run_benefit_simulation_under_after_lifespan_strategy(data):
+def run_benefit_simulation_UL_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -197,7 +197,7 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
     return(df.set_index(["year","segment number"]))   
 
 # calculate total length of underground line on each year
-def calculate_percentage_underground_UL_strategy(data):    
+def calculate_percentage_underground_UL_strategy_electric(data):    
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -241,7 +241,7 @@ def calculate_percentage_underground_UL_strategy(data):
     return(df)
 
 #run simulation for calculating broadband cost elemnts of statusQuo strategy and assign a data frame to them.
-def run_cost_simulation_statusQuo_strategy_broadband(data_broadband):
+def run_cost_simulation_SQ_strategy_broadband(data_broadband):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data_broadband.parameter_dict['segment_number']):
@@ -276,7 +276,7 @@ def run_cost_simulation_statusQuo_strategy_broadband(data_broadband):
 
 
 #run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
-def run_cost_simulation_under_after_lifespan_strategy_broadband(data_broadband):
+def run_cost_simulation_UL_strategy_broadband(data_broadband):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data_broadband.parameter_dict['segment_number']):
