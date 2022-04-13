@@ -34,7 +34,7 @@ class Electric_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':104000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':357000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000},
+            "underground_line":{'lifespan':50,'repl_proportion_covertcost':0.22,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -159,10 +159,10 @@ class Electric_line_segment:
             self.underground = [1] # again, a dynamic list.
         else:
             self.underground = [0]
-        if self.underground[0]==1:
-            self.replcost=[self.inputs.parameter_dict['underground_line']['replcost']]
-        else:
-            self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
+        #if self.underground[0]==1:
+        #    self.replcost=[self.inputs.parameter_dict['underground_line']['replcost']]
+        #else:
+        #    self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
         self.capex=[0]
         self.opex=[self.calculate_opex()]
         self.total_infra=[self.calculate_opex()]
@@ -278,7 +278,7 @@ class Electric_line_segment:
                     replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                     self.replcost.append(replcost_new)                
                 else:
-                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    replcost_new=self.inputs.parameter_dict['underground_line']['repl_proportion_covertcost']*self.conversion_cost[-1]*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                     self.replcost.append(replcost_new)            
         else:
             conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]
@@ -296,7 +296,7 @@ class Electric_line_segment:
                     replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                     self.replcost.append(replcost_new)
                 else:
-                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    replcost_new=self.inputs.parameter_dict['underground_line']['repl_proportion_covertcost']*self.conversion_cost[-1]*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                     self.replcost.append(replcost_new)
         #print(replcost_new)
         return(self.replcost)
@@ -529,10 +529,10 @@ class Broadband_line_segment:
             self.underground = [1] # again, a dynamic list.
         else:
             self.underground = [0]
-        if self.underground[0]==1:
-            self.replcost=[self.inputs.parameter_dict['underground_line']['replcost']]
-        else:
-            self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
+        #if self.underground[0]==1:
+        #    self.replcost=[self.inputs.parameter_dict['underground_line']['replcost']]
+        #else:
+        #    self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
         self.capex=[0]
         self.opex=[self.calculate_opex()]
         self.total_infra=[self.calculate_opex()]
@@ -651,7 +651,7 @@ class Broadband_line_segment:
                 replcost_new=convert*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                 self.replcost.append(replcost_new)                
             else:
-                replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                replcost_new=self.inputs.parameter_dict['underground_line']['repl_proportion_covertcost']*self.conversion_cost[-1]*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                 self.replcost.append(replcost_new)            
         return(self.replcost)
         
