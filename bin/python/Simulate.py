@@ -5,7 +5,7 @@ Created on Fri Sep 10 10:42:22 2021
 @author: Mahsa
 """
 ###Import network.py which includes variables and line segment class defenistion
-import network
+import Network as network
 import numpy as np
 import pandas as pd
 import random
@@ -153,6 +153,9 @@ def run_benefit_simulation_statusQuo_strategy(data):
 def run_benefit_simulation_under_after_lifespan_strategy(data):
     line_segment_array=[]
     line_segment_length_array=[]
+    total_mileage = 0
+    underground_mileage = 0
+    underground_proportion = 1 - data.parameter_dict['overhead_proportion']
     for i in range (data.parameter_dict['segment_number']):
         segment=network.Line_segment(data)
         line_segment_array.append(segment)
@@ -162,6 +165,9 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
     df=pd.DataFrame()
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
+            total_mileage += line_segment_array[i].length
+            if line_segment_array[i].underground[-1] == 1:
+                  underground_mileage += line_segment_array[i].length
             convert_new=False
             lifespan_exceeded=line_segment_array[i].update_age()
             if lifespan_exceeded==True:
@@ -192,7 +198,9 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
                                  'total losses':[line_segment_array[i].total_losses[t]]
                                  }) 
             df=df.append(df_new, ignore_index = True)
+        underground_proportion = underground_mileage/total_mileage
     df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
+    print("Undergroung proportion at Year 40:" + str(underground_proportion))
     return(df.set_index(["year","segment number"]))   
 
 # calculate total length of underground line on each year

@@ -72,7 +72,7 @@ class model_inputs:
             "log_density_sigma": 0.76,
             "length_s": 0.711,
             "length_scale": 0.019,
-            "length_loc": -0.004,
+            "length_loc": -0.004
             }
     
   
@@ -95,6 +95,7 @@ class model_inputs:
         #    d[k] = new_value
     
 
+    
 
 ###Defining Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
 class Line_segment:
