@@ -108,7 +108,7 @@ def run_cost_simulation_UL_strategy_electric(data):
                                  'fatal_electric':[line_segment_array[i].fatal[t]],
                                  'safety_electric':[line_segment_array[i].total_safety[t]],
                                  'total cost_electric':[line_segment_array[i].total_cost[t]]})             
-            df=df.append(df_new, ignore_index = True)    
+            df=df.append(df_new, ignore_index = True) 
     df.to_csv(r'../../results/outcomes/cost-simulation-output-undergrounding-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
