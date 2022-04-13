@@ -10,14 +10,15 @@ import numpy as np
 import pandas as pd
 import random
 
-data = network.model_inputs()
+data = network.Electric_model_inputs()
+data_broadband=network.Broadband_model_inputs()
 ###
 #run simulation for calculating cost elemnts of statusQuo strategy and assign a data frame to them.
-def run_cost_simulation_statusQuo_strategy(data):
+def run_cost_simulation_SQ_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -44,14 +45,14 @@ def run_cost_simulation_statusQuo_strategy(data):
                                  'age': [line_segment_array[i].age[t]],
                                  'under': [line_segment_array[i].underground[t]],
                                  #'replecost': [line_segment_array[i].replcost[t]],
-                                 'capex':[line_segment_array[i].capex[t]],
-                                 'opex':[line_segment_array[i].opex[t]],
-                                 'lifecycle infrastructure':[line_segment_array[i].total_infra[t]],
-                                 'environmental restoration':[line_segment_array[i].environmental_restoration[t]],
-                                 'non fatal':[line_segment_array[i].non_fatal[t]],
-                                 'fatal':[line_segment_array[i].fatal[t]],
-                                 'safety':[line_segment_array[i].total_safety[t]],
-                                 'total cost':[line_segment_array[i].total_cost[t]],
+                                 'capex_electric':[line_segment_array[i].capex[t]],
+                                 'opex_electric':[line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_electric':[line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_electric':[line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_electric':[line_segment_array[i].non_fatal[t]],
+                                 'fatal_electric':[line_segment_array[i].fatal[t]],
+                                 'safety_electric':[line_segment_array[i].total_safety[t]],
+                                 'total_cost_electric':[line_segment_array[i].total_cost[t]],
                                  })            
             df=df.append(df_new, ignore_index = True)
     df.to_csv(r'../../results/outcomes/cost-simulation-output-statusQuo-strategy.csv', index = False)
@@ -59,17 +60,16 @@ def run_cost_simulation_statusQuo_strategy(data):
 
 
 #run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
-def run_cost_simulation_under_after_lifespan_strategy(data):
+def run_cost_simulation_UL_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
     random.seed(10102)
     df=pd.DataFrame()
-    #underground_length=[]
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             convert_new=False
@@ -100,23 +100,23 @@ def run_cost_simulation_under_after_lifespan_strategy(data):
                                  'under': [line_segment_array[i].underground[t]],
                                  #'replecost': [line_segment_array[i].replcost[t]],
                                  #'conversioncost': [line_segment_array[i].conversion_cost[t]],
-                                 'capex':[line_segment_array[i].capex[t]],
-                                 'opex':[line_segment_array[i].opex[t]],
-                                 'lifecycle infrastructure':[line_segment_array[i].total_infra[t]],
-                                 'environmental restoration':[line_segment_array[i].environmental_restoration[t]],
-                                 'non fatal':[line_segment_array[i].non_fatal[t]],
-                                 'fatal':[line_segment_array[i].fatal[t]],
-                                 'safety':[line_segment_array[i].total_safety[t]],
-                                 'total cost':[line_segment_array[i].total_cost[t]]})             
-            df=df.append(df_new, ignore_index = True)    
+                                 'capex_electric':[line_segment_array[i].capex[t]],
+                                 'opex_electric':[line_segment_array[i].opex[t]],
+                                 'lifecycle infrastructure_electric':[line_segment_array[i].total_infra[t]],
+                                 'environmental restoration_electric':[line_segment_array[i].environmental_restoration[t]],
+                                 'non fatal_electric':[line_segment_array[i].non_fatal[t]],
+                                 'fatal_electric':[line_segment_array[i].fatal[t]],
+                                 'safety_electric':[line_segment_array[i].total_safety[t]],
+                                 'total cost_electric':[line_segment_array[i].total_cost[t]]})             
+            df=df.append(df_new, ignore_index = True) 
     df.to_csv(r'../../results/outcomes/cost-simulation-output-undergrounding-strategy.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
-def run_benefit_simulation_statusQuo_strategy(data):
+def run_benefit_simulation_SQ_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -150,14 +150,14 @@ def run_benefit_simulation_statusQuo_strategy(data):
     return(df.set_index(["year","segment number"]))       
 
 
-def run_benefit_simulation_under_after_lifespan_strategy(data):
+def run_benefit_simulation_UL_strategy_electric(data):
     line_segment_array=[]
     line_segment_length_array=[]
     total_mileage = 0
     underground_mileage = 0
     underground_proportion = 1 - data.parameter_dict['overhead_proportion']
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
@@ -204,18 +204,17 @@ def run_benefit_simulation_under_after_lifespan_strategy(data):
     return(df.set_index(["year","segment number"]))   
 
 # calculate total length of underground line on each year
-def calculate_percentage_underground_UL_strategy(data):    
+def calculate_percentage_underground_UL_strategy_electric(data):    
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
-        segment=network.Line_segment(data)
+        segment=network.Electric_line_segment(data)
         line_segment_array.append(segment)
         line_segment_length_array.append(segment.length)
     np.random.seed(10101)
     random.seed(10102)
     df=pd.DataFrame()
     underground_length=[0]
-    underground_percentage=[]
     total_length=0
     for t in range (data.parameter_dict['analysis_years']-1):
         underground_length.append(0)
@@ -246,3 +245,144 @@ def calculate_percentage_underground_UL_strategy(data):
         df=df.append(df_new, ignore_index = True)    
     df.to_csv(r'../../results/outcomes/under-length-undergrounding-strategy.csv', index = False)
     return(df)
+
+#run simulation for calculating broadband cost elemnts of statusQuo strategy and assign a data frame to them.
+def run_cost_simulation_SQ_strategy_broadband(data_broadband):
+    line_segment_array=[]
+    line_segment_length_array=[]
+    for i in range (data_broadband.parameter_dict['segment_number']):
+        segment=network.Broadband_line_segment(data_broadband)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            line_segment_array[i].update_underground_status()
+            line_segment_array[i].update_age()
+            line_segment_array[i].calculate_replcost()
+            line_segment_array[i].calculate_capex()
+            line_segment_array[i].calculate_opex()
+            line_segment_array[i].add_opex_interest_rate()
+            line_segment_array[i].calculate_total_infrastructure_cost()
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
+                                 'capex_broadband':[line_segment_array[i].capex[t]],
+                                 'opex_broadband':[line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_broadband':[line_segment_array[i].total_infra[t]]
+                                 })            
+            df=df.append(df_new, ignore_index = True)
+    df.to_csv(r'../../results/outcomes/cost-simulation-output-SQ-broadband.csv', index = False)
+    return(df.set_index(["year","segment number"]))
+
+
+#run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
+def run_cost_simulation_UL_strategy_broadband(data_broadband):
+    line_segment_array=[]
+    line_segment_length_array=[]
+    for i in range (data_broadband.parameter_dict['segment_number']):
+        segment=network.Broadband_line_segment(data_broadband)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data_broadband.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            line_segment_array[i].update_underground_status()
+            line_segment_array[i].update_age()
+            line_segment_array[i].calculate_replcost()
+            line_segment_array[i].calculate_capex()
+            line_segment_array[i].calculate_opex()
+            line_segment_array[i].add_opex_interest_rate()
+            line_segment_array[i].calculate_total_infrastructure_cost()
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
+                                 'capex_broadband':[line_segment_array[i].capex[t]],
+                                 'opex_broadband':[line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_broadband':[line_segment_array[i].total_infra[t]],
+                                 })             
+            df=df.append(df_new, ignore_index = True)    
+    df.to_csv(r'../../results/outcomes/cost-simulation-output-UL-broadband.csv', index = False)
+    return(df.set_index(["year","segment number"]))
+
+def run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband):
+    line_segment_array=[]
+    line_segment_length_array=[]
+    for i in range (data_broadband.parameter_dict['segment_number']):
+        segment=network.Broadband_line_segment(data_broadband)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data_broadband.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            convert_new=False
+            lifespan_exceeded=line_segment_array[i].update_age()
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            line_segment_array[i].update_underground_status(convert=convert_new)
+            line_segment_array[i].calculate_disaggregated_conversion_cost()
+            line_segment_array[i].calculate_replcost(joint_trench=True)
+            line_segment_array[i].calculate_capex()
+            line_segment_array[i].calculate_opex()
+            line_segment_array[i].add_opex_interest_rate()
+            line_segment_array[i].calculate_total_infrastructure_cost()
+            df_new=pd.DataFrame({'year':[t],
+                                 'segment number': [i],
+                                 'capex_broadband':[line_segment_array[i].capex[t]],
+                                 'opex_broadband':[line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_broadband':[line_segment_array[i].total_infra[t]],
+                                 })             
+            df=df.append(df_new, ignore_index = True)    
+    df.to_csv(r'../../results/outcomes/cost-simulation-output-UL-broadband.csv', index = False)
+    return(df.set_index(["year","segment number"]))
+
+def run_ST1_SQ_electric_SQ_broadband_simulate(data, data_broadband):
+    df_electric=run_cost_simulation_SQ_strategy_electric(data)
+    df_broadband=run_cost_simulation_SQ_strategy_broadband(data_broadband)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
+    df_joint.to_csv(r'../../results/outcomes/cost-simulation-SQ-electric-SQ-broadband.csv', index = False)
+    return(df_joint.set_index(["year","segment number"]))
+
+def run_ST2_UL_electric_SQ_broadband_simulate(data, data_broadband):
+    df_electric=run_cost_simulation_UL_strategy_electric(data)
+    df_broadband=run_cost_simulation_SQ_strategy_broadband(data_broadband)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
+    df_joint.to_csv(r'../../results/outcomes/cost-simulation-UL-electric-SQ-broadband.csv', index = False)
+    return(df_joint)
+
+def run_ST3_SQ_electric_UL_broadband_simulate(data, data_broadband):
+    df_electric=run_cost_simulation_SQ_strategy_electric(data)
+    df_broadband=run_cost_simulation_UL_strategy_broadband(data_broadband)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
+    df_joint.to_csv(r'../../results/outcomes/cost-simulation-SQ-electric-UL-broadband.csv', index = False)
+    return(df_joint)
+
+def run_ST4_SQ_electric_UL_joint_trench_broadband_simulate(data, data_broadband):
+    df_electric=run_cost_simulation_SQ_strategy_electric(data)
+    df_broadband=run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
+    df_joint.to_csv(r'../../results/outcomes/cost-simulation-SQ-electric-UL-joint-broadband.csv')
+    return(df_joint)
+
+def run_ST5_UL_electric_UL_broadband_simulate(data, data_broadband):
+    df_electric=run_cost_simulation_UL_strategy_electric(data)
+    df_broadband=run_cost_simulation_UL_strategy_broadband(data_broadband)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
+    df_joint.to_csv(r'../../results/outcomes/cost-simulation-UL-electric-UL-broadband.csv', index = False)
+    return(df_joint)
+
+def run_ST6_UL_electric_UL_joint_trench_broadband_simulate(data, data_broadband):
+    df_electric=run_cost_simulation_UL_strategy_electric(data)
+    df_broadband=run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
+    df_joint.to_csv(r'../../results/outcomes/cost-simulation-UL-electric-UL-joint-broadband.csv', index = False)
+    return(df_joint)
