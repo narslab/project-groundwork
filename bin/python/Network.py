@@ -28,7 +28,7 @@ class Electric_model_inputs:
             "easment_value":3000, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
-            "employees":35, #The number of IOU employees
+            "employees":40, #The number of IOU employees
             "injurycost":130658, # A randomly determined annual injury cost, per accident
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
@@ -90,8 +90,6 @@ class Electric_model_inputs:
         print("Original parameter: ", original_param)
         print("New parameter: ", new_param)  
         return (new_param)
-        #if k == required_key:
-        #    d[k] = new_value
     
 ###Model Variables and Parameters for Electric line segments
 class Broadband_model_inputs:
@@ -110,22 +108,24 @@ class Broadband_model_inputs:
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
             "r":0.1, # Discount rate=10%
-            "easment_value":3000, # per-acre price of a conservation easement
-            "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
-            "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
-            "employees":35, #The number of IOU employees
-            "injurycost":130658, # A randomly determined annual injury cost, per accident
-            "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':40,'replcost':104000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':357000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000, 'over_under_joint_convertcost':357000},
+            "overhead_line":{'lifespan':40,'replcost':256000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.01,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':410000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.01,'corridor_width':15 ,'over_under_convertcost':857000, 'over_under_joint_convertcost':331000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
+            "single_phase_probability":0.6,
+            "log_clay_probabiliy":[0.0004,0.1649,0.0202,0.0002,0.0667,0.0078,0.397,0.2282,0.0401,0.0714,0.003],
+            "log_clay":[0,0.301,0.602,0.663,0.732,0.778,0.845,0.863,0.903,0.954,0.978],
+            "log_density_mu": -1.55,
+            "log_density_sigma": 0.76,
+            "length_s": 0.711,
+            "length_scale": 0.019,
+            "length_loc": -0.004,
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
@@ -632,8 +632,11 @@ class Broadband_line_segment:
         return(self.conversion_cost)
         
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
-    def calculate_replcost(self):
-        #if disaggregated_function==False:
+    def calculate_replcost(self, joint_trench=False):
+        if joint_trench==True:
+            convert=self.conversion_cost[-1]+self.inputs.parameter_dict['underground_line']['over_under_joint_convertcost']
+        else:
+            convert=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         underground_current=self.underground[-1]
         underground_baseyear=self.underground[0]
         if underground_current==1:
@@ -645,7 +648,7 @@ class Broadband_line_segment:
             self.replcost.append(replcost_new)
         else:
             if self.underground[:-1]==[0]*len(self.underground[:-1]):
-                replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                replcost_new=convert*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                 self.replcost.append(replcost_new)                
             else:
                 replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
