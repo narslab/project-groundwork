@@ -176,3 +176,4 @@ def calculate_net_present_value_of_additional_benefit_electric(data, data_broadb
                                                   'total losses':[difference[2]]})
       df_net_present_value_additional.to_csv(r'../../results/outcomes/benefit-net-present-value-additional.csv', index = False)
       return(difference)
+
