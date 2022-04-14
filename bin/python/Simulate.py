@@ -338,35 +338,35 @@ def run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband):
     df.to_csv(r'../../results/outcomes/cost-simulation-output-UL-broadband.csv', index = False)
     return(df.set_index(["year","segment number"]))
 
-def run_ST1_SQ_electric_SQ_broadband_simulate(data, data_broadband):
+def run_cost_ST1_SQ_electric_SQ_broadband_simulate(data, data_broadband):
     df_electric=run_cost_simulation_SQ_strategy_electric(data)
     df_broadband=run_cost_simulation_SQ_strategy_broadband(data_broadband)
     df_joint=pd.concat([df_electric, df_broadband], axis=1)
     df_joint.to_csv(r'../../results/outcomes/cost-simulation-SQ-electric-SQ-broadband.csv', index = False)
     return(df_joint)
 
-def run_ST2_UL_electric_SQ_broadband_simulate(data, data_broadband):
+def run_cost_ST2_UL_electric_SQ_broadband_simulate(data, data_broadband):
     df_electric=run_cost_simulation_UL_strategy_electric(data)
     df_broadband=run_cost_simulation_SQ_strategy_broadband(data_broadband)
     df_joint=pd.concat([df_electric, df_broadband], axis=1)
     df_joint.to_csv(r'../../results/outcomes/cost-simulation-UL-electric-SQ-broadband.csv', index = False)
     return(df_joint)
 
-def run_ST3_SQ_electric_UL_broadband_simulate(data, data_broadband):
+def run_cost_ST3_SQ_electric_UL_broadband_simulate(data, data_broadband):
     df_electric=run_cost_simulation_SQ_strategy_electric(data)
     df_broadband=run_cost_simulation_UL_strategy_broadband(data_broadband)
     df_joint=pd.concat([df_electric, df_broadband], axis=1)
     df_joint.to_csv(r'../../results/outcomes/cost-simulation-SQ-electric-UL-broadband.csv', index = False)
     return(df_joint)
 
-def run_ST4_SQ_electric_UL_joint_trench_broadband_simulate(data, data_broadband):
+def run_cost_ST4_SQ_electric_UL_joint_trench_broadband_simulate(data, data_broadband):
     df_electric=run_cost_simulation_SQ_strategy_electric(data)
     df_broadband=run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband)
     df_joint=pd.concat([df_electric, df_broadband], axis=1)
     df_joint.to_csv(r'../../results/outcomes/cost-simulation-SQ-electric-UL-joint-broadband.csv')
     return(df_joint)
 
-def run_ST5_UL_electric_UL_broadband_simulate(data, data_broadband):
+def run_cost_ST5_UL_electric_UL_broadband_simulate(data, data_broadband):
     df_electric=run_cost_simulation_UL_strategy_electric(data)
     df_broadband=run_cost_simulation_UL_strategy_broadband(data_broadband)
     df_joint=pd.concat([df_electric, df_broadband], axis=1)
