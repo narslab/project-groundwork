@@ -298,8 +298,7 @@ def run_cost_simulation_UL_strategy_broadband(data_broadband):
             line_segment_array[i].calculate_opex()
             line_segment_array[i].add_opex_interest_rate()
             line_segment_array[i].calculate_total_infrastructure_cost()
-            df_new=pd.DataFrame({'year':[t],
-                                 'segment number': [i],
+            df_new=pd.DataFrame({
                                  'capex_broadband':[line_segment_array[i].capex[t]],
                                  'opex_broadband':[line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_broadband':[line_segment_array[i].total_infra[t]],
@@ -384,10 +383,7 @@ def run_cost_ST5_UL_electric_UL_broadband_simulate(data, data_broadband):
 def run_ST6_UL_electric_UL_joint_trench_broadband_simulate(data, data_broadband):
     df_electric=run_cost_simulation_UL_strategy_electric(data)
     df_broadband=run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband)
-    #df_joint=pd.concat([df_electric, df_broadband], axis=1)
-    new_columns = df_broadband['capex_broadband']
-    #,'opex_broadband','lifecycle_infrastructure_broadband']
-    df_joint = df_electric.join(new_columns)
+    df_joint=pd.concat([df_electric, df_broadband], axis=1)
     df_joint.to_csv(r'../../results/outcomes/cost-simulation-UL-electric-UL-joint-broadband.csv', index = False)
     return(df_joint)
 

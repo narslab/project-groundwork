@@ -145,15 +145,9 @@ class Broadband_model_inputs:
         #if k == required_key:
         #    d[k] = new_value
 
-<<<<<<< HEAD
-    
 
-###Defining Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
-class Line_segment:
-=======
 ###Defining Electric Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
 class Electric_line_segment:
->>>>>>> 13688a33e00183ef949d513d316a85e32097a47d
     ## The __init__ function as the constructor, which assigns random length, age and underground status for the base year to each line segment.
     #data=Electric_model_inputs()
     def __init__(self, inputs): 
