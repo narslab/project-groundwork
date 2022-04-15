@@ -309,7 +309,7 @@ def run_cost_simulation_UL_strategy_broadband(data_broadband):
     #return(df.set_index(["year","segment number"]))
     return(df)
 
-def run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband):
+def run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband,joint_trench=True):
     line_segment_array=[]
     line_segment_length_array=[]
     for i in range (data_broadband.parameter_dict['segment_number']):

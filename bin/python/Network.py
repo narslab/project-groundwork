@@ -635,7 +635,7 @@ class Broadband_line_segment:
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
     def calculate_replcost(self, joint_trench=False):
         if joint_trench==True:
-            convert=self.conversion_cost[-1]+self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
+            convert=self.conversion_cost[-1]*(1-self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost'])+self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         else:
             convert=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         underground_current=self.underground[-1]
