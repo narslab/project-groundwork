@@ -275,7 +275,7 @@ class Electric_line_segment:
             if joint_trench==True:
                 conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]*(1+self.inputs.parameter_dict['joint_trench_additional'])
             else:
-                conversion_cost_current=self.inputs.parameter_dict['underground_line']
+                conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         underground_current=self.underground[-1]
         underground_baseyear=self.underground[0]
         if underground_current==1:
@@ -627,7 +627,7 @@ class Broadband_line_segment:
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
     def calculate_replcost(self, disaggregated_function=False, joint_trench=False):            
         if joint_trench==True:
-            conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']*(1+self.inputs.parameter_dict['joint_trench_additional'])
+            conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         else:
             conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
 
