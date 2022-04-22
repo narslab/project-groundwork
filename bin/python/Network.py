@@ -44,6 +44,7 @@ class Electric_model_inputs:
             ### 
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
+            "joint_trench_additional":0.1,
             "SAIDI":4.17,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
             "USD_per_Customer_Hour_Interruption_Residential":4.2,
@@ -263,44 +264,29 @@ class Electric_line_segment:
         return(self.conversion_cost)
         
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
-    def calculate_replcost(self,disaggregated_function=False):
+    def calculate_replcost(self,disaggregated_function=False, joint_trench=False):
         if disaggregated_function==False:
-            underground_current=self.underground[-1]
-            underground_baseyear=self.underground[0]
-            if underground_current==1:
-                replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
-            else:
-                replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
-            if underground_current==underground_baseyear:        
-                replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
-                self.replcost.append(replcost_new)
-            else:
-                if self.underground[:-1]==[0]*len(self.underground[:-1]):
-                    replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-                    self.replcost.append(replcost_new)                
-                else:
-                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-                    self.replcost.append(replcost_new)            
-        else:
             conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]
-            underground_current=self.underground[-1]
-            underground_baseyear=self.underground[0]
-            if underground_current==1:
-                replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
-            else:
-                replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
-            if underground_current==underground_baseyear:        
-                replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+        else:
+            conversion_cost_current=self.inputs.parameter_dict['underground_line']
+        underground_current=self.underground[-1]
+        underground_baseyear=self.underground[0]
+        if underground_current==1:
+            replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
+        else:
+            replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
+        if underground_current==underground_baseyear:        
+            replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+            self.replcost.append(replcost_new)
+        else:
+            if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                 self.replcost.append(replcost_new)
             else:
-                if self.underground[:-1]==[0]*len(self.underground[:-1]):
-                    replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-                    self.replcost.append(replcost_new)
-                else:
-                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-                    self.replcost.append(replcost_new)
-        #print(replcost_new)
+                replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                self.replcost.append(replcost_new)
         return(self.replcost)
+
         
     
     #Determine capital expenses which is replacement cost for each line segment based on the rate of replacement cost in that year and length of the circuit.
@@ -633,7 +619,7 @@ class Broadband_line_segment:
         return(self.conversion_cost)
         
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
-    def calculate_replcost(self, joint_trench=False):
+    def calculate_replcost(self, disaggregated_function=False, joint_trench=False):
         if joint_trench==True:
             convert=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         else:
@@ -656,6 +642,52 @@ class Broadband_line_segment:
                 self.replcost.append(replcost_new)            
         return(self.replcost)
         
+    
+    def calculate_replcost(self,disaggregated_function=False, joint_trench=False):
+        if joint_trench==True:
+            convert=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
+        else:
+            convert=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
+        if disaggregated_function==False:
+            underground_current=self.underground[-1]
+            underground_baseyear=self.underground[0]
+            if underground_current==1:
+                replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
+            else:
+                replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
+            if underground_current==underground_baseyear:        
+                replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+                self.replcost.append(replcost_new)
+            else:
+                if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                    replcost_new=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)                
+                else:
+                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)            
+        else:
+            conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]
+            underground_current=self.underground[-1]
+            underground_baseyear=self.underground[0]
+            if underground_current==1:
+                replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
+            else:
+                replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
+            if underground_current==underground_baseyear:        
+                replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+                self.replcost.append(replcost_new)
+            else:
+                if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                    replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)
+                else:
+                    replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+                    self.replcost.append(replcost_new)
+        #print(replcost_new)
+        return(self.replcost)
+    
+    
+    
     
     #Determine capital expenses which is replacement cost for each line segment based on the rate of replacement cost in that year and length of the circuit.
     def calculate_capex(self):
