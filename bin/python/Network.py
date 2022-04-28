@@ -104,6 +104,7 @@ class Broadband_model_inputs:
             #"length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             #"length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             "average_length":0.21, # Average length for underground and overhead distribution lines (in miles)
+            "total_length":492,
             "segment_number":2299, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
@@ -112,14 +113,13 @@ class Broadband_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':256000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.01,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':410000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.13,'corridor_width':15 ,'over_under_convertcost':857000, 'over_under_joint_proportion_convertcost':0.28},
+            "underground_line":{'lifespan':50,'replcost':410000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.13,'corridor_width':15 ,'over_under_convertcost':2570000, 'over_under_joint_proportion_convertcost':0.28},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
-            "joint_trench_additional":0.1,
             "single_phase_probability":0.6,
             "log_clay_probabiliy":[0.0004,0.1649,0.0202,0.0002,0.0667,0.0078,0.397,0.2282,0.0401,0.0714,0.003],
             "log_clay":[0,0.301,0.602,0.663,0.732,0.778,0.845,0.863,0.903,0.954,0.978],
@@ -128,6 +128,10 @@ class Broadband_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
+            "total_employees":3000,
+            "affected_employees": 0.25,
+            "cost_per_hour": 24,
+            "outage_hours": 40
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
@@ -705,6 +709,17 @@ class Broadband_line_segment:
             lifespan_x=self.inputs.parameter_dict['underground_line']['lifespan']
         first_retire=(lifespan_x)-(age_baseyear)
         return (np.ceil (first_retire))
+    def calculate_economic_loss(self, proportion=0.2): 
+        """A method to quantify employee productivity cost based on line segment status"""    
+        status = self.underground[-1]
+        economic_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour']*self.inputs.parameter_dict['outage_hours']
+        if status==1: #underground line
+            outage_percentage=proportion
+        else:
+            outage_percentage=1-proportion
+        self.total_economic_losses.append(economic_loss*outage_percentage)
+        return (self.total_economic_losses)
+    
 def test():
     model_data=Electric_model_inputs()
     model_data.modify_parameter('r',10)
