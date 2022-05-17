@@ -5,15 +5,15 @@ Created on Wed Sep 15 09:42:52 2021
 @author: Mahsa
 """
 import pandas as pd
-import network
-import simulate
+import Network
+import Simulate
 
-data  = network.Electric_model_inputs()
-data_broadband  = network.Broadband_model_inputs()
+data  = Network.Electric_model_inputs()
+data_broadband  = Network.Broadband_model_inputs()
 
 ###Calculate aggregrated cost result of status-quo strategy based on each year for 40 years 
 def aggregate_cost_through_years_SQ_electric(data, data_broadband):
-    df_output_statusQuo=simulate.run_cost_simulation_SQ_strategy_electric(data)
+    df_output_statusQuo=Simulate.run_cost_simulation_SQ_strategy_electric(data)
     df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['capex','opex','lifecycle infrastructure','environmental restoration','non fatal','fatal','safety','total cost']].sum()
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/cost-analyze-result-statusQuo-strategy.csv', index = False)
@@ -21,7 +21,7 @@ def aggregate_cost_through_years_SQ_electric(data, data_broadband):
 
 ###Calculate aggregrated cost result of undergrounding after lifespan strategy based on each year for 40 years 
 def aggregate_cost_through_years_UL_electric(data, data_broadband):
-    df_output_under=simulate.run_cost_simulation_UL_strategy_electric(data)
+    df_output_under=Simulate.run_cost_simulation_UL_strategy_electric(data)
     df_analyze_result_under=df_output_under.groupby(level=[0])[['capex','opex','lifecycle infrastructure','environmental restoration','non fatal','fatal','safety','total cost']].sum()
     df_analyze_result_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_under.to_csv(r'../../results/outcomes/cost-analyze-result-undergrounding-strategy.csv', index = False)
@@ -100,24 +100,25 @@ def calculate_net_present_value_of_additional_cost_electric(data, data_broadband
 
 ###Calculate aggregrated benefit result of statusQuo strategy based on each year for 40 years 
 def aggregate_benefit_through_years_SQ_electric(data, data_broadband):
-    df_output_statusQuo=simulate.run_benefit_simulation_SQ_strategy_electric(data)
-    df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['aesthetic losses','economic losses','total losses']].sum()
+    df_output_statusQuo=Simulate.run_benefit_simulation_SQ_strategy_electric(data)
+    df_analyze_result_statusQuo=df_output_statusQuo.groupby(['year'])[['aesthetic losses','economic losses','total losses']].sum()
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/benefit-analyze-result-statusQuo-strategy.csv', index = False)
     return(df_analyze_result_statusQuo)    
 
 ###Calculate aggregrated benefit result of undergrounding after lifespan strategy based on each year for 40 years 
 def aggregate_benefit_through_years_UL_electric(data, data_broadband):
-    df_benefit_under=simulate.run_benefit_simulation_under_after_lifespan_strategy(data)
-    df_analyze_benefit_under=df_benefit_under.groupby(level=[0])[['aesthetic losses','economic losses','total losses']].sum()
+    df_benefit_under=Simulate.run_benefit_simulation_UL_strategy_electric(data)
+    df_analyze_benefit_under=df_benefit_under.groupby(['year'])[['aesthetic losses','economic losses','total losses']].sum()
+    #df_analyze_benefit_under=df_benefit_under.groupby(level=[0])[['aesthetic losses','economic losses','total losses']].sum()
     df_analyze_benefit_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_benefit_under.to_csv(r'../../results/outcomes/benefit-analyze-undergrounding-strategy.csv', index = False)
     return(df_analyze_benefit_under)
 
 ###Calculate additional benefits due to undergrounding after lifespan strategy
 def calculate_additional_benefit_from_UL_electric(data, data_broadband):
-    df1=aggregate_benefit_through_years_UL_electric(data)
-    df2=aggregate_benefit_through_years_SQ_electric(data)
+    df1=aggregate_benefit_through_years_UL_electric(data, data_broadband)
+    df2=aggregate_benefit_through_years_SQ_electric(data, data_broadband)
     df_analyze_additional=df2.subtract(df1)
     del df_analyze_additional['year']
     df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
@@ -176,4 +177,3 @@ def calculate_net_present_value_of_additional_benefit_electric(data, data_broadb
                                                   'total losses':[difference[2]]})
       df_net_present_value_additional.to_csv(r'../../results/outcomes/benefit-net-present-value-additional.csv', index = False)
       return(difference)
-

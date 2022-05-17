@@ -54,12 +54,12 @@ class Electric_model_inputs:
             "Total_Customers_Residential_Shrewsbury":6400,
             "Total_Customers_Commercial_Shrewsbury":8000,
             "Total_Customers_Industry_Shrewsbury":1600,
-            "total_length":492, #summation of underground and overhead miles generated based on gamma simulation
-            "total_length_overhead":325, #summation of overhead miles generated based on gamma simulation
-            "total_length_underground":167, #summation of underground miles generated based on gamma simulation}
+            "total_length":55.43, #summation of underground and overhead miles generated based on gamma simulation
+            "total_length_overhead":36.68, #summation of overhead miles generated based on gamma simulation
+            "total_length_underground":18.75, #summation of underground miles generated based on gamma simulation}
             "Shrewsbury_tax_levy_2021": 85713912.0,
             "aesthetic_benefit_proportion":0.03,
-            "inflation_rate_benefit":0.02,
+            "inflation_rate_benefit":0,
             "shrewsbury_population":39774,
             "residential_percentage":0.8,
             "industrial_percentage":0.1,
@@ -407,7 +407,7 @@ class Electric_line_segment:
     #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead
     
     def calculate_economic_benefits(self):
-        SAIDI_Current=0
+        SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         total_length_current=0
         total_economic_benefit_current= 0
         """ if self.underground[-1]==1:
@@ -417,7 +417,6 @@ class Electric_line_segment:
             SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_overhead']"""
         if self.underground[-1]==1:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_underground'] 
             if self.underground[0]==0:
                 residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
@@ -434,7 +433,6 @@ class Electric_line_segment:
                 self.commercial_benefit.append(commercial_benefit_current)
                 self.industry_benefit.append(industry_benefit_current)
         else:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             total_length_current=self.inputs.parameter_dict['total_length_overhead']
             residential_benefit_current=0
             commercial_benefit_current=0
@@ -453,11 +451,10 @@ class Electric_line_segment:
         return(self.total_inflated_economic_benefits)  
 
     def calculate_economic_outage_losses(self):
+        SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         if self.underground[-1]==1:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
         else:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
             outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
         residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
         commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
