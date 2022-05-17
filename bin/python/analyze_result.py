@@ -102,6 +102,9 @@ def calculate_net_present_value_of_additional_cost_electric(data, data_broadband
 def aggregate_benefit_through_years_SQ_electric(data, data_broadband):
     df_output_statusQuo=Simulate.run_benefit_simulation_SQ_strategy_electric(data)
     df_analyze_result_statusQuo=df_output_statusQuo.groupby(['year'])[['aesthetic losses','economic losses','total losses']].sum()
+    df_analyze_result_statusQuo['marginal avoided loss']=df_analyze_result_statusQuo['economic losses'].diff()
+    df_analyze_result_statusQuo.at[1,'marginal avoided loss']=0
+    df_analyze_result_statusQuo["marginal avoided loss"] = -1 * df_analyze_result_statusQuo["marginal avoided loss"]
     df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
     df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/benefit-analyze-result-statusQuo-strategy.csv', index = False)
     return(df_analyze_result_statusQuo)    
@@ -110,8 +113,10 @@ def aggregate_benefit_through_years_SQ_electric(data, data_broadband):
 def aggregate_benefit_through_years_UL_electric(data, data_broadband):
     df_benefit_under=Simulate.run_benefit_simulation_UL_strategy_electric(data)
     df_analyze_benefit_under=df_benefit_under.groupby(['year'])[['aesthetic losses','economic losses','total losses']].sum()
-    #df_analyze_benefit_under=df_benefit_under.groupby(level=[0])[['aesthetic losses','economic losses','total losses']].sum()
     df_analyze_benefit_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
+    df_analyze_benefit_under['marginal avoided loss']=df_analyze_benefit_under['economic losses'].diff()
+    df_analyze_benefit_under.at[1,'marginal avoided loss']=0
+    df_analyze_benefit_under["marginal avoided loss"] = -1 * df_analyze_benefit_under["marginal avoided loss"]
     df_analyze_benefit_under.to_csv(r'../../results/outcomes/benefit-analyze-undergrounding-strategy.csv', index = False)
     return(df_analyze_benefit_under)
 
