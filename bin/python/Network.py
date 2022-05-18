@@ -104,7 +104,9 @@ class Broadband_model_inputs:
             #"length_shape":2, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             #"length_scale":0.25, # We selected length shape and scale in a way that length_shape*length_scale=average_length
             "average_length":0.21, # Average length for underground and overhead distribution lines (in miles)
-            "total_length":492,
+            "total_length":55.43,
+            "total_length_overhead":36.68, #summation of overhead miles generated based on gamma simulation
+            "total_length_underground":18.75, #summation of underground miles generated based on gamma simulation}
             "segment_number":2299, # Numbers of line segments in the network (Shrewsbury has 191.5 miles overhead, 121.7 miles underground line, eaach segment's length is considered about 0.5 miles. So by dividing (91.5+121.7)/.5 we calculated this parameter.
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year

@@ -154,7 +154,7 @@ def run_benefit_simulation_SQ_strategy_electric(data):
     return(df)       
 
 
-def run_benefit_simulation_UL_strategy_electric(data):
+def run_benefit_simulation_UL_strategy_electric(data,p):
     line_segment_array=[]
     line_segment_length_array=[]
     total_mileage = 0
@@ -190,6 +190,7 @@ def run_benefit_simulation_UL_strategy_electric(data):
             line_segment_array[i].calculate_economic_outage_losses()
             line_segment_array[i].add_economic_outage_losses_interest_rate()
             line_segment_array[i].calculate_total_losses()
+            line_segment_array[i].calculate_economic_loss(p)
             df_new=pd.DataFrame({'year':[t],
                                  'segment number': [i],
                                  'length':[line_segment_array[i].length],
@@ -200,11 +201,12 @@ def run_benefit_simulation_UL_strategy_electric(data):
                                  'aesthetic benefits':[line_segment_array[i].total_inflated_aesthetic_benefits[t]],
                                  'aesthetic losses':[line_segment_array[i].total_inflated_aesthetic_losses[t]],
                                  'economic losses':[line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total losses':[line_segment_array[i].total_losses[t]]
+                                 'total losses':[line_segment_array[i].total_losses[t]],
+                                 'economic_cost_outages':[line_segment_array[i].total_economic_losses[t]]
                                  }) 
             df=df.append(df_new, ignore_index = True)
         underground_proportion = underground_mileage/total_mileage
-    df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy.csv', index = False)
+    df.to_csv(r'../../results/outcomes/benefit-simulation-output-under-strategy-90-10-20seg.csv', index = False)
     print("Undergroung proportion at Year 40:" + str(underground_proportion))
     #return(df.set_index(["year","segment number"]))   
     return(df)
@@ -252,41 +254,13 @@ def calculate_percentage_underground_UL_strategy_electric(data):
     return(df)
 
 #run simulation for calculating broadband cost elemnts of statusQuo strategy and assign a data frame to them.
-def run_cost_simulation_SQ_strategy_broadband(data_broadband):
+def run_cost_simulation_SQ_strategy_calculate_economic_loss(data_broadband):
     disaggregated_function=True
     line_segment_array=[]
     line_segment_length_array=[]
-    for i in range (data_broadband.parameter_dict['segment_number']):
-        segment=network.Broadband_line_segment(data_broadband)
-        line_segment_array.append(segment)
-        line_segment_length_array.append(segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
-    df=pd.DataFrame()
-    for t in range (data.parameter_dict['analysis_years']):
-        for i in range (len(line_segment_array)):
-            line_segment_array[i].update_underground_status()
-            line_segment_array[i].update_age()
-            line_segment_array[i].calculate_replcost()
-            line_segment_array[i].calculate_capex()
-            line_segment_array[i].calculate_opex()
-            line_segment_array[i].add_opex_interest_rate()
-            line_segment_array[i].calculate_total_infrastructure_cost()
-            df_new=pd.DataFrame({
-                                 'capex_broadband':[line_segment_array[i].capex[t]],
-                                 'opex_broadband':[line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[line_segment_array[i].total_infra[t]]
-                                 })            
-            df=df.append(df_new, ignore_index = True)
-    #df.to_csv(r'../../results/outcomes/cost-simulation-output-SQ-broadband.csv', index = False)
-    #return(df.set_index(["year","segment number"]))
-    return(df)
-
-#run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
-def run_cost_simulation_UL_strategy_broadband(data_broadband, joint_trench):
-    disaggregated_function=True
-    line_segment_array=[]
-    line_segment_length_array=[]
+    total_mileage = data_broadband.parameter_dict['total_length']
+    underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
+    underground_proportion = 1 - data_broadband.parameter_dict['overhead_proportion']
     for i in range (data_broadband.parameter_dict['segment_number']):
         segment=network.Broadband_line_segment(data_broadband)
         line_segment_array.append(segment)
@@ -296,6 +270,8 @@ def run_cost_simulation_UL_strategy_broadband(data_broadband, joint_trench):
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
+            if line_segment_array[i].underground[-1] == 1:
+                underground_mileage += line_segment_array[i].length
             line_segment_array[i].update_underground_status()
             line_segment_array[i].update_age()
             line_segment_array[i].calculate_replcost()
@@ -303,6 +279,51 @@ def run_cost_simulation_UL_strategy_broadband(data_broadband, joint_trench):
             line_segment_array[i].calculate_opex()
             line_segment_array[i].add_opex_interest_rate()
             line_segment_array[i].calculate_total_infrastructure_cost()
+            #line_segment_array[i].calculate_economic_loss(underground_proportion) #0.2
+            df_new=pd.DataFrame({
+                                 'year': [t],
+                                 'capex_broadband':[line_segment_array[i].capex[t]],
+                                 'opex_broadband':[line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_broadband':[line_segment_array[i].total_infra[t]],
+                                 #'economic loss':[line_segment_array[i].total_economic_losses[t]]
+                                 })            
+            df=df.append(df_new, ignore_index = True)
+        underground_proportion = underground_mileage/total_mileage
+        print('Underground proportion: ', underground_proportion)
+        underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
+    print("Undergroung proportion at Year 40:" + str(underground_proportion))
+    df.to_csv(r'../../results/outcomes/cost-simulation-output-SQ-broadband-econ-loss.csv', index = False)
+    #return(df.set_index(["year","segment number"]))
+    return(df)
+
+#run simulation for calculating cost elemnts of undergrounding after lifespan strategy and assign a data frame to them.
+def run_cost_simulation_UL_strategy_broadband(data_broadband, joint_trench):
+    disaggregated_function=True
+    line_segment_array=[]
+    line_segment_length_array=[]
+    total_mileage = 0
+    underground_mileage = 0
+    underground_proportion = 1 - data.parameter_dict['overhead_proportion']
+    for i in range (data_broadband.parameter_dict['segment_number']):
+        segment=network.Broadband_line_segment(data_broadband)
+        line_segment_array.append(segment)
+        line_segment_length_array.append(segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data_broadband.parameter_dict['analysis_years']):
+        for i in range (len(line_segment_array)):
+            total_mileage += line_segment_array[i].length
+            if line_segment_array[i].underground[-1] == 1:
+                  underground_mileage += line_segment_array[i].length
+            line_segment_array[i].update_underground_status()
+            line_segment_array[i].update_age()
+            line_segment_array[i].calculate_replcost()
+            line_segment_array[i].calculate_capex()
+            line_segment_array[i].calculate_opex()
+            line_segment_array[i].add_opex_interest_rate()
+            line_segment_array[i].calculate_total_infrastructure_cost()
+            line_segment_array[i].calculate_economic_loss(0.2)
             df_new=pd.DataFrame({
                                  'capex_broadband':[line_segment_array[i].capex[t]],
                                  'opex_broadband':[line_segment_array[i].opex[t]],
@@ -310,6 +331,8 @@ def run_cost_simulation_UL_strategy_broadband(data_broadband, joint_trench):
                                  })             
             df=df.append(df_new, ignore_index = True)    
     
+    underground_proportion = underground_mileage/total_mileage
+    print("Undergroung proportion at Year 40:" + str(underground_proportion))
     #df.to_csv(r'../../results/outcomes/cost-simulation-output-UL-broadband.csv', index = False)
     #return(df.set_index(["year","segment number"]))
     return(df)
