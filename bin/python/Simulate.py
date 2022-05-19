@@ -416,7 +416,7 @@ def run_ST5_UL_electric_UL_joint_trench_broadband_simulate(data, data_broadband,
 # Define S1 simulation function
 def run_cost_simulation_S1(data, data_broadband):
     # SQ for electric line segments
-    disaggregated_function=True
+    disaggregated_current=True
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -430,7 +430,7 @@ def run_cost_simulation_S1(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_replcost(disaggregated_function)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
             el_line_segment_array[i].add_opex_interest_rate()
@@ -485,7 +485,7 @@ def run_cost_simulation_S1(data, data_broadband):
 # Define S2 simulation function
 def run_cost_simulation_S2(data, data_broadband):
     # SQ for electric line segments
-    disaggregated_function=True
+    disaggregated_current=True
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -499,7 +499,7 @@ def run_cost_simulation_S2(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_replcost(disaggregated_function)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
             el_line_segment_array[i].add_opex_interest_rate()
@@ -521,7 +521,7 @@ def run_cost_simulation_S2(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            disaggregated_function=True
+            disaggregated_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -531,7 +531,7 @@ def run_cost_simulation_S2(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(disaggregated_function)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -563,7 +563,7 @@ def run_cost_simulation_S2(data, data_broadband):
 # Define S3 simulation function
 def run_cost_simulation_S3(data, data_broadband):
     # SQ for electric line segments
-    disaggregated_function=True
+    disaggregated_current=True
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     for i in range (data.parameter_dict['segment_number']):
@@ -577,7 +577,7 @@ def run_cost_simulation_S3(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_replcost(disaggregated_function)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
             el_line_segment_array[i].add_opex_interest_rate()
@@ -599,7 +599,7 @@ def run_cost_simulation_S3(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            disaggregated_function=True
+            disaggregated_current=True
             aggressive_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
@@ -610,7 +610,7 @@ def run_cost_simulation_S3(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(disaggregated_function)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -654,7 +654,7 @@ def run_cost_simulation_S4(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
-            disaggregated_function=True
+            disaggregated_current=True
             lifespan_exceeded=el_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -664,7 +664,7 @@ def run_cost_simulation_S4(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_replcost(disaggregated_function)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
             el_line_segment_array[i].add_opex_interest_rate()
@@ -675,7 +675,7 @@ def run_cost_simulation_S4(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
     # SQ for broadband line segment
-    disaggregated_function=True
+    disaggregated_current=True
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     for i in range (data_broadband.parameter_dict['segment_number']):
@@ -688,7 +688,7 @@ def run_cost_simulation_S4(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_replcost(disaggregated_function)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -732,7 +732,7 @@ def run_cost_simulation_S5(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
-            disaggregated_function=True
+            disaggregated_current=True
             aggressive_current=True
             lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
@@ -743,7 +743,7 @@ def run_cost_simulation_S5(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_replcost(disaggregated_function)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
             el_line_segment_array[i].add_opex_interest_rate()
@@ -754,7 +754,7 @@ def run_cost_simulation_S5(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
     # SQ for broadband line segment
-    disaggregated_function=True
+    disaggregated_current=True
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     for i in range (data_broadband.parameter_dict['segment_number']):
@@ -767,7 +767,7 @@ def run_cost_simulation_S5(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_replcost(disaggregated_function)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -811,7 +811,8 @@ def run_cost_simulation_S6(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
-            disaggregated_function=True
+            disaggregated_current=True
+            joint_trench_current=True
             lifespan_exceeded=el_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -821,7 +822,7 @@ def run_cost_simulation_S6(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_replcost(disaggregated_function)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
             el_line_segment_array[i].add_opex_interest_rate()
@@ -843,7 +844,8 @@ def run_cost_simulation_S6(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            disaggregated_function=True
+            disaggregated_current=True
+            joint_trench_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -853,7 +855,7 @@ def run_cost_simulation_S6(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(disaggregated_function)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
