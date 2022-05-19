@@ -133,7 +133,9 @@ class Broadband_model_inputs:
             "total_employees":3000,
             "affected_employees": 0.25,
             "cost_per_hour": 24,
-            "outage_hours": 40
+            "outage_hours": 40,
+            "outage_overhead":0.8,
+            "outage_underground":0.2,
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
@@ -458,7 +460,7 @@ class Electric_line_segment:
         self.total_inflated_economic_benefits.append(economic_benefit_new)
         return(self.total_inflated_economic_benefits)  
 
-    def calculate_economic_outage_losses(self):
+    def calculate_economic_loss(self):
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         if self.underground[-1]==1:
             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
@@ -475,7 +477,7 @@ class Electric_line_segment:
         return(self.total_economic_losses)  
 
     #Add interest rate to economic benefit.
-    def add_economic_outage_losses_interest_rate(self):
+    def add_economic_loss_interest_rate(self):
         economic_loss_new=self.total_economic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
         self.total_inflated_economic_losses.append(economic_loss_new)
         return(self.total_inflated_economic_losses)    
@@ -720,15 +722,17 @@ class Broadband_line_segment:
             lifespan_x=self.inputs.parameter_dict['underground_line']['lifespan']
         first_retire=(lifespan_x)-(age_baseyear)
         return (np.ceil (first_retire))
-    def calculate_economic_loss(self, proportion=0.2): 
+    def calculate_economic_loss(self, proportion=1): 
         """A method to quantify employee productivity cost based on line segment status"""    
         status = self.underground[-1]
         economic_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour']*self.inputs.parameter_dict['outage_hours']
         if status==1: #underground line
-            outage_percentage=proportion
+            under_percentage=proportion/(1-self.inputs.parameter_dict["overhead_proportion"])
+            outage_probability=self.inputs.parameter_dict['outage_underground']
         else:
-            outage_percentage=1-proportion
-        self.total_economic_losses.append(economic_loss*outage_percentage)
+            under_percentage=proportion/(1-self.inputs.parameter_dict["overhead_proportion"])
+            outage_probability=self.inputs.parameter_dict['outage_overhead']
+        self.total_economic_losses.append(economic_loss*under_percentage*outage_probability)
         return (self.total_economic_losses)
     
 def test():
