@@ -530,7 +530,7 @@ def run_cost_simulation_S2(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
-            br_line_segment_array[i].update_underground_status()
+            br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(disaggregated_function)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
@@ -600,8 +600,8 @@ def run_cost_simulation_S3(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             convert_new=False
             disaggregated_function=True
-            aggressive=True
-            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive)
+            aggressive_current=True
+            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -609,7 +609,7 @@ def run_cost_simulation_S3(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
-            br_line_segment_array[i].update_underground_status()
+            br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(disaggregated_function)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
