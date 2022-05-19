@@ -229,11 +229,17 @@ class Electric_line_segment:
         
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
-    def update_age(self,replace=False):
-        if self.underground[-1]==1:
-            lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    def update_age(self,replace=False, aggressive=False):
+        if aggressive==False:
+            if self.underground[-1]==1:
+                lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+            else:
+                lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
         else:
-            lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+            if self.underground[-1]==1:
+                lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+            else:
+                lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
         age_current=self.age[-1]
         if age_current>lifespan_current:
             self.age.append(1)
