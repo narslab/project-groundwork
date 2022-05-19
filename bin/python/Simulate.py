@@ -1219,7 +1219,7 @@ def run_benefit_simulation_S1(data, data_broadband):
    
 
 ### Benefits simulation functions
-def run_benefit_simulation_S6_to_s13(data, data_broadband):
+def run_benefit_simulation_S6_to_s9(data, data_broadband):
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -1297,6 +1297,6 @@ def run_benefit_simulation_S6_to_s13(data, data_broadband):
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S6-to-s13-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S6-to-s9-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)
