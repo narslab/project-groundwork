@@ -968,7 +968,7 @@ def run_cost_simulation_S7(data, data_broadband):
                                  'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
+    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S7-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1058,7 +1058,7 @@ def run_cost_simulation_S10(data, data_broadband):
                                  'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
+    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S10-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1146,6 +1146,6 @@ def run_cost_simulation_S11(data, data_broadband):
                                  'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
+    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S11-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
