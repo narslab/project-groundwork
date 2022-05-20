@@ -1294,6 +1294,152 @@ def run_cost_simulation_S11(data, data_broadband):
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
+# Define S12 simulation function
+def run_cost_simulation_S12(data, data_broadband):
+    # SQ for electric and broadband line segments
+    el_line_segment_array=[]
+    el_line_segment_length_array=[]
+    br_line_segment_array=[]
+    br_line_segment_length_array=[]
+    for i in range (data.parameter_dict['segment_number']):
+        el_segment=network.Electric_line_segment(data)
+        el_line_segment_array.append(el_segment)
+        el_line_segment_length_array.append(el_segment.length)
+        br_segment=network.Broadband_line_segment(data_broadband)
+        br_line_segment_array.append(br_segment)
+        br_line_segment_length_array.append(br_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df1=pd.DataFrame()
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(el_line_segment_array)):
+            convert_new=False
+            disaggregated_current=True
+            joint_trench_current=True
+            aggressive_current=True
+            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if el_line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            el_line_segment_array[i].update_underground_status(convert=convert_new)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
+            el_line_segment_array[i].calculate_capex()
+            el_line_segment_array[i].calculate_opex()
+            el_line_segment_array[i].add_opex_interest_rate()
+            el_line_segment_array[i].calculate_total_infrastructure_cost()
+            el_line_segment_array[i].calculate_environmental_restoration()
+            el_line_segment_array[i].calculate_non_fatal_cost()
+            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_total_safety()
+            el_line_segment_array[i].calculate_total_cost()
+
+            br_line_segment_array[i].update_underground_status(convert=convert_new)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_capex()
+            br_line_segment_array[i].calculate_opex()
+            br_line_segment_array[i].add_opex_interest_rate()
+            br_line_segment_array[i].calculate_total_infrastructure_cost()
+                                        
+            df_new=pd.DataFrame({
+                                 'year': [t],
+                                 'segment number':[i],
+                                 'length':[el_line_segment_array[i].length],
+                                 'age': [el_line_segment_array[i].age[t]],
+                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'capex_electric':[el_line_segment_array[i].capex[t]],
+                                 'opex_electric':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
+                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
+                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 })            
+            df1=df1.append(df_new, ignore_index = True)
+    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S8-cost-simulation.csv', index = False)
+    return(df1.set_index(["year","segment number"]))
+    #return(df1)
+
+# Define S13 simulation function
+def run_cost_simulation_S13(data, data_broadband):
+    # SQ for electric and broadband line segments
+    el_line_segment_array=[]
+    el_line_segment_length_array=[]
+    br_line_segment_array=[]
+    br_line_segment_length_array=[]
+    for i in range (data.parameter_dict['segment_number']):
+        el_segment=network.Electric_line_segment(data)
+        el_line_segment_array.append(el_segment)
+        el_line_segment_length_array.append(el_segment.length)
+        br_segment=network.Broadband_line_segment(data_broadband)
+        br_line_segment_array.append(br_segment)
+        br_line_segment_length_array.append(br_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df1=pd.DataFrame()
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(el_line_segment_array)):
+            convert_new=False
+            disaggregated_current=True
+            joint_trench_current=False
+            aggressive_current=True
+            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if el_line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            el_line_segment_array[i].update_underground_status(convert=convert_new)
+            el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
+            el_line_segment_array[i].calculate_capex()
+            el_line_segment_array[i].calculate_opex()
+            el_line_segment_array[i].add_opex_interest_rate()
+            el_line_segment_array[i].calculate_total_infrastructure_cost()
+            el_line_segment_array[i].calculate_environmental_restoration()
+            el_line_segment_array[i].calculate_non_fatal_cost()
+            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_total_safety()
+            el_line_segment_array[i].calculate_total_cost()
+
+            br_line_segment_array[i].update_underground_status(convert=convert_new)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_capex()
+            br_line_segment_array[i].calculate_opex()
+            br_line_segment_array[i].add_opex_interest_rate()
+            br_line_segment_array[i].calculate_total_infrastructure_cost()
+                                        
+            df_new=pd.DataFrame({
+                                 'year': [t],
+                                 'segment number':[i],
+                                 'length':[el_line_segment_array[i].length],
+                                 'age': [el_line_segment_array[i].age[t]],
+                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'capex_electric':[el_line_segment_array[i].capex[t]],
+                                 'opex_electric':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
+                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
+                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 })            
+            df1=df1.append(df_new, ignore_index = True)
+    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S9-cost-simulation.csv', index = False)
+    return(df1.set_index(["year","segment number"]))
+    #return(df1)
+
 
 ### Benefits simulation functions
 def run_benefit_simulation_S1(data, data_broadband):
@@ -1362,7 +1508,7 @@ def run_benefit_simulation_S1(data, data_broadband):
 
    
 
-### Benefits simulation functions
+### S6 to S9 benefit simulation functions
 def run_benefit_simulation_S6_to_s9(data, data_broadband):
     #electric line segment
     el_line_segment_array=[]
