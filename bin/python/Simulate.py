@@ -547,7 +547,11 @@ def run_cost_simulation_S2(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
-                                        
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -555,17 +559,22 @@ def run_cost_simulation_S2(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S2-cost-simulation.csv', index = False)
@@ -627,7 +636,11 @@ def run_cost_simulation_S3(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
-                                        
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -635,17 +648,22 @@ def run_cost_simulation_S3(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S3-cost-simulation.csv', index = False)
@@ -706,7 +724,11 @@ def run_cost_simulation_S4(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
-                                            
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()                                            
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -714,17 +736,22 @@ def run_cost_simulation_S4(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S4-cost-simulation.csv', index = False)
@@ -786,7 +813,11 @@ def run_cost_simulation_S5(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
-                                            
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()                                            
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -794,17 +825,22 @@ def run_cost_simulation_S5(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S5-cost-simulation.csv', index = False)
@@ -875,7 +911,11 @@ def run_cost_simulation_S6(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
-                                        
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -883,17 +923,22 @@ def run_cost_simulation_S6(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
@@ -964,6 +1009,11 @@ def run_cost_simulation_S7(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()
                                         
             df_new=pd.DataFrame({
                                  'year': [t],
@@ -972,17 +1022,22 @@ def run_cost_simulation_S7(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],                                 
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S7-cost-simulation.csv', index = False)
@@ -1037,6 +1092,11 @@ def run_cost_simulation_S8(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()
                                         
             df_new=pd.DataFrame({
                                  'year': [t],
@@ -1045,17 +1105,22 @@ def run_cost_simulation_S8(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S8-cost-simulation.csv', index = False)
@@ -1110,6 +1175,11 @@ def run_cost_simulation_S9(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()
                                         
             df_new=pd.DataFrame({
                                  'year': [t],
@@ -1118,17 +1188,22 @@ def run_cost_simulation_S9(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S9-cost-simulation.csv', index = False)
@@ -1201,7 +1276,11 @@ def run_cost_simulation_S10(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
-                                        
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -1209,17 +1288,22 @@ def run_cost_simulation_S10(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S10-cost-simulation.csv', index = False)
@@ -1290,6 +1374,11 @@ def run_cost_simulation_S11(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()
                                         
             df_new=pd.DataFrame({
                                  'year': [t],
@@ -1298,17 +1387,22 @@ def run_cost_simulation_S11(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S11-cost-simulation.csv', index = False)
@@ -1364,6 +1458,11 @@ def run_cost_simulation_S12(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()
                                         
             df_new=pd.DataFrame({
                                  'year': [t],
@@ -1372,17 +1471,22 @@ def run_cost_simulation_S12(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S12-cost-simulation.csv', index = False)
@@ -1438,6 +1542,11 @@ def run_cost_simulation_S13(data, data_broadband):
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
+            br_line_segment_array[i].calculate_environmental_restoration()
+            br_line_segment_array[i].calculate_non_fatal_cost()
+            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_total_safety()
+            br_line_segment_array[i].calculate_total_cost()
                                         
             df_new=pd.DataFrame({
                                  'year': [t],
@@ -1446,17 +1555,22 @@ def run_cost_simulation_S13(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'capex_electric':[el_line_segment_array[i].capex[t]],
-                                 'opex_electric':[el_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
-                                 'environmental_restoration_electric':[el_line_segment_array[i].environmental_restoration[t]],
-                                 'non_fatal_electric':[el_line_segment_array[i].non_fatal[t]],
-                                 'fatal_electric':[el_line_segment_array[i].fatal[t]],
-                                 'safety_electric':[el_line_segment_array[i].total_safety[t]],
-                                 'total_cost_electric':[el_line_segment_array[i].total_cost[t]],
-                                 'capex_broadband':[br_line_segment_array[i].capex[t]],
-                                 'opex_broadband':[br_line_segment_array[i].opex[t]],
-                                 'lifecycle_infrastructure_broadband':[br_line_segment_array[i].total_infra[t]],
+                                 'capex_el':[el_line_segment_array[i].capex[t]],
+                                 'opex_el':[el_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_el':[el_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_el':[el_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_el':[el_line_segment_array[i].non_fatal[t]],
+                                 'fatal_el':[el_line_segment_array[i].fatal[t]],
+                                 'safety_el':[el_line_segment_array[i].total_safety[t]],
+                                 'total_cost_el':[el_line_segment_array[i].total_cost[t]],
+                                 'capex_br':[br_line_segment_array[i].capex[t]],
+                                 'opex_br':[br_line_segment_array[i].opex[t]],
+                                 'lifecycle_infrastructure_br':[br_line_segment_array[i].total_infra[t]],
+                                 'environmental_restoration_br':[br_line_segment_array[i].environmental_restoration[t]],
+                                 'non_fatal_br':[br_line_segment_array[i].non_fatal[t]],
+                                 'fatal_br':[br_line_segment_array[i].fatal[t]],
+                                 'safety_br':[br_line_segment_array[i].total_safety[t]],
+                                 'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S13-cost-simulation.csv', index = False)
