@@ -112,6 +112,12 @@ class Broadband_model_inputs:
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
             "r":0.1, # Discount rate=10%
+            "easment_value":3000, # per-acre price of a conservation easement
+            "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
+            "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
+            "employees":40, #The number of IOU employees
+            "injurycost":130658, # A randomly determined annual injury cost, per accident
+            "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':256000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.01,'corridor_width':7.5},
@@ -414,8 +420,7 @@ class Electric_line_segment:
         self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total_cost)
     
-    #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead
-    
+    #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead    
     def calculate_economic_benefits(self):
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         total_length_current=0
@@ -722,6 +727,58 @@ class Broadband_line_segment:
             lifespan_x=self.inputs.parameter_dict['underground_line']['lifespan']
         first_retire=(lifespan_x)-(age_baseyear)
         return (np.ceil (first_retire))
+
+    ###Environmental Costs:
+    #Determin environmental restoration cost based on the length of overhead and underground lines. (1mile= 5280 foot, 1sqmile=640 Acre) 
+    def calculate_environmental_restoration(self):
+        environmental_restoration_current=0
+        if self.underground[-1]==1:
+            if self.underground[0]==1:
+                corridor_width=self.inputs.parameter_dict['overhead_line']['corridor_width']
+                self.environmental_restoration.append(environmental_restoration_current)
+            else:
+                corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']-self.inputs.parameter_dict['overhead_line']['corridor_width']
+                environmental_restoration_current=((self.length)*(corridor_width)*640/5280*self.inputs.parameter_dict['easment_value'])
+                self.environmental_restoration.append(environmental_restoration_current)
+        else:
+            corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']
+            self.environmental_restoration.append(environmental_restoration_current)
+        return(self.environmental_restoration)
+
+    
+    ###Safety and health Costs:
+    #Return fatal cost which is one element of safety cost
+    def calculate_non_fatal_cost(self):
+        if self.underground[-1]==1:
+            if self.underground[0]==1:
+                self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+            else:
+                self.non_fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+        else:
+            self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+        return(self.non_fatal)
+    
+    #Return non-fatal cost which is one element of safety cost
+    def calculate_fatal_cost(self):
+        if self.underground[-1]==1:
+            if self.underground[0]==1:
+                self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+            else:
+                self.fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+        else:
+            self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+        return(self.fatal)
+    
+    #Return total safety cost which is summation of fatal and non fatal cost
+    def calculate_total_safety(self):
+        self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])
+        return(self.total_safety)
+    
+    #Return total cost which is summation of lifecycle cost, environmental cost and safety cost
+    def calculate_total_cost(self):
+        self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
+        return(self.total_cost)
+
     def calculate_economic_loss(self, proportion=1): 
         """A method to quantify employee productivity cost based on line segment status"""    
         status = self.underground[-1]
