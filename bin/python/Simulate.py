@@ -453,7 +453,7 @@ def run_cost_simulation_S1(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_replcost(disaggregated_function)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -464,7 +464,8 @@ def run_cost_simulation_S1(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -542,7 +543,8 @@ def run_cost_simulation_S2(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -621,7 +623,8 @@ def run_cost_simulation_S3(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -699,7 +702,8 @@ def run_cost_simulation_S4(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -778,7 +782,8 @@ def run_cost_simulation_S5(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -866,7 +871,8 @@ def run_cost_simulation_S6(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -954,7 +960,8 @@ def run_cost_simulation_S7(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1026,7 +1033,8 @@ def run_cost_simulation_S8(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1098,7 +1106,8 @@ def run_cost_simulation_S9(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1188,7 +1197,8 @@ def run_cost_simulation_S10(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1276,7 +1286,8 @@ def run_cost_simulation_S11(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1349,7 +1360,8 @@ def run_cost_simulation_S12(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1422,7 +1434,8 @@ def run_cost_simulation_S13(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],  
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_electric':[el_line_segment_array[i].capex[t]],
                                  'opex_electric':[el_line_segment_array[i].opex[t]],
                                  'lifecycle_infrastructure_electric':[el_line_segment_array[i].total_infra[t]],
@@ -1493,7 +1506,8 @@ def run_benefit_simulation_S1(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
                                  'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
@@ -1578,7 +1592,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
                                  'age': [el_line_segment_array[i].age[t]],
-                                 'under': [el_line_segment_array[i].underground[t]],
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
                                  'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
                                  'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
@@ -1588,5 +1603,91 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
         br_underground_proportion = br_underground_mileage/br_total_mileage
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S6-to-s9-benefit-simulation.csv', index = False)
+    return(df.set_index(["year","segment number"]))
+    #return(df)
+
+### S10 to S13 benefit simulation functions
+def run_benefit_simulation_S10_to_s13(data, data_broadband):
+    #electric line segment
+    el_line_segment_array=[]
+    el_line_segment_length_array=[]
+    el_total_mileage = data.parameter_dict['total_length']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+    el_underground_proportion = 1 - data.parameter_dict['overhead_proportion']
+    for i in range (data.parameter_dict['segment_number']):
+        el_segment=network.Electric_line_segment(data)
+        el_line_segment_array.append(el_segment)
+        el_line_segment_length_array.append(el_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data.parameter_dict['analysis_years']):
+        for i in range (len(el_line_segment_array)):
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+            convert_new=False
+            aggressive_current=True
+            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if el_line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            el_line_segment_array[i].update_underground_status(convert=convert_new)
+            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_aesthetic_losses()
+            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].add_economic_loss_interest_rate()
+            el_line_segment_array[i].calculate_total_losses()    
+    
+    # Broadband line segment    
+    br_line_segment_array=[]
+    br_line_segment_length_array=[]
+    br_total_mileage = data_broadband.parameter_dict['total_length']
+    br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
+    br_underground_proportion = 1 - data_broadband.parameter_dict['overhead_proportion']
+    for i in range (data_broadband.parameter_dict['segment_number']):
+        br_segment=network.Broadband_line_segment(data_broadband)
+        br_line_segment_array.append(br_segment)
+        br_line_segment_length_array.append(br_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    df=pd.DataFrame()
+    for t in range (data_broadband.parameter_dict['analysis_years']):
+        for i in range (len(br_line_segment_array)):
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+            convert_new=False
+            disaggregated_current=True
+            joint_trench_current=False
+            aggressive_current=True
+            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            if lifespan_exceeded==True:
+                convert_new+=True
+            else:
+                if el_line_segment_array[i].underground[-1]==1:
+                    convert_new=True
+                else:
+                    convert_new=False
+            br_line_segment_array[i].update_underground_status(convert=convert_new)
+            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            df_new=pd.DataFrame({
+                                 'year': [t],
+                                 'segment number':[i],
+                                 'length':[el_line_segment_array[i].length],
+                                 'age': [el_line_segment_array[i].age[t]],
+                                 'under_el': [el_line_segment_array[i].underground[t]],
+                                 'under_br': [br_line_segment_array[i].underground[t]],
+                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
+                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 })            
+            df=df.append(df_new, ignore_index = True)
+        br_underground_proportion = br_underground_mileage/br_total_mileage
+        br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S10-to-s13-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)
