@@ -1594,7 +1594,7 @@ def run_benefit_simulation_S2(data, data_broadband):
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S2-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)   
 
@@ -1671,7 +1671,7 @@ def run_benefit_simulation_S3(data, data_broadband):
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S3-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)
 
@@ -1745,7 +1745,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S4-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)
 
