@@ -1835,7 +1835,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
-            el_line_segment_array[i].calculate_total_losses()    
+            #el_line_segment_array[i].calculate_total_losses()    
     
     # Broadband line segment    
     br_line_segment_array=[]
@@ -1866,7 +1866,7 @@ def run_benefit_simulation_S4(data, data_broadband):
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)

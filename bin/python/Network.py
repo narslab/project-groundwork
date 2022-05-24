@@ -41,7 +41,8 @@ class Electric_model_inputs:
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
-            ### 
+            ###
+            "service_area": 21.7,
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
             "joint_trench_additional":0.1,
