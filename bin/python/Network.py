@@ -128,6 +128,7 @@ class Broadband_model_inputs:
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
+            "service_area": 21.7, # square mile (town of Shrewsbury area)
             "single_phase_probability":0.6,
             "log_clay_probabiliy":[0.0004,0.1649,0.0202,0.0002,0.0667,0.0078,0.397,0.2282,0.0401,0.0714,0.003],
             "log_clay":[0,0.301,0.602,0.663,0.732,0.778,0.845,0.863,0.903,0.954,0.978],
@@ -420,50 +421,52 @@ class Electric_line_segment:
         self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total_cost)
     
-    #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead    
-    def calculate_economic_benefits(self):
-        SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-        total_length_current=0
-        total_economic_benefit_current= 0
-        """ if self.underground[-1]==1:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-            total_length_current=self.inputs.parameter_dict['total_length_underground']            
-        else:
-            SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-            total_length_current=self.inputs.parameter_dict['total_length_overhead']"""
-        if self.underground[-1]==1:
-            total_length_current=self.inputs.parameter_dict['total_length_underground'] 
-            if self.underground[0]==0:
-                residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
-                commercial_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
-                industry_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*(self.inputs.parameter_dict['Total_Customers_Industry_Shrewsbury'])
-                self.residential_benefit.append(residential_benefit_current)
-                self.commercial_benefit.append(commercial_benefit_current)
-                self.industry_benefit.append(industry_benefit_current)
-            else:
-                residential_benefit_current=0
-                commercial_benefit_current=0
-                industry_benefit_current=0
-                self.residential_benefit.append(residential_benefit_current)
-                self.commercial_benefit.append(commercial_benefit_current)
-                self.industry_benefit.append(industry_benefit_current)
-        else:
-            total_length_current=self.inputs.parameter_dict['total_length_overhead']
-            residential_benefit_current=0
-            commercial_benefit_current=0
-            industry_benefit_current=0
-            self.residential_benefit.append(residential_benefit_current)
-            self.commercial_benefit.append(commercial_benefit_current)
-            self.industry_benefit.append(industry_benefit_current)
-        total_economic_benefit_current = (self.length/total_length_current) * (residential_benefit_current + commercial_benefit_current + industry_benefit_current)
-        self.total_economic_benefits.append(total_economic_benefit_current)
-        return(self.total_economic_benefits)  
-
-    #Add interest rate to economic benefit.
-    def add_economic_benefits_interest_rate(self):
-        economic_benefit_new=self.total_economic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
-        self.total_inflated_economic_benefits.append(economic_benefit_new)
-        return(self.total_inflated_economic_benefits)  
+# =============================================================================
+#     #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead    
+#     def calculate_economic_benefits(self):
+#         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
+#         total_length_current=0
+#         total_economic_benefit_current= 0
+#         """ if self.underground[-1]==1:
+#             SAIDI_Current=self.inputs.parameter_dict['SAIDI']
+#             total_length_current=self.inputs.parameter_dict['total_length_underground']            
+#         else:
+#             SAIDI_Current=self.inputs.parameter_dict['SAIDI']
+#             total_length_current=self.inputs.parameter_dict['total_length_overhead']"""
+#         if self.underground[-1]==1:
+#             total_length_current=self.inputs.parameter_dict['total_length_underground'] 
+#             if self.underground[0]==0:
+#                 residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
+#                 commercial_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
+#                 industry_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*(self.inputs.parameter_dict['Total_Customers_Industry_Shrewsbury'])
+#                 self.residential_benefit.append(residential_benefit_current)
+#                 self.commercial_benefit.append(commercial_benefit_current)
+#                 self.industry_benefit.append(industry_benefit_current)
+#             else:
+#                 residential_benefit_current=0
+#                 commercial_benefit_current=0
+#                 industry_benefit_current=0
+#                 self.residential_benefit.append(residential_benefit_current)
+#                 self.commercial_benefit.append(commercial_benefit_current)
+#                 self.industry_benefit.append(industry_benefit_current)
+#         else:
+#             total_length_current=self.inputs.parameter_dict['total_length_overhead']
+#             residential_benefit_current=0
+#             commercial_benefit_current=0
+#             industry_benefit_current=0
+#             self.residential_benefit.append(residential_benefit_current)
+#             self.commercial_benefit.append(commercial_benefit_current)
+#             self.industry_benefit.append(industry_benefit_current)
+#         total_economic_benefit_current = (self.length/total_length_current) * (residential_benefit_current + commercial_benefit_current + industry_benefit_current)
+#         self.total_economic_benefits.append(total_economic_benefit_current)
+#         return(self.total_economic_benefits)  
+# 
+#     #Add interest rate to economic benefit.
+#     def add_economic_benefits_interest_rate(self):
+#         economic_benefit_new=self.total_economic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+#         self.total_inflated_economic_benefits.append(economic_benefit_new)
+#         return(self.total_inflated_economic_benefits)  
+# =============================================================================
 
     def calculate_economic_loss(self):
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
@@ -488,10 +491,55 @@ class Electric_line_segment:
         return(self.total_inflated_economic_losses)    
 
 
+# =============================================================================
+#     def calculate_aesthetic_benefits(self):
+#         if self.underground[-1]==1:
+#             if self.underground[0]==0:
+#                 self.total_aesthetic_benefits.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
+#             else:
+#                 self.total_aesthetic_benefits.append(0)
+#         else:
+#             self.total_aesthetic_benefits.append(0)
+#         return(self.total_aesthetic_benefits) 
+# 
+#     #Add interest rate to aesthetic benefit.
+#     def add_aesthetic_benefits_interest_rate(self):
+#         aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+#         self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
+#         return(self.total_inflated_aesthetic_benefits)
+# =============================================================================
+
+# =============================================================================
+#     def calculate_aesthetic_losses(self):
+#         if self.underground[-1]==1:
+#             if self.underground[0]==0:
+#                 self.total_aesthetic_losses.append(0)
+#             else:
+#                 self.total_aesthetic_losses.append(0)
+#                 
+#         else:
+#             self.total_aesthetic_losses.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
+#         return(self.total_aesthetic_losses) 
+# 
+#     def add_aesthetic_losses_interest_rate(self):
+#         aesthetic_loss_new=self.total_aesthetic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+#         self.total_inflated_aesthetic_losses.append(aesthetic_loss_new)
+#         return(self.total_inflated_aesthetic_losses)    
+# 
+#     def calculate_total_losses(self):
+#         self.total_losses.append(self.total_inflated_aesthetic_losses[-1]+self.total_inflated_economic_losses[-1])
+#         return(self.total_losses)         
+# =============================================================================
+
     def calculate_aesthetic_benefits(self):
         if self.underground[-1]==1:
-            if self.underground[0]==0:
-                self.total_aesthetic_benefits.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
+            corridor_width_current=self.inputs.parameter_dict['overhead_line']['corridor_width']
+        else:
+            corridor_width_current=self.inputs.parameter_dict['underground_line']['corridor_width']
+        if self.underground[-1]==1:
+            if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                aesthetic_benefit_current=corridor_width_current/5280*self.length/self.inputs.parameter_dict["service_area"]*self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']*self.inputs.parameter_dict['aesthetic_benefit_proportion']
+                self.total_aesthetic_benefits.append(aesthetic_benefit_current)
             else:
                 self.total_aesthetic_benefits.append(0)
         else:
@@ -504,25 +552,8 @@ class Electric_line_segment:
         self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
         return(self.total_inflated_aesthetic_benefits)
 
-    def calculate_aesthetic_losses(self):
-        if self.underground[-1]==1:
-            if self.underground[0]==0:
-                self.total_aesthetic_losses.append(0)
-            else:
-                self.total_aesthetic_losses.append(0)
-                
-        else:
-            self.total_aesthetic_losses.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
-        return(self.total_aesthetic_losses) 
 
-    def add_aesthetic_losses_interest_rate(self):
-        aesthetic_loss_new=self.total_aesthetic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
-        self.total_inflated_aesthetic_losses.append(aesthetic_loss_new)
-        return(self.total_inflated_aesthetic_losses)    
 
-    def calculate_total_losses(self):
-        self.total_losses.append(self.total_inflated_aesthetic_losses[-1]+self.total_inflated_economic_losses[-1])
-        return(self.total_losses)         
 
 ###Defining Broadband Line segment class with required attributes and methods and these methods are going to be modified based on requirements for each strategies in the simulations.
 class Broadband_line_segment:

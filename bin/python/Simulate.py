@@ -1602,8 +1602,8 @@ def run_benefit_simulation_S1(data, data_broadband):
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
             el_line_segment_array[i].calculate_economic_loss() 
-            el_line_segment_array[i].calculate_aesthetic_losses()
-            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].calculate_aesthetic_benefits()
+            el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
             el_line_segment_array[i].calculate_total_losses()    
     
@@ -1634,10 +1634,10 @@ def run_benefit_simulation_S1(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
-                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
@@ -1668,8 +1668,8 @@ def run_benefit_simulation_S2(data, data_broadband):
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
             el_line_segment_array[i].calculate_economic_loss() 
-            el_line_segment_array[i].calculate_aesthetic_losses()
-            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].calculate_aesthetic_benefits()
+            el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
             el_line_segment_array[i].calculate_total_losses()    
     
@@ -1710,10 +1710,10 @@ def run_benefit_simulation_S2(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
-                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
@@ -1744,8 +1744,8 @@ def run_benefit_simulation_S3(data, data_broadband):
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
             el_line_segment_array[i].calculate_economic_loss() 
-            el_line_segment_array[i].calculate_aesthetic_losses()
-            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].calculate_aesthetic_benefits()
+            el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
             el_line_segment_array[i].calculate_total_losses()    
     
@@ -1787,10 +1787,10 @@ def run_benefit_simulation_S3(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
-                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
@@ -1829,8 +1829,8 @@ def run_benefit_simulation_S4(data, data_broadband):
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_economic_loss() 
-            el_line_segment_array[i].calculate_aesthetic_losses()
-            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].calculate_aesthetic_benefits()
+            el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
             el_line_segment_array[i].calculate_total_losses()    
     
@@ -1861,10 +1861,10 @@ def run_benefit_simulation_S4(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
-                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
@@ -1904,8 +1904,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_economic_loss() 
-            el_line_segment_array[i].calculate_aesthetic_losses()
-            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].calculate_aesthetic_benefits()
+            el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
             el_line_segment_array[i].calculate_total_losses()    
     
@@ -1946,10 +1946,10 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
-                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
@@ -1989,8 +1989,8 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_economic_loss() 
-            el_line_segment_array[i].calculate_aesthetic_losses()
-            el_line_segment_array[i].add_aesthetic_losses_interest_rate()
+            el_line_segment_array[i].calculate_aesthetic_benefits()
+            el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
             el_line_segment_array[i].calculate_total_losses()    
     
@@ -2032,10 +2032,10 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                                  'age': [el_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_losses_electric':[el_line_segment_array[i].total_inflated_aesthetic_losses[t]],
-                                 'economic_losses_electric':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_electric':[el_line_segment_array[i].total_losses[t]],
-                                 'economic_loss_broadband':[br_line_segment_array[i].total_economic_losses[t]]
+                                 'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
+                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
