@@ -1605,7 +1605,7 @@ def run_benefit_simulation_S1(data, data_broadband):
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
-            el_line_segment_array[i].calculate_total_losses()    
+            #el_line_segment_array[i].calculate_total_losses()    
     
     # Broadband line segment    
     br_line_segment_array=[]
@@ -1636,11 +1636,12 @@ def run_benefit_simulation_S1(data, data_broadband):
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
+        print(br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
@@ -1671,7 +1672,7 @@ def run_benefit_simulation_S2(data, data_broadband):
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
-            el_line_segment_array[i].calculate_total_losses()    
+           #el_line_segment_array[i].calculate_total_losses()    
     
     # Broadband line segment    
     br_line_segment_array=[]
@@ -1692,12 +1693,11 @@ def run_benefit_simulation_S2(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
             disaggregated_current=True
-            joint_trench_current=False
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
-                if el_line_segment_array[i].underground[-1]==1:
+                if br_line_segment_array[i].underground[-1]==1:
                     convert_new=True
                 else:
                     convert_new=False
@@ -1712,15 +1712,18 @@ def run_benefit_simulation_S2(data, data_broadband):
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
+        print(br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S2-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)   
+
+
 
 # S3 benefit simulation function 
 def run_benefit_simulation_S3(data, data_broadband):
@@ -1747,7 +1750,7 @@ def run_benefit_simulation_S3(data, data_broadband):
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
-            el_line_segment_array[i].calculate_total_losses()    
+            #el_line_segment_array[i].calculate_total_losses()    
     
     # Broadband line segment    
     br_line_segment_array=[]
@@ -1768,13 +1771,12 @@ def run_benefit_simulation_S3(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
             disaggregated_current=True
-            joint_trench_current=False
             aggressive_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
-                if el_line_segment_array[i].underground[-1]==1:
+                if br_line_segment_array[i].underground[-1]==1:
                     convert_new=True
                 else:
                     convert_new=False
@@ -1789,11 +1791,12 @@ def run_benefit_simulation_S3(data, data_broadband):
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'aesthetic_benefit_el':[el_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
-                                 'total_losses_el':[el_line_segment_array[i].total_losses[t]],
+                                 #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
             df=df.append(df_new, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
+        print(br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S3-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
