@@ -1051,17 +1051,18 @@ def run_cost_simulation_S8(data, data_broadband):
     el_line_segment_length_array=[]
     br_line_segment_array=[]
     br_line_segment_length_array=[]
-    np.random.seed(10101)
-    random.seed(10102)
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    #np.random.seed(10101)
-    #random.seed(10102)
+    np.random.seed(10101)
+    random.seed(10102)
     df1=pd.DataFrame()
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
@@ -1140,6 +1141,9 @@ def run_cost_simulation_S9(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
@@ -1422,6 +1426,9 @@ def run_cost_simulation_S12(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
@@ -1506,6 +1513,9 @@ def run_cost_simulation_S13(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
+    np.random.seed(10101)
+    random.seed(10102)
+    for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
