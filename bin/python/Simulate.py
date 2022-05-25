@@ -1879,7 +1879,7 @@ def run_benefit_simulation_S4(data, data_broadband):
         print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print(br_underground_proportion)
+        print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S4-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
