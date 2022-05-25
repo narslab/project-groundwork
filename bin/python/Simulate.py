@@ -1715,9 +1715,13 @@ def run_benefit_simulation_S2(data, data_broadband):
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
+            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df=df.append(df_new, ignore_index = True)
+        el_underground_proportion = el_underground_mileage/el_total_mileage
+        print('el under proportion:',el_underground_proportion)
+        el_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print(br_underground_proportion)
+        print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S2-benefit-simulation.csv', index = False)
     return(df.set_index(["year","segment number"]))
@@ -1869,7 +1873,11 @@ def run_benefit_simulation_S4(data, data_broadband):
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
+            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df=df.append(df_new, ignore_index = True)
+        el_underground_proportion = el_underground_mileage/el_total_mileage
+        print('el under proportion:',el_underground_proportion)
+        el_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print(br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
