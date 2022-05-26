@@ -811,17 +811,17 @@ class Broadband_line_segment:
         self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total_cost)
 
-    def calculate_economic_loss(self, proportion=1): 
+    def calculate_economic_loss(self, proportion=0.34): 
         """A method to quantify employee productivity cost based on line segment status"""    
         status = self.underground[-1]
         economic_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour']*self.inputs.parameter_dict['outage_hours']
         if status==1: #underground line
-            under_percentage=proportion/(1-self.inputs.parameter_dict["overhead_proportion"])
+            over_percentage=(1-proportion)/(self.inputs.parameter_dict["overhead_proportion"])
             outage_probability=self.inputs.parameter_dict['outage_underground']
         else:
-            under_percentage=proportion/(1-self.inputs.parameter_dict["overhead_proportion"])
+            over_percentage=(1-proportion)/(self.inputs.parameter_dict["overhead_proportion"])
             outage_probability=self.inputs.parameter_dict['outage_overhead']
-        self.total_economic_losses.append(economic_loss*under_percentage*outage_probability)
+        self.total_economic_losses.append(economic_loss*over_percentage*outage_probability)
         return (self.total_economic_losses)
     
 def test():
