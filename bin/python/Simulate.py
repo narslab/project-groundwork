@@ -1244,7 +1244,7 @@ def run_cost_simulation_S10(data, data_broadband):
             disaggregated_current=True
             joint_trench_current=True
             aggressive_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2298,8 +2298,8 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
 #run_cost_simulation_S5(data, data_broadband)
 #run_cost_simulation_S6(data, data_broadband)
 #run_cost_simulation_S7(data, data_broadband)
-run_cost_simulation_S8(data, data_broadband)
-run_cost_simulation_S9(data, data_broadband)
+#run_cost_simulation_S8(data, data_broadband)
+#run_cost_simulation_S9(data, data_broadband)
 run_cost_simulation_S10(data, data_broadband)
 run_cost_simulation_S11(data, data_broadband)
 run_cost_simulation_S12(data, data_broadband)
