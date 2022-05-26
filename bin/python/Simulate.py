@@ -433,7 +433,8 @@ def run_cost_simulation_S1(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -521,7 +522,8 @@ def run_cost_simulation_S2(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -610,7 +612,8 @@ def run_cost_simulation_S3(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -698,7 +701,8 @@ def run_cost_simulation_S4(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -787,7 +791,8 @@ def run_cost_simulation_S5(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -885,7 +890,8 @@ def run_cost_simulation_S6(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -984,7 +990,8 @@ def run_cost_simulation_S7(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -1054,6 +1061,7 @@ def run_cost_simulation_S8(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
+            br_line_segment_array[i].update_age()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1070,7 +1078,8 @@ def run_cost_simulation_S8(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -1140,6 +1149,7 @@ def run_cost_simulation_S9(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
+            br_line_segment_array[i].update_age()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1156,7 +1166,8 @@ def run_cost_simulation_S9(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -1256,7 +1267,8 @@ def run_cost_simulation_S10(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -1355,7 +1367,8 @@ def run_cost_simulation_S11(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -1426,6 +1439,7 @@ def run_cost_simulation_S12(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
+            br_line_segment_array[i].update_age()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1442,7 +1456,8 @@ def run_cost_simulation_S12(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -1513,6 +1528,7 @@ def run_cost_simulation_S13(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
+            br_line_segment_array[i].update_age()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1529,7 +1545,8 @@ def run_cost_simulation_S13(data, data_broadband):
                                  'year': [t],
                                  'segment number':[i],
                                  'length':[el_line_segment_array[i].length],
-                                 'age': [el_line_segment_array[i].age[t]],
+                                 'age_el': [el_line_segment_array[i].age[t]],
+                                 'age_br': [br_line_segment_array[i].age[t]],
                                  'under_el': [el_line_segment_array[i].underground[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
                                  'capex_el':[el_line_segment_array[i].capex[t]],
@@ -2272,3 +2289,18 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
     df_under_pro.to_csv(r'../../results/outcomes/S10-to-S13-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)
+
+
+#run_cost_simulation_S1(data, data_broadband)
+#run_cost_simulation_S2(data, data_broadband)
+#run_cost_simulation_S3(data, data_broadband)
+#run_cost_simulation_S4(data, data_broadband)
+#run_cost_simulation_S5(data, data_broadband)
+#run_cost_simulation_S6(data, data_broadband)
+#run_cost_simulation_S7(data, data_broadband)
+run_cost_simulation_S8(data, data_broadband)
+run_cost_simulation_S9(data, data_broadband)
+run_cost_simulation_S10(data, data_broadband)
+run_cost_simulation_S11(data, data_broadband)
+run_cost_simulation_S12(data, data_broadband)
+run_cost_simulation_S13(data, data_broadband)
