@@ -1600,7 +1600,7 @@ def run_benefit_simulation_S1(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1692,7 +1692,7 @@ def run_benefit_simulation_S2(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1795,7 +1795,7 @@ def run_benefit_simulation_S3(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1904,7 +1904,7 @@ def run_benefit_simulation_S4(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2004,7 +2004,7 @@ def run_benefit_simulation_S5(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2103,7 +2103,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2213,7 +2213,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss() 
+            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2305,10 +2305,10 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
 #run_cost_simulation_S12(data, data_broadband)
 #run_cost_simulation_S13(data, data_broadband)
 
-#run_benefit_simulation_S1(data, data_broadband)
-#run_benefit_simulation_S2(data, data_broadband)
-#run_benefit_simulation_S3(data, data_broadband)
-#run_benefit_simulation_S4(data, data_broadband)
-#run_benefit_simulation_S5(data, data_broadband)
-#run_benefit_simulation_S6_to_s9(data, data_broadband)
-#run_benefit_simulation_S10_to_s13(data, data_broadband)
+run_benefit_simulation_S1(data, data_broadband)
+run_benefit_simulation_S2(data, data_broadband)
+run_benefit_simulation_S3(data, data_broadband)
+run_benefit_simulation_S4(data, data_broadband)
+run_benefit_simulation_S5(data, data_broadband)
+run_benefit_simulation_S6_to_s9(data, data_broadband)
+run_benefit_simulation_S10_to_s13(data, data_broadband)

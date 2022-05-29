@@ -469,21 +469,24 @@ class Electric_line_segment:
 #         return(self.total_inflated_economic_benefits)  
 # =============================================================================
 
-    def calculate_economic_loss(self):
+    def calculate_economic_loss(self, proportion=0.34):
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         if self.underground[-1]==1:
             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
         else:
             outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
+        
+        over_percentage=(1-proportion)/(self.inputs.parameter_dict["overhead_proportion"])
         residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
         commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
         industry_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
         self.residential_loss.append(residential_loss_current)
         self.commercial_loss.append(commercial_loss_current)
         self.industry_loss.append(industry_loss_current)
-        total_economic_loss_current = residential_loss_current + commercial_loss_current + industry_loss_current
+        total_economic_loss_current = over_percentage*(residential_loss_current + commercial_loss_current + industry_loss_current)
         self.total_economic_losses.append(total_economic_loss_current)
         return(self.total_economic_losses)  
+
 
     #Add interest rate to economic benefit.
     def add_economic_loss_interest_rate(self):
