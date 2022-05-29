@@ -129,6 +129,8 @@ class Broadband_model_inputs:
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
+            "aesthetic_benefit_proportion":0.03,
+            "inflation_rate_benefit":0,
             "service_area": 21.7, # square mile (town of Shrewsbury area)
             "single_phase_probability":0.6,
             "log_clay_probabiliy":[0.0004,0.1649,0.0202,0.0002,0.0667,0.0078,0.397,0.2282,0.0401,0.0714,0.003],
@@ -599,6 +601,8 @@ class Broadband_line_segment:
         self.total_inflated_aesthetic_losses=[0]
         self.total_economic_losses=[0]
         self.total_inflated_economic_losses=[0]
+        self.total_aesthetic_benefits=[0]
+        self.total_inflated_aesthetic_benefits=[0]
         self.total_losses=[0]
         single_phase_probability = random.uniform(0,1)
         if single_phase_probability > self.inputs.parameter_dict['single_phase_probability']: # if underground = 0, then segment is overhead.
@@ -826,6 +830,29 @@ class Broadband_line_segment:
             outage_probability=self.inputs.parameter_dict['outage_overhead']
         self.total_economic_losses.append(economic_loss*over_percentage*outage_probability)
         return (self.total_economic_losses)
+
+    #Define a function to calculate aesthetic benefit
+    def calculate_aesthetic_benefits(self):
+        if self.underground[-1]==1:
+            corridor_width_current=self.inputs.parameter_dict['overhead_line']['corridor_width']
+        else:
+            corridor_width_current=self.inputs.parameter_dict['underground_line']['corridor_width']
+        if self.underground[-1]==1:
+            if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                aesthetic_benefit_current=corridor_width_current/5280*self.length/self.inputs.parameter_dict["service_area"]*self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']*self.inputs.parameter_dict['aesthetic_benefit_proportion']
+                self.total_aesthetic_benefits.append(aesthetic_benefit_current)
+            else:
+                self.total_aesthetic_benefits.append(0)
+        else:
+            self.total_aesthetic_benefits.append(0)
+        return(self.total_aesthetic_benefits) 
+
+    #Add interest rate to aesthetic benefit.
+    def add_aesthetic_benefits_interest_rate(self):
+        aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
+        return(self.total_inflated_aesthetic_benefits)
+
     
 def test():
     model_data=Electric_model_inputs()
