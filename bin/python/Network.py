@@ -130,6 +130,7 @@ class Broadband_model_inputs:
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
             "aesthetic_benefit_proportion":0.03,
+            "Shrewsbury_tax_levy_2021": 85713912.0,
             "inflation_rate_benefit":0,
             "service_area": 21.7, # square mile (town of Shrewsbury area)
             "single_phase_probability":0.6,
@@ -847,11 +848,6 @@ class Broadband_line_segment:
             self.total_aesthetic_benefits.append(0)
         return(self.total_aesthetic_benefits) 
 
-    #Add interest rate to aesthetic benefit.
-    def add_aesthetic_benefits_interest_rate(self):
-        aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
-        self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
-        return(self.total_inflated_aesthetic_benefits)
 
     
 def test():

@@ -1650,10 +1650,10 @@ def run_benefit_simulation_S1(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -1754,10 +1754,10 @@ def run_benefit_simulation_S2(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -1860,10 +1860,10 @@ def run_benefit_simulation_S3(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -1962,10 +1962,10 @@ def run_benefit_simulation_S4(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2065,10 +2065,10 @@ def run_benefit_simulation_S5(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2177,10 +2177,10 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2292,10 +2292,10 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
                                  'under_br': [br_line_segment_array[i].underground[t]],
-                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_inflated_aesthetic_benefits[t]],
+                                 'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new['aesthetic_benefit_br']=df_new['aesthetic_benefit_br']*br_underground_proportion
+            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2326,7 +2326,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
 #run_cost_simulation_S12(data, data_broadband)
 #run_cost_simulation_S13(data, data_broadband)
 
-run_benefit_simulation_S1(data, data_broadband)
+#run_benefit_simulation_S1(data, data_broadband)
 run_benefit_simulation_S2(data, data_broadband)
 run_benefit_simulation_S3(data, data_broadband)
 run_benefit_simulation_S4(data, data_broadband)
