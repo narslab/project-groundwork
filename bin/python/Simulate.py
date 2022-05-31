@@ -674,11 +674,10 @@ def run_cost_simulation_S4(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
     # SQ for broadband line segment
-    #disaggregated_current=True
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     for i in range (data_broadband.parameter_dict['segment_number']):
-        br_segment=network.Broadband_line_segment(data)
+        br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
@@ -687,7 +686,7 @@ def run_cost_simulation_S4(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_replcost()
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -696,7 +695,8 @@ def run_cost_simulation_S4(data, data_broadband):
             br_line_segment_array[i].calculate_non_fatal_cost()
             br_line_segment_array[i].calculate_fatal_cost()
             br_line_segment_array[i].calculate_total_safety()
-            br_line_segment_array[i].calculate_total_cost()                                            
+            br_line_segment_array[i].calculate_total_cost()
+                                        
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -1739,7 +1739,6 @@ def run_benefit_simulation_S2(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
-            disaggregated_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -1844,7 +1843,6 @@ def run_benefit_simulation_S3(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
-            disaggregated_current=True
             aggressive_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
@@ -1938,7 +1936,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
         
-    # Broadband line segment    
+# Broadband line segment    
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_total_mileage = data_broadband.parameter_dict['total_length']
@@ -1977,7 +1975,7 @@ def run_benefit_simulation_S4(data, data_broadband):
     df=pd.concat([df1, df2], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
     df.to_csv(r'../../results/outcomes/Benefit/Simulation/S4-benefit-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S4-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))
     #return(df)
 

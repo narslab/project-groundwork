@@ -252,7 +252,7 @@ def aggregate_costs_S1_to_S13(data, data_broadband):
     df_output_S13=Simulate.run_cost_simulation_S13(data, data_broadband)
     df_analyze_result_S13=df_output_S13.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S13.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S13.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S12.csv', index = False)
+    df_analyze_result_S13.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S13.csv', index = False)
     return(df_analyze_result_S1, df_analyze_result_S2, df_analyze_result_S3, df_analyze_result_S4, df_analyze_result_S5, df_analyze_result_S6, df_analyze_result_S7, df_analyze_result_S8, df_analyze_result_S9, df_analyze_result_S10, df_analyze_result_S11, df_analyze_result_S12, df_analyze_result_S13)
 
 
@@ -855,10 +855,10 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
         S4_npv_economic_losses_el.append(row['economic_losses_el']/(1+data.parameter_dict['r'])**index)
         S4_npv_aesthetic_benefit_br.append(row['aesthetic_benefit_br']/(1+data_broadband.parameter_dict['r'])**index)
         S4_npv_economic_loss_br.append(row['economic_loss_br']/(1+data_broadband.parameter_dict['r'])**index)
-    S4_total_aesthetic_benefit_el=sum(S1_npv_aesthetic_benefit_el)
-    S4_total_economic_losses_el=sum(S1_npv_economic_losses_el)
-    S4_total_aesthetic_benefit_br=sum(S1_npv_aesthetic_benefit_br)
-    S4_total_economic_loss_br=sum(S1_npv_economic_loss_br)
+    S4_total_aesthetic_benefit_el=sum(S4_npv_aesthetic_benefit_el)
+    S4_total_economic_losses_el=sum(S4_npv_economic_losses_el)
+    S4_total_aesthetic_benefit_br=sum(S4_npv_aesthetic_benefit_br)
+    S4_total_economic_loss_br=sum(S4_npv_economic_loss_br)
     S4_df_npv= pd.DataFrame({'aesthetic_benefit_el':[S4_total_aesthetic_benefit_el],
                              'economic_losses_el':[S4_total_economic_losses_el],
                              'aesthetic_benefit_br':[S4_total_aesthetic_benefit_br],
@@ -934,3 +934,5 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                             )
     npv_cost.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit.csv', index = False) 
     return([S10_total_aesthetic_benefit_el, S10_total_economic_losses_el, S10_total_aesthetic_benefit_br, S10_total_economic_loss_br])
+
+

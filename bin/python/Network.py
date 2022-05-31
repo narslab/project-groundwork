@@ -33,8 +33,8 @@ class Electric_model_inputs:
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':40,'replcost':104000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':357000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000},
+            "overhead_line":{'lifespan':40,'replcost':51000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':154000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -45,7 +45,7 @@ class Electric_model_inputs:
             "service_area": 21.7,
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
-            "joint_trench_additional":0.1,
+            "joint_trench_additional":0.022, # 10% additioanal cost for bigger trench (0.22*10%=0.022)
             "SAIDI":4.17,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
             "USD_per_Customer_Hour_Interruption_Residential":4.2,
@@ -121,8 +121,8 @@ class Broadband_model_inputs:
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':40,'replcost':256000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.01,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':410000,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.13,'corridor_width':15 ,'over_under_convertcost':2570000, 'over_under_joint_proportion_convertcost':0.28},
+            "overhead_line":{'lifespan':40,'replcost':17960,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.01,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':53900,'replcost_growth_rate':0.0,'om_growth_rate':0.05,'om_proportion_replcost':0.13,'corridor_width':15 ,'over_under_convertcost':245000, 'over_under_joint_proportion_convertcost':0.28},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -476,17 +476,17 @@ class Electric_line_segment:
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         if self.underground[-1]==1:
             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
+            percentage=proportion
         else:
             outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
-        
-        over_percentage=(1-proportion)/(self.inputs.parameter_dict["overhead_proportion"])
+            percentage=1-proportion
         residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
         commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
         industry_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
         self.residential_loss.append(residential_loss_current)
         self.commercial_loss.append(commercial_loss_current)
         self.industry_loss.append(industry_loss_current)
-        total_economic_loss_current = over_percentage*(residential_loss_current + commercial_loss_current + industry_loss_current)
+        total_economic_loss_current = percentage*(residential_loss_current + commercial_loss_current + industry_loss_current)
         self.total_economic_losses.append(total_economic_loss_current)
         return(self.total_economic_losses)  
 
@@ -824,12 +824,12 @@ class Broadband_line_segment:
         status = self.underground[-1]
         economic_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour']*self.inputs.parameter_dict['outage_hours']
         if status==1: #underground line
-            over_percentage=(1-proportion)/(self.inputs.parameter_dict["overhead_proportion"])
             outage_probability=self.inputs.parameter_dict['outage_underground']
+            percentage=proportion
         else:
-            over_percentage=(1-proportion)/(self.inputs.parameter_dict["overhead_proportion"])
             outage_probability=self.inputs.parameter_dict['outage_overhead']
-        self.total_economic_losses.append(economic_loss*over_percentage*outage_probability)
+            percentage=1-proportion
+        self.total_economic_losses.append(economic_loss*percentage*outage_probability)
         return (self.total_economic_losses)
 
     #Define a function to calculate aesthetic benefit
