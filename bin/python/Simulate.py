@@ -1309,8 +1309,9 @@ def run_cost_simulation_S11(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             convert_new=False
             disaggregated_current=True
+            aggressive_current=True
             joint_trench_current=False
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1342,8 +1343,9 @@ def run_cost_simulation_S11(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             convert_new=False
             #disaggregated_current=True
+            aggressive_current=True
             joint_trench_current=False
-            lifespan_exceeded=br_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
