@@ -418,7 +418,7 @@ def run_cost_simulation_S1(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
+            br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -508,7 +508,7 @@ def run_cost_simulation_S2(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
+            br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -686,7 +686,7 @@ def run_cost_simulation_S4(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
+            br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -1419,8 +1419,8 @@ def run_cost_simulation_S12(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             convert_new=False
             disaggregated_current=True
-            joint_trench_current=True
             aggressive_current=True
+            joint_trench_current=True
             lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -1441,9 +1441,9 @@ def run_cost_simulation_S12(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age(aggressive=aggressive_current)
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost( joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -1508,8 +1508,8 @@ def run_cost_simulation_S13(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             convert_new=False
             disaggregated_current=True
-            joint_trench_current=False
             aggressive_current=True
+            joint_trench_current=False
             lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
@@ -1530,7 +1530,7 @@ def run_cost_simulation_S13(data, data_broadband):
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age(aggressive=aggressive_current)
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1572,7 +1572,6 @@ def run_cost_simulation_S13(data, data_broadband):
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S13-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
-
 
 ### Benefits simulation functions
 

@@ -1,14 +1,118 @@
 Strategy,lifecycle_infrastructure_el,environmental_restoration_el,safety_el,total_cost_el,lifecycle_infrastructure_br,environmental_restoration_br,safety_br,total_cost_br
-S1,1.57E+06,0,166163.9991,1.73E+06,1.98E+07,0,166163.9991,2.00E+07
-S2,1.57E+06,0,166163.9991,1.73E+06,7.37E+07,314891.7243,1.59E+06,7.56E+07
-S3,1.57E+06,0,166163.9991,1.73E+06,7.24E+07,933516.8186,4.43E+06,7.77E+07
-S4,5.83E+06,314891.7243,1.59E+06,7.74E+06,1.98E+07,0,166163.9991,2.00E+07
-S5,1.57E+06,0,166163.9991,1.73E+06,7.24E+07,933516.8186,4.43E+06,7.77E+07
-S6,1.36E+07,314891.7243,1.59E+06,1.55E+07,3.18E+07,314891.7243,1.59E+06,3.37E+07
-S7,5.83E+06,314891.7243,1.59E+06,7.74E+06,7.37E+07,314891.7243,1.59E+06,7.56E+07
-S8,1.36E+07,314891.7243,1.59E+06,1.55E+07,3.18E+07,314891.7243,1.59E+06,3.37E+07
-S9,5.83E+06,314891.7243,1.59E+06,7.74E+06,7.37E+07,314891.7243,1.59E+06,7.56E+07
-S10,3.38E+07,933516.8186,4.43E+06,3.92E+07,6.08E+07,933516.8186,4.43E+06,6.62E+07
-S11,1.54E+07,933516.8186,4.43E+06,2.08E+07,7.24E+07,933516.8186,4.43E+06,7.77E+07
-S12,3.38E+07,933516.8186,4.43E+06,3.92E+07,4.51E+07,933516.8186,4.43E+06,5.04E+07
-S13,1.54E+07,933516.8186,4.43E+06,2.08E+07,4.56E+07,933516.8186,4.43E+06,5.10E+07
+S1,"0    1.565091e+06
+Name: lifecycle_infrastructure_el, dtype: float64","0    0.0
+Name: environmental_restoration_el, dtype: float64","0    166163.999121
+Name: safety_el, dtype: float64","0    1.731255e+06
+Name: total_cost_el, dtype: float64","0    848091.174911
+Name: lifecycle_infrastructure_br, dtype: float64","0    0.0
+Name: environmental_restoration_br, dtype: float64","0    166163.999121
+Name: safety_br, dtype: float64","0    1.014255e+06
+Name: total_cost_br, dtype: float64"
+S2,"0    1.565091e+06
+Name: lifecycle_infrastructure_el, dtype: float64","0    0.0
+Name: environmental_restoration_el, dtype: float64","0    166163.999121
+Name: safety_el, dtype: float64","0    1.731255e+06
+Name: total_cost_el, dtype: float64","0    5.733280e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    314891.724278
+Name: environmental_restoration_br, dtype: float64","0    1.588146e+06
+Name: safety_br, dtype: float64","0    7.636317e+06
+Name: total_cost_br, dtype: float64"
+S3,"0    1.565091e+06
+Name: lifecycle_infrastructure_el, dtype: float64","0    0.0
+Name: environmental_restoration_el, dtype: float64","0    166163.999121
+Name: safety_el, dtype: float64","0    1.731255e+06
+Name: total_cost_el, dtype: float64","0    1.348075e+07
+Name: lifecycle_infrastructure_br, dtype: float64","0    933516.818577
+Name: environmental_restoration_br, dtype: float64","0    4.433125e+06
+Name: safety_br, dtype: float64","0    1.884739e+07
+Name: total_cost_br, dtype: float64"
+S4,"0    1.329560e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    314891.724278
+Name: environmental_restoration_el, dtype: float64","0    1.588146e+06
+Name: safety_el, dtype: float64","0    1.519864e+07
+Name: total_cost_el, dtype: float64","0    848091.174911
+Name: lifecycle_infrastructure_br, dtype: float64","0    0.0
+Name: environmental_restoration_br, dtype: float64","0    166163.999121
+Name: safety_br, dtype: float64","0    1.014255e+06
+Name: total_cost_br, dtype: float64"
+S5,"0    1.565091e+06
+Name: lifecycle_infrastructure_el, dtype: float64","0    0.0
+Name: environmental_restoration_el, dtype: float64","0    166163.999121
+Name: safety_el, dtype: float64","0    1.731255e+06
+Name: total_cost_el, dtype: float64","0    1.348075e+07
+Name: lifecycle_infrastructure_br, dtype: float64","0    933516.818577
+Name: environmental_restoration_br, dtype: float64","0    4.433125e+06
+Name: safety_br, dtype: float64","0    1.884739e+07
+Name: total_cost_br, dtype: float64"
+S6,"0    1.356932e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    314891.724278
+Name: environmental_restoration_el, dtype: float64","0    1.588146e+06
+Name: safety_el, dtype: float64","0    1.547236e+07
+Name: total_cost_el, dtype: float64","0    1.937594e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    314891.724278
+Name: environmental_restoration_br, dtype: float64","0    1.588146e+06
+Name: safety_br, dtype: float64","0    3.840631e+06
+Name: total_cost_br, dtype: float64"
+S7,"0    1.329560e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    314891.724278
+Name: environmental_restoration_el, dtype: float64","0    1.588146e+06
+Name: safety_el, dtype: float64","0    1.519864e+07
+Name: total_cost_el, dtype: float64","0    5.733280e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    314891.724278
+Name: environmental_restoration_br, dtype: float64","0    1.588146e+06
+Name: safety_br, dtype: float64","0    7.636317e+06
+Name: total_cost_br, dtype: float64"
+S8,"0    1.356932e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    314891.724278
+Name: environmental_restoration_el, dtype: float64","0    1.588146e+06
+Name: safety_el, dtype: float64","0    1.547236e+07
+Name: total_cost_el, dtype: float64","0    1.937594e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    314891.724278
+Name: environmental_restoration_br, dtype: float64","0    1.588146e+06
+Name: safety_br, dtype: float64","0    3.840631e+06
+Name: total_cost_br, dtype: float64"
+S9,"0    1.329560e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    314891.724278
+Name: environmental_restoration_el, dtype: float64","0    1.588146e+06
+Name: safety_el, dtype: float64","0    1.519864e+07
+Name: total_cost_el, dtype: float64","0    5.733280e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    314891.724278
+Name: environmental_restoration_br, dtype: float64","0    1.588146e+06
+Name: safety_br, dtype: float64","0    7.636317e+06
+Name: total_cost_br, dtype: float64"
+S10,"0    3.215202e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    933516.818577
+Name: environmental_restoration_el, dtype: float64","0    4.433125e+06
+Name: safety_el, dtype: float64","0    3.751866e+07
+Name: total_cost_el, dtype: float64","0    4.549283e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    933516.818577
+Name: environmental_restoration_br, dtype: float64","0    4.433125e+06
+Name: safety_br, dtype: float64","0    9.915925e+06
+Name: total_cost_br, dtype: float64"
+S11,"0    3.150277e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    933516.818577
+Name: environmental_restoration_el, dtype: float64","0    4.433125e+06
+Name: safety_el, dtype: float64","0    3.686942e+07
+Name: total_cost_el, dtype: float64","0    1.348075e+07
+Name: lifecycle_infrastructure_br, dtype: float64","0    933516.818577
+Name: environmental_restoration_br, dtype: float64","0    4.433125e+06
+Name: safety_br, dtype: float64","0    1.884739e+07
+Name: total_cost_br, dtype: float64"
+S12,"0    3.215202e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    933516.818577
+Name: environmental_restoration_el, dtype: float64","0    4.433125e+06
+Name: safety_el, dtype: float64","0    3.751866e+07
+Name: total_cost_el, dtype: float64","0    1.127827e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    933516.818577
+Name: environmental_restoration_br, dtype: float64","0    4.433125e+06
+Name: safety_br, dtype: float64","0    6.494469e+06
+Name: total_cost_br, dtype: float64"
+S13,"0    3.150277e+07
+Name: lifecycle_infrastructure_el, dtype: float64","0    933516.818577
+Name: environmental_restoration_el, dtype: float64","0    4.433125e+06
+Name: safety_el, dtype: float64","0    3.686942e+07
+Name: total_cost_el, dtype: float64","0    1.626845e+06
+Name: lifecycle_infrastructure_br, dtype: float64","0    933516.818577
+Name: environmental_restoration_br, dtype: float64","0    4.433125e+06
+Name: safety_br, dtype: float64","0    6.993487e+06
+Name: total_cost_br, dtype: float64"

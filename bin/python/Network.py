@@ -45,7 +45,7 @@ class Electric_model_inputs:
             "service_area": 21.7,
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
-            "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
+            "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.088)
             "SAIDI":4.17,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
             "USD_per_Customer_Hour_Interruption_Residential":4.2,
@@ -121,8 +121,8 @@ class Broadband_model_inputs:
             "vsl":6900000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.2,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.2,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
+            "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -249,10 +249,16 @@ class Electric_line_segment:
             else:
                 lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
         else:
-            if self.underground[-1]==1:
-                lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+            if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                if self.underground[-1]==1:
+                    lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+                else:
+                    lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
             else:
-                lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+                if self.underground[-1]==1:
+                    lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+                else:
+                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])                 
         age_current=self.age[-1]
         if age_current>lifespan_current:
             self.age.append(1)
@@ -291,14 +297,14 @@ class Electric_line_segment:
         
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
     def calculate_replcost(self,disaggregated_function=False, joint_trench=False):
-        if disaggregated_function==False:
+        if disaggregated_function==True:
             if joint_trench==True:
                 conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]*(1+self.inputs.parameter_dict['joint_trench_additional'])
             else:
                 conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]
         else:
             if joint_trench==True:
-                conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]*(1+self.inputs.parameter_dict['joint_trench_additional'])
+                conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']*(1+self.inputs.parameter_dict['joint_trench_additional'])
             else:
                 conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
         underground_current=self.underground[-1]
@@ -646,10 +652,16 @@ class Broadband_line_segment:
             else:
                 lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
         else:
-            if self.underground[-1]==1:
-                lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+            if self.underground[:-1]==[0]*len(self.underground[:-1]):
+                if self.underground[-1]==1:
+                    lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+                else:
+                    lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
             else:
-                lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+                if self.underground[-1]==1:
+                    lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+                else:
+                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])                 
         age_current=self.age[-1]
         if age_current>lifespan_current:
             self.age.append(1)

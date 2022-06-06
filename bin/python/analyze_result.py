@@ -936,3 +936,100 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
     return([S10_total_aesthetic_benefit_el, S10_total_economic_losses_el, S10_total_aesthetic_benefit_br, S10_total_economic_loss_br])
 
 
+
+
+
+### Test
+def test1(data, data_broadband):
+   # S12
+    df_output_S12=Simulate.run_cost_simulation_S12(data, data_broadband)
+    df_analyze_result_S12=df_output_S12.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
+    df_analyze_result_S12.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
+    df_analyze_result_S12.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S12.csv', index = False)
+   # S13
+    df_output_S13=Simulate.run_cost_simulation_S13(data, data_broadband)
+    df_analyze_result_S13=df_output_S13.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
+    df_analyze_result_S13.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
+    df_analyze_result_S13.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S13.csv', index = False)
+    return(df_analyze_result_S12, df_analyze_result_S13)
+
+
+
+
+
+def test2(data, data_broadband):
+    df_analyze_result_S12,  df_analyze_result_S13=test1(data, data_broadband)    
+    # S12
+    S12_npv_infrastructure_cost_el=[]
+    S12_npv_environmental_cost_el=[]
+    S12_npv_safety_cost_el=[]
+    S12_npv_total_cost_el=[]
+    S12_npv_infrastructure_cost_br=[]
+    S12_npv_environmental_cost_br=[]
+    S12_npv_safety_cost_br=[]
+    S12_npv_total_cost_br=[]
+    for index, row in df_analyze_result_S12.iterrows():
+        S12_npv_infrastructure_cost_el.append(row['lifecycle_infrastructure_el']/(1+data.parameter_dict['r'])**index)
+        S12_npv_environmental_cost_el.append(row['environmental_restoration_el']/(1+data.parameter_dict['r'])**index)
+        S12_npv_safety_cost_el.append(row['safety_el']/(1+data.parameter_dict['r'])**index)
+        S12_npv_total_cost_el.append(row['total_cost_el']/(1+data.parameter_dict['r'])**index)
+        S12_npv_infrastructure_cost_br.append(row['lifecycle_infrastructure_br']/(1+data_broadband.parameter_dict['r'])**index)
+        S12_npv_environmental_cost_br.append(row['environmental_restoration_br']/(1+data_broadband.parameter_dict['r'])**index)
+        S12_npv_safety_cost_br.append(row['safety_br']/(1+data_broadband.parameter_dict['r'])**index)
+        S12_npv_total_cost_br.append(row['total_cost_br']/(1+data_broadband.parameter_dict['r'])**index)
+    S12_total_infrastructre_el=sum(S12_npv_infrastructure_cost_el)
+    S12_total_environmental_el=sum(S12_npv_environmental_cost_el)
+    S12_total_safety_el=sum(S12_npv_safety_cost_el)
+    S12_total_cost_el=sum(S12_npv_total_cost_el)
+    S12_total_infrastructre_br=sum(S12_npv_infrastructure_cost_br)
+    S12_total_environmental_br=sum(S12_npv_environmental_cost_br)
+    S12_total_safety_br=sum(S12_npv_safety_cost_br)
+    S12_total_cost_br=sum(S12_npv_total_cost_br)
+    S12_df_npv= pd.DataFrame({'lifecycle_infrastructure_el':[S12_total_infrastructre_el],
+                             'environmental_restoration_el':[S12_total_environmental_el],
+                             'safety_el':[S12_total_safety_el],
+                             'total_cost_el':[S12_total_cost_el],
+                             'lifecycle_infrastructure_br':[S12_total_infrastructre_br],
+                             'environmental_restoration_br':[S12_total_environmental_br],
+                             'safety_br':[S12_total_safety_br],
+                             'total_cost_br':[S12_total_cost_br]},
+                            )
+    S12_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S12.csv', index = False) 
+    # S13
+    S13_npv_infrastructure_cost_el=[]
+    S13_npv_environmental_cost_el=[]
+    S13_npv_safety_cost_el=[]
+    S13_npv_total_cost_el=[]
+    S13_npv_infrastructure_cost_br=[]
+    S13_npv_environmental_cost_br=[]
+    S13_npv_safety_cost_br=[]
+    S13_npv_total_cost_br=[]
+    for index, row in df_analyze_result_S13.iterrows():
+        S13_npv_infrastructure_cost_el.append(row['lifecycle_infrastructure_el']/(1+data.parameter_dict['r'])**index)
+        S13_npv_environmental_cost_el.append(row['environmental_restoration_el']/(1+data.parameter_dict['r'])**index)
+        S13_npv_safety_cost_el.append(row['safety_el']/(1+data.parameter_dict['r'])**index)
+        S13_npv_total_cost_el.append(row['total_cost_el']/(1+data.parameter_dict['r'])**index)
+        S13_npv_infrastructure_cost_br.append(row['lifecycle_infrastructure_br']/(1+data_broadband.parameter_dict['r'])**index)
+        S13_npv_environmental_cost_br.append(row['environmental_restoration_br']/(1+data_broadband.parameter_dict['r'])**index)
+        S13_npv_safety_cost_br.append(row['safety_br']/(1+data_broadband.parameter_dict['r'])**index)
+        S13_npv_total_cost_br.append(row['total_cost_br']/(1+data_broadband.parameter_dict['r'])**index)
+    S13_total_infrastructre_el=sum(S13_npv_infrastructure_cost_el)
+    S13_total_environmental_el=sum(S13_npv_environmental_cost_el)
+    S13_total_safety_el=sum(S13_npv_safety_cost_el)
+    S13_total_cost_el=sum(S13_npv_total_cost_el)
+    S13_total_infrastructre_br=sum(S13_npv_infrastructure_cost_br)
+    S13_total_environmental_br=sum(S13_npv_environmental_cost_br)
+    S13_total_safety_br=sum(S13_npv_safety_cost_br)
+    S13_total_cost_br=sum(S13_npv_total_cost_br)
+    S13_df_npv= pd.DataFrame({'lifecycle_infrastructure_el':[S13_total_infrastructre_el],
+                             'environmental_restoration_el':[S13_total_environmental_el],
+                             'safety_el':[S13_total_safety_el],
+                             'total_cost_el':[S13_total_cost_el],
+                             'lifecycle_infrastructure_br':[S13_total_infrastructre_br],
+                             'environmental_restoration_br':[S13_total_environmental_br],
+                             'safety_br':[S13_total_safety_br],
+                             'total_cost_br':[S13_total_cost_br]},
+                            )
+    S13_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S13.csv', index = False) 
+
+    return([S12_total_infrastructre_el, ])
