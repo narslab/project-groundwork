@@ -1,0 +1,11 @@
+Parameter,%change in benefit resulted from +%10 change in parameter,%change in benefit resulted from -%10 change in parameter
+SAIDI,9.977988,-9.977988
+USD_per_Customer_Hour_Interruption_Industrial,8.689495,-8.689495
+USD_per_Customer_Hour_Interruption_Commercial,1.285066,-1.285066
+USD_per_Customer_Hour_Interruption_Residential,0.003427,-0.003427
+total_employees,0.022012,-0.022012
+affected_employees,0.022012,-0.022012
+cost_per_hour,0.022012,-0.022012
+outage_hours,0.022012,-0.022012
+service_area,0,0
+Shrewsbury_tax_levy_2021,0,0

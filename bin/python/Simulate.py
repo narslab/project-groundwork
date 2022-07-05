@@ -384,6 +384,8 @@ def run_cost_simulation_S1(data, data_broadband):
     disaggregated_current=True
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -391,8 +393,12 @@ def run_cost_simulation_S1(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
@@ -401,21 +407,29 @@ def run_cost_simulation_S1(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
             br_line_segment_array[i].calculate_replcost()
@@ -424,8 +438,8 @@ def run_cost_simulation_S1(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -455,6 +469,8 @@ def run_cost_simulation_S1(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S1-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -465,6 +481,8 @@ def run_cost_simulation_S2(data, data_broadband):
     disaggregated_current=True
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -472,8 +490,12 @@ def run_cost_simulation_S2(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
@@ -482,19 +504,24 @@ def run_cost_simulation_S2(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
@@ -507,6 +534,9 @@ def run_cost_simulation_S2(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
@@ -514,8 +544,8 @@ def run_cost_simulation_S2(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
@@ -544,6 +574,8 @@ def run_cost_simulation_S2(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S2-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -554,6 +586,8 @@ def run_cost_simulation_S3(data, data_broadband):
     disaggregated_current=True
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -561,8 +595,12 @@ def run_cost_simulation_S3(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
@@ -571,19 +609,24 @@ def run_cost_simulation_S3(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
@@ -597,6 +640,9 @@ def run_cost_simulation_S3(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
@@ -604,8 +650,8 @@ def run_cost_simulation_S3(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
@@ -634,6 +680,8 @@ def run_cost_simulation_S3(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S3-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -643,6 +691,8 @@ def run_cost_simulation_S4(data, data_broadband):
     # SQ for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -650,6 +700,7 @@ def run_cost_simulation_S4(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -662,6 +713,9 @@ def run_cost_simulation_S4(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
@@ -669,21 +723,29 @@ def run_cost_simulation_S4(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
             br_line_segment_array[i].calculate_replcost()
@@ -692,8 +754,8 @@ def run_cost_simulation_S4(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -723,6 +785,8 @@ def run_cost_simulation_S4(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S4-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -732,6 +796,8 @@ def run_cost_simulation_S5(data, data_broadband):
     # SQ for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -739,6 +805,7 @@ def run_cost_simulation_S5(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -752,6 +819,9 @@ def run_cost_simulation_S5(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
@@ -759,22 +829,30 @@ def run_cost_simulation_S5(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     #disaggregated_current=True
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
             br_line_segment_array[i].calculate_replcost()
@@ -783,8 +861,8 @@ def run_cost_simulation_S5(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()                                            
             df_new=pd.DataFrame({
@@ -813,6 +891,8 @@ def run_cost_simulation_S5(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S5-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -822,6 +902,8 @@ def run_cost_simulation_S6(data, data_broadband):
     # SQ for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -829,6 +911,7 @@ def run_cost_simulation_S6(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -842,6 +925,9 @@ def run_cost_simulation_S6(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -849,19 +935,25 @@ def run_cost_simulation_S6(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
@@ -875,6 +967,9 @@ def run_cost_simulation_S6(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -882,8 +977,8 @@ def run_cost_simulation_S6(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
@@ -912,6 +1007,8 @@ def run_cost_simulation_S6(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -921,6 +1018,8 @@ def run_cost_simulation_S7(data, data_broadband):
     # SQ for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -928,6 +1027,7 @@ def run_cost_simulation_S7(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -941,6 +1041,9 @@ def run_cost_simulation_S7(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -948,19 +1051,24 @@ def run_cost_simulation_S7(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
@@ -974,6 +1082,9 @@ def run_cost_simulation_S7(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -981,8 +1092,8 @@ def run_cost_simulation_S7(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -1012,6 +1123,8 @@ def run_cost_simulation_S7(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],                                 
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S7-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -1021,8 +1134,13 @@ def run_cost_simulation_S8(data, data_broadband):
     # SQ for electric and broadband line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -1036,6 +1154,8 @@ def run_cost_simulation_S8(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
+    br_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -1049,6 +1169,9 @@ def run_cost_simulation_S8(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -1056,10 +1179,13 @@ def run_cost_simulation_S8(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_age()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
@@ -1069,8 +1195,8 @@ def run_cost_simulation_S8(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -1100,6 +1226,10 @@ def run_cost_simulation_S8(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        el_underground_mileage=0
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S8-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -1109,8 +1239,13 @@ def run_cost_simulation_S9(data, data_broadband):
     # SQ for electric and broadband line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -1124,6 +1259,8 @@ def run_cost_simulation_S9(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
+    br_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -1137,6 +1274,9 @@ def run_cost_simulation_S9(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -1144,10 +1284,13 @@ def run_cost_simulation_S9(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_age()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
@@ -1157,8 +1300,8 @@ def run_cost_simulation_S9(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -1188,6 +1331,10 @@ def run_cost_simulation_S9(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        el_underground_mileage=0
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S9-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -1197,6 +1344,8 @@ def run_cost_simulation_S10(data, data_broadband):
     # SQ for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -1204,6 +1353,7 @@ def run_cost_simulation_S10(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -1218,6 +1368,9 @@ def run_cost_simulation_S10(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -1225,19 +1378,24 @@ def run_cost_simulation_S10(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
@@ -1252,6 +1410,9 @@ def run_cost_simulation_S10(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1259,8 +1420,8 @@ def run_cost_simulation_S10(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
@@ -1289,6 +1450,8 @@ def run_cost_simulation_S10(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S10-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -1298,6 +1461,9 @@ def run_cost_simulation_S11(data, data_broadband):
     # SQ for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -1305,6 +1471,7 @@ def run_cost_simulation_S11(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -1319,6 +1486,9 @@ def run_cost_simulation_S11(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
+
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -1326,19 +1496,25 @@ def run_cost_simulation_S11(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        el_underground_mileage=0
     # SQ for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
     np.random.seed(10101)
     random.seed(10102)
+    br_under_mileage_percent=1
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
@@ -1353,6 +1529,8 @@ def run_cost_simulation_S11(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost( joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1360,8 +1538,8 @@ def run_cost_simulation_S11(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -1391,6 +1569,8 @@ def run_cost_simulation_S11(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S11-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -1400,8 +1580,13 @@ def run_cost_simulation_S12(data, data_broadband):
     # SQ for electric and broadband line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
+
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -1415,6 +1600,8 @@ def run_cost_simulation_S12(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
+    br_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -1429,6 +1616,8 @@ def run_cost_simulation_S12(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -1436,11 +1625,13 @@ def run_cost_simulation_S12(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_age(aggressive=aggressive_current)
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
@@ -1449,8 +1640,8 @@ def run_cost_simulation_S12(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -1480,6 +1671,10 @@ def run_cost_simulation_S12(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        el_underground_mileage=0
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S12-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
@@ -1489,8 +1684,12 @@ def run_cost_simulation_S13(data, data_broadband):
     # SQ for electric and broadband line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
+    el_underground_base=data.parameter_dict['total_length_underground']
+    el_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     br_line_segment_array=[]
     br_line_segment_length_array=[]
+    br_underground_base=data_broadband.parameter_dict['total_length_underground']
+    br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
     for i in range (data.parameter_dict['segment_number']):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
@@ -1504,6 +1703,8 @@ def run_cost_simulation_S13(data, data_broadband):
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
+    el_under_mileage_percent=1
+    br_under_mileage_percent=1
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(el_line_segment_array)):
             convert_new=False
@@ -1518,6 +1719,8 @@ def run_cost_simulation_S13(data, data_broadband):
                     convert_new=True
                 else:
                     convert_new=False
+            if el_line_segment_array[i].underground[-1] == 1:
+                el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status(convert=convert_new)
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             el_line_segment_array[i].calculate_capex()
@@ -1525,11 +1728,13 @@ def run_cost_simulation_S13(data, data_broadband):
             el_line_segment_array[i].add_opex_interest_rate()
             el_line_segment_array[i].calculate_total_infrastructure_cost()
             el_line_segment_array[i].calculate_environmental_restoration()
-            el_line_segment_array[i].calculate_non_fatal_cost()
-            el_line_segment_array[i].calculate_fatal_cost()
+            el_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=el_under_mileage_percent)
+            el_line_segment_array[i].calculate_fatal_cost(under_len_pro=el_under_mileage_percent)
             el_line_segment_array[i].calculate_total_safety()
             el_line_segment_array[i].calculate_total_cost()
 
+            if br_line_segment_array[i].underground[-1] == 1:
+                br_underground_mileage += el_line_segment_array[i].length
             br_line_segment_array[i].update_age(aggressive=aggressive_current)
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
@@ -1538,8 +1743,8 @@ def run_cost_simulation_S13(data, data_broadband):
             br_line_segment_array[i].add_opex_interest_rate()
             br_line_segment_array[i].calculate_total_infrastructure_cost()
             br_line_segment_array[i].calculate_environmental_restoration()
-            br_line_segment_array[i].calculate_non_fatal_cost()
-            br_line_segment_array[i].calculate_fatal_cost()
+            br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
+            br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
             br_line_segment_array[i].calculate_total_cost()
                                         
@@ -1569,12 +1774,15 @@ def run_cost_simulation_S13(data, data_broadband):
                                  'total_cost_br':[br_line_segment_array[i].total_cost[t]],
                                  })            
             df1=df1.append(df_new, ignore_index = True)
+        el_under_mileage_percent= el_underground_mileage/el_underground_base
+        br_under_mileage_percent= br_underground_mileage/br_underground_base 
+        el_underground_mileage=0
+        br_underground_mileage=0
     df1.to_csv(r'../../results/outcomes/Cost/Simulation/S13-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
 ### Benefits simulation functions
-
 # S1 benefit simulation function 
 def run_benefit_simulation_S1(data, data_broadband):
     #electric line segment
@@ -1601,7 +1809,7 @@ def run_benefit_simulation_S1(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1616,7 +1824,6 @@ def run_benefit_simulation_S1(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -1646,7 +1853,7 @@ def run_benefit_simulation_S1(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -1654,7 +1861,6 @@ def run_benefit_simulation_S1(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -1696,7 +1902,7 @@ def run_benefit_simulation_S2(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1711,7 +1917,6 @@ def run_benefit_simulation_S2(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -1749,7 +1954,7 @@ def run_benefit_simulation_S2(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -1757,7 +1962,6 @@ def run_benefit_simulation_S2(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -1801,7 +2005,7 @@ def run_benefit_simulation_S3(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
             el_line_segment_array[i].update_age()
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1816,7 +2020,6 @@ def run_benefit_simulation_S3(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -1854,7 +2057,7 @@ def run_benefit_simulation_S3(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -1862,7 +2065,6 @@ def run_benefit_simulation_S3(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -1912,7 +2114,7 @@ def run_benefit_simulation_S4(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -1927,7 +2129,6 @@ def run_benefit_simulation_S4(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -1956,7 +2157,7 @@ def run_benefit_simulation_S4(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -1964,7 +2165,6 @@ def run_benefit_simulation_S4(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2015,7 +2215,7 @@ def run_benefit_simulation_S5(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2030,7 +2230,6 @@ def run_benefit_simulation_S5(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -2059,7 +2258,7 @@ def run_benefit_simulation_S5(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status()
             br_line_segment_array[i].update_age()
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -2067,7 +2266,6 @@ def run_benefit_simulation_S5(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2117,7 +2315,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2132,7 +2330,6 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -2171,7 +2368,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -2179,7 +2376,6 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)
@@ -2230,7 +2426,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                 else:
                     convert_new=False
             el_line_segment_array[i].update_underground_status(convert=convert_new)
-            el_line_segment_array[i].calculate_economic_loss(proportion=el_underground_proportion) 
+            el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
             el_line_segment_array[i].add_economic_loss_interest_rate()
@@ -2245,7 +2441,6 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                                  'economic_losses_el':[el_line_segment_array[i].total_inflated_economic_losses[t]],
                                  #'total_losses_el':[el_line_segment_array[i].total_losses[t]],
                                  })   
-            df_new['aesthetic_benefit_el']=df_new['aesthetic_benefit_el']*el_underground_proportion
             df1=df1.append(df_new, ignore_index = True)
         el_underground_proportion = el_underground_mileage/el_total_mileage
         print('el under proportion:',el_underground_proportion)
@@ -2286,7 +2481,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                 else:
                     convert_new=False
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_economic_loss(proportion=br_underground_proportion)
+            br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
                                  'age_br': [br_line_segment_array[i].age[t]],
@@ -2294,7 +2489,6 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                                  'aesthetic_benefit_br':[br_line_segment_array[i].total_aesthetic_benefits[t]],
                                  'economic_loss_br':[br_line_segment_array[i].total_economic_losses[t]]
                                  })            
-            df_new2['aesthetic_benefit_br']=df_new2['aesthetic_benefit_br']*br_underground_proportion
             df2=df2.append(df_new2, ignore_index = True)
         br_underground_proportion = br_underground_mileage/br_total_mileage
         print('br under proportion:',br_underground_proportion)

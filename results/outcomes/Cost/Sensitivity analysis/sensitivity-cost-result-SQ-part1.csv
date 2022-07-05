@@ -1,0 +1,6 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+r,-7.135782,8.587644
+over_corridor_width,0,0
+under_corridor_width,0,0
+over_replcost_el,3.036224,-3.036224
+under_replcost_el,2.664323,-2.664323

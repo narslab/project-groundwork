@@ -25,12 +25,12 @@ class Electric_model_inputs:
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
             "r":0.1, # Discount rate=10%
-            "easment_value":3000, # per-acre price of a conservation easement
+            "easment_value":4081, # per-acre price of a conservation easement in MA
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
             "employees":40, #The number of IOU employees
             "injurycost":130658, # A randomly determined annual injury cost, per accident
-            "vsl":6900000,#The value of a statistical life
+            "vsl":7600000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':51000,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
@@ -113,12 +113,12 @@ class Broadband_model_inputs:
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
             "r":0.1, # Discount rate=10%
-            "easment_value":3000, # per-acre price of a conservation easement
+            "easment_value":4081, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
             "employees":40, #The number of IOU employees
             "injurycost":130658, # A randomly determined annual injury cost, per accident
-            "vsl":6900000,#The value of a statistical life
+            "vsl":7600000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
@@ -186,13 +186,13 @@ class Electric_line_segment:
         else:
             self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
         self.capex=[0]
-        self.opex=[self.calculate_opex()]
-        self.total_infra=[self.calculate_opex()]
+        self.opex=[0]
+        self.total_infra=[0]
         self.environmental_restoration=[0]
         self.non_fatal=[0]
         self.fatal=[0]
         self.total_safety=[0]
-        self.total_cost=[self.calculate_opex()]
+        self.total_cost=[0]
         self.residential_benefit=[0]
         self.residential_loss=[0]
         self.commercial_benefit=[0]
@@ -385,45 +385,34 @@ class Electric_line_segment:
     def calculate_environmental_restoration(self):
         environmental_restoration_current=0
         if self.underground[-1]==1:
+            corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']
             if self.underground[0]==1:
-                corridor_width=self.inputs.parameter_dict['overhead_line']['corridor_width']
                 self.environmental_restoration.append(environmental_restoration_current)
             else:
-                corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']-self.inputs.parameter_dict['overhead_line']['corridor_width']
                 environmental_restoration_current=((self.length)*(corridor_width)*640/5280*self.inputs.parameter_dict['easment_value'])
                 self.environmental_restoration.append(environmental_restoration_current)
         else:
-            corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']
+            corridor_width=self.inputs.parameter_dict['overhead_line']['corridor_width']
             self.environmental_restoration.append(environmental_restoration_current)
         return(self.environmental_restoration)
 
     
     ###Safety and health Costs:
     #Return fatal cost which is one element of safety cost
-    def calculate_non_fatal_cost(self):
-        if self.underground[-1]==1:
-            if self.underground[0]==1:
-                self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-            else:
-                self.non_fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-        else:
-            self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+    def calculate_non_fatal_cost(self,under_len_pro=1):
+        self.non_fatal.append(under_len_pro*(self.length/self.inputs.parameter_dict['total_length'])*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+        print("under_len_pro_el:", under_len_pro)
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
-    def calculate_fatal_cost(self):
-        if self.underground[-1]==1:
-            if self.underground[0]==1:
-                self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
-            else:
-                self.fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
-        else:
-            self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+    def calculate_fatal_cost(self, under_len_pro=1):
+        self.fatal.append(under_len_pro*(self.length/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['fir']*(self.inputs.parameter_dict['employees']/100000)*self.inputs.parameter_dict['vsl'])
+        print("under_len_pro_el:", under_len_pro)
         return(self.fatal)
     
     #Return total safety cost which is summation of fatal and non fatal cost
     def calculate_total_safety(self):
-        self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])
+        self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])       
         return(self.total_safety)
     
     #Return total cost which is summation of lifecycle cost, environmental cost and safety cost
@@ -478,21 +467,21 @@ class Electric_line_segment:
 #         return(self.total_inflated_economic_benefits)  
 # =============================================================================
 
-    def calculate_economic_loss(self, proportion=0.34):
+    def calculate_economic_loss(self):
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         if self.underground[-1]==1:
             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
-            percentage=proportion
+            #percentage=proportion
         else:
             outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
-            percentage=1-proportion
+            #percentage=1-proportion
         residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
         commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
         industry_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
         self.residential_loss.append(residential_loss_current)
         self.commercial_loss.append(commercial_loss_current)
         self.industry_loss.append(industry_loss_current)
-        total_economic_loss_current = percentage*(residential_loss_current + commercial_loss_current + industry_loss_current)
+        total_economic_loss_current = (residential_loss_current + commercial_loss_current + industry_loss_current)
         self.total_economic_losses.append(total_economic_loss_current)
         return(self.total_economic_losses)  
 
@@ -587,13 +576,13 @@ class Broadband_line_segment:
         else:
             self.replcost=[self.inputs.parameter_dict['overhead_line']['replcost']]       
         self.capex=[0]
-        self.opex=[self.calculate_opex()]
-        self.total_infra=[self.calculate_opex()]
+        self.opex=[0]
+        self.total_infra=[0]
         self.environmental_restoration=[0]
         self.non_fatal=[0]
         self.fatal=[0]
         self.total_safety=[0]
-        self.total_cost=[self.calculate_opex()]
+        self.total_cost=[0]
         self.residential_benefit=[0]
         self.residential_loss=[0]
         self.commercial_benefit=[0]
@@ -785,40 +774,29 @@ class Broadband_line_segment:
     def calculate_environmental_restoration(self):
         environmental_restoration_current=0
         if self.underground[-1]==1:
+            corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']
             if self.underground[0]==1:
-                corridor_width=self.inputs.parameter_dict['overhead_line']['corridor_width']
                 self.environmental_restoration.append(environmental_restoration_current)
             else:
-                corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']-self.inputs.parameter_dict['overhead_line']['corridor_width']
                 environmental_restoration_current=((self.length)*(corridor_width)*640/5280*self.inputs.parameter_dict['easment_value'])
                 self.environmental_restoration.append(environmental_restoration_current)
         else:
-            corridor_width=self.inputs.parameter_dict['underground_line']['corridor_width']
+            corridor_width=self.inputs.parameter_dict['overhead_line']['corridor_width']
             self.environmental_restoration.append(environmental_restoration_current)
         return(self.environmental_restoration)
 
     
     ###Safety and health Costs:
     #Return fatal cost which is one element of safety cost
-    def calculate_non_fatal_cost(self):
-        if self.underground[-1]==1:
-            if self.underground[0]==1:
-                self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-            else:
-                self.non_fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-        else:
-            self.non_fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+    def calculate_non_fatal_cost(self, under_len_pro=1):
+        self.non_fatal.append((self.length/self.inputs.parameter_dict['total_length'])*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+        print("under_len_pro_br:", under_len_pro)
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
-    def calculate_fatal_cost(self):
-        if self.underground[-1]==1:
-            if self.underground[0]==1:
-                self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
-            else:
-                self.fatal.append(((1+self.length)/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
-        else:
-            self.fatal.append((self.length/(self.inputs.parameter_dict['underground_baseyear']+self.inputs.parameter_dict['overhead_baseyear']))*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+    def calculate_fatal_cost(self, under_len_pro=1):
+        self.fatal.append((self.length/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
+        print("under_len_pro_br:", under_len_pro)
         return(self.fatal)
     
     #Return total safety cost which is summation of fatal and non fatal cost
@@ -826,22 +804,23 @@ class Broadband_line_segment:
         self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])
         return(self.total_safety)
     
+    ###Total cost
     #Return total cost which is summation of lifecycle cost, environmental cost and safety cost
     def calculate_total_cost(self):
         self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total_cost)
 
-    def calculate_economic_loss(self, proportion=0.34): 
+    def calculate_economic_loss(self): 
         """A method to quantify employee productivity cost based on line segment status"""    
         status = self.underground[-1]
         economic_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour']*self.inputs.parameter_dict['outage_hours']
         if status==1: #underground line
             outage_probability=self.inputs.parameter_dict['outage_underground']
-            percentage=proportion
+            #percentage=proportion
         else:
             outage_probability=self.inputs.parameter_dict['outage_overhead']
-            percentage=1-proportion
-        self.total_economic_losses.append(economic_loss*percentage*outage_probability)
+            #percentage=1-proportion
+        self.total_economic_losses.append(economic_loss*outage_probability)
         return (self.total_economic_losses)
 
     #Define a function to calculate aesthetic benefit

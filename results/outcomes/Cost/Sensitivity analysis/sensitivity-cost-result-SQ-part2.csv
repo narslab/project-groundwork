@@ -1,0 +1,16 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+overhead_proportion,"0   -1.965251
+dtype: float64","0    1.922949
+dtype: float64"
+over_lifespan,"0   -6.241388
+dtype: float64","0    8.165251
+dtype: float64"
+under_lifespan,"0   -6.505061
+dtype: float64","0    9.003213
+dtype: float64"
+over_om_percentage_replcost_el,"0    0.445548
+dtype: float64","0   -0.445548
+dtype: float64"
+under_om_percentage_replcost_el,"0    0.688007
+dtype: float64","0   -0.688007
+dtype: float64"

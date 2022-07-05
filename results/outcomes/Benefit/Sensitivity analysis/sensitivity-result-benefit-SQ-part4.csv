@@ -1,0 +1,7 @@
+Parameter,%change in benefit resulted from +%10 change in parameter,%change in benefit resulted from -%10 change in parameter
+USD_per_Customer_Hour_Interruption_Industrial,"0    8.689495
+dtype: float64","0   -8.689495
+dtype: float64"
+Shrewsbury_tax_levy_2021,"0   -0.0
+dtype: float64","0   -0.0
+dtype: float64"
