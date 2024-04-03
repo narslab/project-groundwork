@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
 ###Importing required libraries
 import numpy as np
 import random
@@ -34,7 +28,7 @@ class Electric_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':51000,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':154000,'replcost_growth_rate':0.02 ,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':357000},
+            "underground_line":{'lifespan':50,'replcost':154000,'replcost_growth_rate':0.02 ,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -45,7 +39,7 @@ class Electric_model_inputs:
             "service_area": 21.7,
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
-            "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.088)
+            "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
             "SAIDI":4.17,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
             "USD_per_Customer_Hour_Interruption_Residential":4.2,
@@ -93,7 +87,7 @@ class Electric_model_inputs:
         print("New parameter: ", new_param)  
         return (new_param)
     
-###Model Variables and Parameters for Electric line segments
+###Model Variables and Parameters for Broadband line segments
 class Broadband_model_inputs:
     ###Model Variables and Parameters
     def __init__(self):
@@ -348,8 +342,7 @@ class Electric_line_segment:
         length_current=self.length
         replcost_rate_current=self.replcost[-1]
         opex=(om_proportion_replcost_current)*(length_current)*(replcost_rate_current)
-        #opex_new=opex[-1]+om_growth_rate*opex[-1]
-        #self.opex.append(opex)
+        self.opex.append(opex)
         return(opex) 
   
     #Add interest rate to opex.
@@ -401,13 +394,13 @@ class Electric_line_segment:
     #Return fatal cost which is one element of safety cost
     def calculate_non_fatal_cost(self,under_len_pro=1):
         self.non_fatal.append(under_len_pro*(self.length/self.inputs.parameter_dict['total_length'])*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-        print("under_len_pro_el:", under_len_pro)
+        #print("under_len_pro_el:", under_len_pro)
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
     def calculate_fatal_cost(self, under_len_pro=1):
         self.fatal.append(under_len_pro*(self.length/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['fir']*(self.inputs.parameter_dict['employees']/100000)*self.inputs.parameter_dict['vsl'])
-        print("under_len_pro_el:", under_len_pro)
+        #print("under_len_pro_el:", under_len_pro)
         return(self.fatal)
     
     #Return total safety cost which is summation of fatal and non fatal cost
@@ -688,12 +681,40 @@ class Broadband_line_segment:
         return(self.conversion_cost)
         
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
-    def calculate_replcost(self, disaggregated_function=False, joint_trench=False):            
-        if joint_trench==True:
-            conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
+    #def calculate_replcost(self, disaggregated_function=False, joint_trench=False):            
+    #    if joint_trench==True:
+    #        conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
+    #    else:
+    #        conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
+    #
+    #    underground_current=self.underground[-1]
+    #    underground_baseyear=self.underground[0]
+    #    if underground_current==1:
+    #        replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
+    #    else:
+    #        replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
+    #    if underground_current==underground_baseyear:        
+    #        replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
+    #        self.replcost.append(replcost_new)
+    #    else:
+    #        if self.underground[:-1]==[0]*len(self.underground[:-1]):
+    #            replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+    #            self.replcost.append(replcost_new)
+    #        else:
+    #            replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
+    #            self.replcost.append(replcost_new)
+    #    return(self.replcost)
+    
+    #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
+    def calculate_replcost(self,disaggregated_function=False, joint_trench=False):
+        if disaggregated_function==True:
+            conversion_cost_current=self.calculate_disaggregated_conversion_cost()[-1]
         else:
             conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
-
+        if joint_trench==True:
+            conversion_cost_current=conversion_cost_current*self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']
+        else:
+            pass
         underground_current=self.underground[-1]
         underground_baseyear=self.underground[0]
         if underground_current==1:
@@ -710,8 +731,7 @@ class Broadband_line_segment:
             else:
                 replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
                 self.replcost.append(replcost_new)
-        return(self.replcost)
-    
+        return(self.replcost)   
     
     
     
@@ -737,8 +757,7 @@ class Broadband_line_segment:
         length_current=self.length
         replcost_rate_current=self.replcost[-1]
         opex=(om_proportion_replcost_current)*(length_current)*(replcost_rate_current)
-        #opex_new=opex[-1]+om_growth_rate*opex[-1]
-        #self.opex.append(opex)
+        self.opex.append(opex)
         return(opex) 
   
     #Add interest rate to opex.
@@ -790,13 +809,13 @@ class Broadband_line_segment:
     #Return fatal cost which is one element of safety cost
     def calculate_non_fatal_cost(self, under_len_pro=1):
         self.non_fatal.append((self.length/self.inputs.parameter_dict['total_length'])*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-        print("under_len_pro_br:", under_len_pro)
+        #print("under_len_pro_br:", under_len_pro)
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
     def calculate_fatal_cost(self, under_len_pro=1):
         self.fatal.append((self.length/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
-        print("under_len_pro_br:", under_len_pro)
+        #print("under_len_pro_br:", under_len_pro)
         return(self.fatal)
     
     #Return total safety cost which is summation of fatal and non fatal cost

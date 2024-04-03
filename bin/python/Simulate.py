@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 10 10:42:22 2021
-
-@author: Mahsa
-"""
 ###Import network.py which includes variables and line segment class defenistion
 import Network as network
 import numpy as np
@@ -510,7 +504,7 @@ def run_cost_simulation_S2(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
-    # SQ for broadband line segment
+    # Consevative conversion for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
@@ -538,7 +532,7 @@ def run_cost_simulation_S2(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost()
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -615,7 +609,7 @@ def run_cost_simulation_S3(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
-    # SQ for broadband line segment
+    # Aggressive for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
@@ -630,7 +624,7 @@ def run_cost_simulation_S3(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            #disaggregated_current=True
+            disaggregated_current=True
             aggressive_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
@@ -644,7 +638,7 @@ def run_cost_simulation_S3(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost()
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -688,7 +682,7 @@ def run_cost_simulation_S3(data, data_broadband):
 
 # Define S4 simulation function
 def run_cost_simulation_S4(data, data_broadband):
-    # SQ for electric line segments
+    # Conservative conversion for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']
@@ -793,7 +787,7 @@ def run_cost_simulation_S4(data, data_broadband):
 
 # Define S5 simulation function
 def run_cost_simulation_S5(data, data_broadband):
-    # SQ for electric line segments
+    # Aggresive conversion for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']
@@ -899,7 +893,7 @@ def run_cost_simulation_S5(data, data_broadband):
 
 # Define S6 simulation function
 def run_cost_simulation_S6(data, data_broadband):
-    # SQ for electric line segments
+    # Joint conservative conversion for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']
@@ -941,7 +935,7 @@ def run_cost_simulation_S6(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
-    # SQ for broadband line segment
+    # Joint conservative conversion for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
@@ -957,7 +951,7 @@ def run_cost_simulation_S6(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            #disaggregated_current=True
+            disaggregated_current=True
             joint_trench_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
@@ -971,7 +965,7 @@ def run_cost_simulation_S6(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current,joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -1015,7 +1009,7 @@ def run_cost_simulation_S6(data, data_broadband):
 
 # Define S7 simulation function
 def run_cost_simulation_S7(data, data_broadband):
-    # SQ for electric line segments
+    # Independent conservative conversion for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']
@@ -1057,7 +1051,7 @@ def run_cost_simulation_S7(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
-    # SQ for broadband line segment
+    # Independent conservative conversion for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
@@ -1072,7 +1066,7 @@ def run_cost_simulation_S7(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            #disaggregated_current=True
+            disaggregated_current=True
             joint_trench_current=False
             lifespan_exceeded=br_line_segment_array[i].update_age()
             if lifespan_exceeded==True:
@@ -1086,7 +1080,7 @@ def run_cost_simulation_S7(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -1341,7 +1335,7 @@ def run_cost_simulation_S9(data, data_broadband):
 
 # Define S10 simulation function
 def run_cost_simulation_S10(data, data_broadband):
-    # SQ for electric line segments
+    # Joint aggressive conversion for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']
@@ -1384,7 +1378,7 @@ def run_cost_simulation_S10(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
-    # SQ for broadband line segment
+    # Joint aggressive conversion for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
@@ -1399,7 +1393,7 @@ def run_cost_simulation_S10(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            #disaggregated_current=True
+            disaggregated_current=True
             joint_trench_current=True
             aggressive_current=True
             lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
@@ -1414,7 +1408,7 @@ def run_cost_simulation_S10(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current, joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -1458,7 +1452,7 @@ def run_cost_simulation_S10(data, data_broadband):
 
 # Define S11 simulation function
 def run_cost_simulation_S11(data, data_broadband):
-    # SQ for electric line segments
+    # Independent aggressive conversion for electric line segments
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']
@@ -1502,7 +1496,7 @@ def run_cost_simulation_S11(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
-    # SQ for broadband line segment
+    # Independent aggressive conversion for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
@@ -1518,7 +1512,7 @@ def run_cost_simulation_S11(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
             convert_new=False
-            #disaggregated_current=True
+            disaggregated_current=True
             aggressive_current=True
             joint_trench_current=False
             lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
