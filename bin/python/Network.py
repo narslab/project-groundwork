@@ -247,7 +247,7 @@ class Electric_line_segment:
                 if self.underground[-1]==1:
                     lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
                 else:
-                    lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
             else:
                 if self.underground[-1]==1:
                     lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
@@ -638,7 +638,7 @@ class Broadband_line_segment:
                 if self.underground[-1]==1:
                     lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
                 else:
-                    lifespan_current= 0.5*int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
             else:
                 if self.underground[-1]==1:
                     lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
