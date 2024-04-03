@@ -1515,7 +1515,7 @@ def run_cost_simulation_S11(data, data_broadband):
             disaggregated_current=True
             aggressive_current=True
             joint_trench_current=False
-            lifespan_exceeded=br_line_segment_array[i].update_age(disaggregated_function=disaggregated_current, aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
