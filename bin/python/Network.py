@@ -52,8 +52,10 @@ class Electric_model_inputs:
             "total_length":55.43, #summation of underground and overhead miles generated based on gamma simulation
             "total_length_overhead":36.68, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":18.75, #summation of underground miles generated based on gamma simulation}
-            "Shrewsbury_tax_levy_2021": 85713912.0,
-            "aesthetic_benefit_proportion":0.03,
+            #"Shrewsbury_tax_levy_2021": 85713912.0,
+            "Shrewsbury_tax_levy_2021": 6873609623,#85713912.0/(12.47/1000) the tax levy is $85,713,912 and the tax rate is $12.47 per $1,000 of assessed value
+            #"aesthetic_benefit_proportion":0.03,
+            "aesthetic_benefit_proportion":0.05,
             "inflation_rate_benefit":0,
             "shrewsbury_population":39774,
             "residential_percentage":0.8,
