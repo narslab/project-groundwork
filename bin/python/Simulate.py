@@ -375,7 +375,7 @@ def run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband,joint_t
 # Define S1 simulation function
 def run_cost_simulation_S1(data, data_broadband):
     # SQ for electric line segments
-    disaggregated_current=True
+    disaggregated_current=False
     el_line_segment_array=[]
     el_line_segment_length_array=[]
     el_underground_base=data.parameter_dict['total_length_underground']

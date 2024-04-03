@@ -265,14 +265,14 @@ class Electric_line_segment:
     
     # Add underground status based on if convert is true or not to self.underground list.                  
     def update_underground_status(self,convert=False):
-        status=self.underground[0]
+        status=self.underground[-1]
         if convert==True:
             if status==0:
                 status+=1
             else:
-                status=self.underground[0]
+                status=self.underground[-1]
         else:
-            status=self.underground[0]
+            status=self.underground[-1]
         self.underground.append(status)
             
     #Disaggregated cost model
@@ -656,14 +656,14 @@ class Broadband_line_segment:
     
     # Add underground status based on if convert is true or not to self.underground list.                  
     def update_underground_status(self,convert=False):
-        status=self.underground[0]
+        status=self.underground[-1]
         if convert==True:
             if status==0:
                 status+=1
             else:
-                status=self.underground[0]
+                status=self.underground[-1]
         else:
-            status=self.underground[0]
+            status=self.underground[-1]
         self.underground.append(status)
             
     #Disaggregated cost model
