@@ -5,180 +5,6 @@ import Simulate
 data  = Network.Electric_model_inputs()
 data_broadband  = Network.Broadband_model_inputs()
 
-###Calculate aggregrated cost result of status-quo strategy based on each year for 40 years 
-def aggregate_cost_through_years_SQ_electric(data, data_broadband):
-    df_output_statusQuo=Simulate.run_cost_simulation_SQ_strategy_electric(data)
-    df_analyze_result_statusQuo=df_output_statusQuo.groupby(level=[0])[['capex','opex','lifecycle infrastructure','environmental restoration','non fatal','fatal','safety','total cost']].sum()
-    df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/cost-analyze-result-statusQuo-strategy.csv', index = False)
-    return(df_analyze_result_statusQuo)
-
-###Calculate aggregrated cost result of undergrounding after lifespan strategy based on each year for 40 years 
-def aggregate_cost_through_years_UL_electric(data, data_broadband):
-    df_output_under=Simulate.run_cost_simulation_UL_strategy_electric(data)
-    df_analyze_result_under=df_output_under.groupby(level=[0])[['capex','opex','lifecycle infrastructure','environmental restoration','non fatal','fatal','safety','total cost']].sum()
-    df_analyze_result_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_under.to_csv(r'../../results/outcomes/cost-analyze-result-undergrounding-strategy.csv', index = False)
-    return(df_analyze_result_under)
-
-###Calculate additional cost due to undergrounding after lifespan strategy
-def calculate_additional_cost_from_UL_electric(data, data_broadband):
-    df1=aggregate_cost_through_years_UL_electric(data)
-    df2=aggregate_cost_through_years_SQ_electric(data)
-    df_analyze_additional=df1.subtract(df2)
-    del df_analyze_additional['year']
-    df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_additional.to_csv(r'../../results/outcomes/cost-analyze-result-additional-cost.csv', index = False)
-    return(df_analyze_additional)
-
-###Calculate net present value of infrastructure, environmental, safety and total cost for statusQuo strategy
-def calculate_cost_net_present_value_SQ_electric(data, data_broadband):
-    df_net_present_statusQuo=aggregate_cost_through_years_SQ_electric(data)
-    net_present_value_lifecycle_infrastructure_cost=[]
-    net_present_value_environmental_cost=[]
-    net_present_value_safety_cost=[]
-    net_present_value_total_under_after_lifespan_strategy_cost=[]
-    for index, row in df_net_present_statusQuo.iterrows():
-        net_present_value_lifecycle_infrastructure_cost.append(row['lifecycle infrastructure']/(1+data.parameter_dict['r'])**index)
-        net_present_value_environmental_cost.append(row['environmental restoration']/(1+data.parameter_dict['r'])**index)
-        net_present_value_safety_cost.append(row['safety']/(1+data.parameter_dict['r'])**index)
-        net_present_value_total_under_after_lifespan_strategy_cost.append(row['total cost']/(1+data.parameter_dict['r'])**index)
-    total_infrastructre=sum(net_present_value_lifecycle_infrastructure_cost)
-    total_environmental=sum(net_present_value_environmental_cost)
-    total_safety=sum(net_present_value_safety_cost)
-    total_total=sum(net_present_value_total_under_after_lifespan_strategy_cost)
-    df_net_present_value_statusQuo= pd.DataFrame({'lifecycle infrastructure':[total_infrastructre],
-                                                  'environmental restoration':[total_environmental],
-                                                  'safety':[total_safety],
-                                                  'total cost':[total_total]})
-    df_net_present_value_statusQuo.to_csv(r'../../results/outcomes/cost-net-present-value-statusQuo.csv', index = False)
-    return([total_infrastructre,total_environmental,total_safety,total_total])
-
-###Calculate net present value of infrastructure, environmental, safety and total cost for undergrounding after lifespan strategy
-def calculate_cost_net_present_value_UL_electric(data, data_broadband):
-    df_net_present_statusQuo=aggregate_cost_through_years_UL_electric(data)
-    net_present_value_lifecycle_infrastructure_cost=[]
-    net_present_value_environmental_cost=[]
-    net_present_value_safety_cost=[]
-    net_present_value_total_under_after_lifespan_strategy_cost=[]
-    for index, row in df_net_present_statusQuo.iterrows():
-        net_present_value_lifecycle_infrastructure_cost.append(row['lifecycle infrastructure']/(1+data.parameter_dict['r'])**index)
-        net_present_value_environmental_cost.append(row['environmental restoration']/(1+data.parameter_dict['r'])**index)
-        net_present_value_safety_cost.append(row['safety']/(1+data.parameter_dict['r'])**index)
-        net_present_value_total_under_after_lifespan_strategy_cost.append(row['total cost']/(1+data.parameter_dict['r'])**index)
-    total_infrastructre=sum(net_present_value_lifecycle_infrastructure_cost)
-    total_environmental=sum(net_present_value_environmental_cost)
-    total_safety=sum(net_present_value_safety_cost)
-    total_total=sum(net_present_value_total_under_after_lifespan_strategy_cost)
-    df_net_present_value_under= pd.DataFrame({'lifecycle infrastructure':[total_infrastructre],
-                                                  'environmental restoration':[total_environmental],
-                                                  'safety':[total_safety],
-                                                  'total cost':[total_total]})
-    df_net_present_value_under.to_csv(r'../../results/outcomes/cost-net-present-value-under.csv', index = False)
-    return([total_infrastructre,total_environmental,total_safety,total_total])
-
-###Calculate net present value for additional cost associate with undergrounding after lifespan strategy
-def calculate_net_present_value_of_additional_cost_electric(data, data_broadband):
-      list1=calculate_cost_net_present_value_UL_electric(data)
-      list2=calculate_cost_net_present_value_SQ_electric(data)
-      difference = []
-      zip_object = zip(list1, list2)
-      for list1_i, list2_i in zip_object:
-          difference.append(list1_i-list2_i)
-      df_net_present_value_additional= pd.DataFrame({'lifecycle infrastructure':[difference[0]],
-                                                  'environmental restoration':[difference[1]],
-                                                  'safety':[difference[2]],
-                                                  'total cost':[difference[3]]})
-      df_net_present_value_additional.to_csv(r'../../results/outcomes/cost-net-present-value-additional.csv', index = False)
-      return(difference)
-
-###Calculate aggregrated benefit result of statusQuo strategy based on each year for 40 years 
-def aggregate_benefit_through_years_SQ_electric(data, data_broadband):
-    df_output_statusQuo=Simulate.run_benefit_simulation_SQ_strategy_electric(data)
-    df_analyze_result_statusQuo=df_output_statusQuo.groupby(['year'])[['aesthetic losses','economic losses','total losses']].sum()
-    df_analyze_result_statusQuo['marginal avoided loss']=df_analyze_result_statusQuo['economic losses'].diff()
-    df_analyze_result_statusQuo.at[1,'marginal avoided loss']=0
-    df_analyze_result_statusQuo["marginal avoided loss"] = -1 * df_analyze_result_statusQuo["marginal avoided loss"]
-    df_analyze_result_statusQuo.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_statusQuo.to_csv(r'../../results/outcomes/benefit-analyze-result-statusQuo-strategy.csv', index = False)
-    return(df_analyze_result_statusQuo)    
-
-###Calculate aggregrated benefit result of undergrounding after lifespan strategy based on each year for 40 years 
-def aggregate_benefit_through_years_UL_electric(data, data_broadband):
-    df_benefit_under=Simulate.run_benefit_simulation_UL_strategy_electric(data)
-    df_analyze_benefit_under=df_benefit_under.groupby(['year'])[['aesthetic losses','economic losses','total losses']].sum()
-    df_analyze_benefit_under.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_benefit_under['marginal avoided loss']=df_analyze_benefit_under['economic losses'].diff()
-    df_analyze_benefit_under.at[1,'marginal avoided loss']=0
-    df_analyze_benefit_under["marginal avoided loss"] = -1 * df_analyze_benefit_under["marginal avoided loss"]
-    df_analyze_benefit_under.to_csv(r'../../results/outcomes/benefit-analyze-undergrounding-strategy.csv', index = False)
-    return(df_analyze_benefit_under)
-
-###Calculate additional benefits due to undergrounding after lifespan strategy
-def calculate_additional_benefit_from_UL_electric(data, data_broadband):
-    df1=aggregate_benefit_through_years_UL_electric(data, data_broadband)
-    df2=aggregate_benefit_through_years_SQ_electric(data, data_broadband)
-    df_analyze_additional=df2.subtract(df1)
-    del df_analyze_additional['year']
-    df_analyze_additional.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_additional.to_csv(r'../../results/outcomes/benefit-analyze-result-additional.csv', index = False)
-    return(df_analyze_additional)
-
-###Calculate net present value of losses for statusQuo strategy
-def calculate_benefit_net_present_value_SQ_electric(data, data_broadband):
-    df_net_present_statusQuo=aggregate_benefit_through_years_SQ_electric(data)
-    net_present_value_economic_benefit=[]
-    net_present_value_aesthetic_benefit=[]
-    net_present_value_total_benefit=[]
-    for index, row in df_net_present_statusQuo.iterrows():
-        net_present_value_aesthetic_benefit.append(row['aesthetic losses']/(1+data.parameter_dict['r'])**index)
-        net_present_value_economic_benefit.append(row['economic losses']/(1+data.parameter_dict['r'])**index)
-        net_present_value_total_benefit.append(row['total losses']/(1+data.parameter_dict['r'])**index)
-    total_economic=sum(net_present_value_economic_benefit)
-    total_aesthetic=sum(net_present_value_aesthetic_benefit)
-    total_total=sum(net_present_value_total_benefit)
-    df_net_present_value_statusQuo= pd.DataFrame({'aesthetic losses':[total_aesthetic],
-                                                  'economic losses':[total_economic],
-                                                  'total losses':[total_total]
-                                                  })
-    df_net_present_value_statusQuo.to_csv(r'../../results/outcomes/benefit-net-present-value-statusQuo.csv', index = False)
-    return([total_aesthetic,total_economic,total_total])
-
-###Calculate net present value of infrastructure, environmental, safety and total cost for undergrounding after lifespan strategy
-def calculate_benefit_net_present_value_UL_electric(data, data_broadband):
-    df_net_present_under=aggregate_benefit_through_years_UL_electric(data)
-    net_present_value_economic=[]
-    net_present_value_aesthetic=[]
-    net_present_value_total=[]
-    for index, row in df_net_present_under.iterrows():
-        net_present_value_aesthetic.append(row['aesthetic losses']/(1+data.parameter_dict['r'])**index)
-        net_present_value_economic.append(row['economic losses']/(1+data.parameter_dict['r'])**index)
-        net_present_value_total.append(row['total losses']/(1+data.parameter_dict['r'])**index)
-    total_aesthetic=sum(net_present_value_aesthetic)
-    total_economic=sum(net_present_value_economic)
-    total_total=sum(net_present_value_total)
-    df_net_present_value_under= pd.DataFrame({'aesthetic losses':[total_aesthetic],
-                                                  'economic losses':[total_economic],
-                                                  'total losses':[total_total]})
-    df_net_present_value_under.to_csv(r'../../results/outcomes/benefit-net-present-value-under.csv', index = False)
-    return([total_aesthetic,total_economic,total_total])
-
-###Calculate net present value for additional cost associate with undergrounding after lifespan strategy
-def calculate_net_present_value_of_additional_benefit_electric(data, data_broadband):
-      list2=calculate_benefit_net_present_value_UL_electric(data)
-      list1=calculate_benefit_net_present_value_SQ_electric(data)
-      difference = []
-      zip_object = zip(list1, list2)
-      for list1_i, list2_i in zip_object:
-          difference.append(list1_i-list2_i)
-      df_net_present_value_additional= pd.DataFrame({'aesthetic losses':[difference[0]],
-                                                  'economic losses':[difference[1]],
-                                                  'total losses':[difference[2]]})
-      df_net_present_value_additional.to_csv(r'../../results/outcomes/benefit-net-present-value-additional.csv', index = False)
-      return(difference)
-
-### S1 to S13 results
-
 ## Costs
 # Analyze result functions based on S1 to S13 results
 def aggregate_costs_S1_to_S13(data, data_broadband):
@@ -1070,13 +896,47 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                             )
     S10_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S10.csv', index = False)
 
-    npv_cost= pd.DataFrame({'Strategy':['S1','S2','S3','S4','S5','S6','S10'],
-                            'aesthetic_benefit_el':[S1_df_npv['aesthetic_benefit_el'],S2_df_npv['aesthetic_benefit_el'],S3_df_npv['aesthetic_benefit_el'],S4_df_npv['aesthetic_benefit_el'],S5_df_npv['aesthetic_benefit_el'],S6_df_npv['aesthetic_benefit_el'],S10_df_npv['aesthetic_benefit_el']],
-                            'economic_losses_el':[S1_df_npv['economic_losses_el'],S2_df_npv['economic_losses_el'],S3_df_npv['economic_losses_el'],S4_df_npv['economic_losses_el'],S5_df_npv['economic_losses_el'],S6_df_npv['economic_losses_el'],S10_df_npv['economic_losses_el']],
-                            'aesthetic_benefit_br':[S1_df_npv['aesthetic_benefit_br'],S2_df_npv['aesthetic_benefit_br'],S3_df_npv['aesthetic_benefit_br'],S4_df_npv['aesthetic_benefit_br'],S5_df_npv['aesthetic_benefit_br'],S6_df_npv['aesthetic_benefit_br'],S10_df_npv['aesthetic_benefit_br']],
-                            'economic_loss_br':[S1_df_npv['economic_loss_br'],S2_df_npv['economic_loss_br'],S3_df_npv['economic_loss_br'],S4_df_npv['economic_loss_br'],S5_df_npv['economic_loss_br'],S6_df_npv['economic_loss_br'],S10_df_npv['economic_loss_br']]},
-                            )
-    npv_cost.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit.csv', index = False) 
+    npv_benefit = pd.DataFrame({
+    'Strategy': ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S10'],
+    'aesthetic_benefit_el': [
+        S1_df_npv['aesthetic_benefit_el'].iloc[0],
+        S2_df_npv['aesthetic_benefit_el'].iloc[0],
+        S3_df_npv['aesthetic_benefit_el'].iloc[0],
+        S4_df_npv['aesthetic_benefit_el'].iloc[0],
+        S5_df_npv['aesthetic_benefit_el'].iloc[0],
+        S6_df_npv['aesthetic_benefit_el'].iloc[0],
+        S10_df_npv['aesthetic_benefit_el'].iloc[0]
+    ],
+    'economic_losses_el': [
+        S1_df_npv['economic_losses_el'].iloc[0],
+        S2_df_npv['economic_losses_el'].iloc[0],
+        S3_df_npv['economic_losses_el'].iloc[0],
+        S4_df_npv['economic_losses_el'].iloc[0],
+        S5_df_npv['economic_losses_el'].iloc[0],
+        S6_df_npv['economic_losses_el'].iloc[0],
+        S10_df_npv['economic_losses_el'].iloc[0]
+    ],
+    'aesthetic_benefit_br': [
+        S1_df_npv['aesthetic_benefit_br'].iloc[0],
+        S2_df_npv['aesthetic_benefit_br'].iloc[0],
+        S3_df_npv['aesthetic_benefit_br'].iloc[0],
+        S4_df_npv['aesthetic_benefit_br'].iloc[0],
+        S5_df_npv['aesthetic_benefit_br'].iloc[0],
+        S6_df_npv['aesthetic_benefit_br'].iloc[0],
+        S10_df_npv['aesthetic_benefit_br'].iloc[0]
+    ],
+    'economic_loss_br': [
+        S1_df_npv['economic_loss_br'].iloc[0],
+        S2_df_npv['economic_loss_br'].iloc[0],
+        S3_df_npv['economic_loss_br'].iloc[0],
+        S4_df_npv['economic_loss_br'].iloc[0],
+        S5_df_npv['economic_loss_br'].iloc[0],
+        S6_df_npv['economic_loss_br'].iloc[0],
+        S10_df_npv['economic_loss_br'].iloc[0]
+    ]
+})
+
+    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit.csv', index = False) 
     return([S10_total_aesthetic_benefit_el, S10_total_economic_losses_el, S10_total_aesthetic_benefit_br, S10_total_economic_loss_br])
 
 
@@ -1085,17 +945,12 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
 
 ### Test
 def test1(data, data_broadband):
-   # S12
-    df_output_S12=Simulate.run_cost_simulation_S12(data, data_broadband)
-    df_analyze_result_S12=df_output_S12.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
-    df_analyze_result_S12.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S12.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S12.csv', index = False)
-   # S13
-    df_output_S13=Simulate.run_cost_simulation_S13(data, data_broadband)
-    df_analyze_result_S13=df_output_S13.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
-    df_analyze_result_S13.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S13.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S13.csv', index = False)
-    return(df_analyze_result_S12, df_analyze_result_S13)
+   # S3
+    df_output_S3=Simulate.run_cost_simulation_S3(data, data_broadband)
+    df_analyze_result_S3=df_output_S3.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
+    df_analyze_result_S3.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
+    df_analyze_result_S3.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S3.csv', index = False)
+    return df_analyze_result_S3
 
 
 

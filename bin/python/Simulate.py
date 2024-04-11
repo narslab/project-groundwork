@@ -22,7 +22,7 @@ def run_cost_simulation_SQ_strategy_electric(data):
         for i in range (len(line_segment_array)):
             disaggregated_function_new=True
             line_segment_array[i].update_underground_status()
-            line_segment_array[i].update_age()
+            line_segment_array[i].update_age_and_check_replacement()
             line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_function_new)
             line_segment_array[i].calculate_capex()
             line_segment_array[i].calculate_opex()
@@ -69,7 +69,7 @@ def run_cost_simulation_UL_strategy_electric(data, joint_trench):
         for i in range (len(line_segment_array)):
             convert_new=False
             disaggregated_function_new=True
-            lifespan_exceeded=line_segment_array[i].update_age()
+            lifespan_exceeded=line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -122,7 +122,7 @@ def run_benefit_simulation_SQ_strategy_electric(data):
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             line_segment_array[i].update_underground_status()
-            line_segment_array[i].update_age()
+            line_segment_array[i].update_age_and_check_replacement()
             line_segment_array[i].calculate_economic_benefits()
             line_segment_array[i].calculate_aesthetic_benefits()
             line_segment_array[i].add_aesthetic_benefits_interest_rate()
@@ -167,7 +167,7 @@ def run_benefit_simulation_UL_strategy_electric(data,p):
             if line_segment_array[i].underground[-1] == 1:
                   underground_mileage += line_segment_array[i].length
             convert_new=False
-            lifespan_exceeded=line_segment_array[i].update_age()
+            lifespan_exceeded=line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -226,7 +226,7 @@ def calculate_percentage_underground_UL_strategy_electric(data):
     for t in range (data.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             convert_new=False
-            lifespan_exceeded=line_segment_array[i].update_age()
+            lifespan_exceeded=line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -267,7 +267,7 @@ def run_cost_simulation_SQ_strategy_calculate_economic_loss(data_broadband):
             if line_segment_array[i].underground[-1] == 1:
                 underground_mileage += line_segment_array[i].length
             line_segment_array[i].update_underground_status()
-            line_segment_array[i].update_age()
+            line_segment_array[i].update_age_and_check_replacement()
             line_segment_array[i].calculate_replcost()
             line_segment_array[i].calculate_capex()
             line_segment_array[i].calculate_opex()
@@ -311,7 +311,7 @@ def run_cost_simulation_UL_strategy_broadband(data_broadband, joint_trench):
             if line_segment_array[i].underground[-1] == 1:
                   underground_mileage += line_segment_array[i].length
             line_segment_array[i].update_underground_status()
-            line_segment_array[i].update_age()
+            line_segment_array[i].update_age_and_check_replacement()
             line_segment_array[i].calculate_replcost()
             line_segment_array[i].calculate_capex()
             line_segment_array[i].calculate_opex()
@@ -345,7 +345,7 @@ def run_cost_simulation_UL_jointtrench_strategy_broadband(data_broadband,joint_t
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(line_segment_array)):
             convert_new=False
-            lifespan_exceeded=line_segment_array[i].update_age()
+            lifespan_exceeded=line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -394,7 +394,7 @@ def run_cost_simulation_S1(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
 
             el_line_segment_array[i].update_underground_status()
-            el_line_segment_array[i].update_age()
+            el_line_segment_array[i].update_age_and_check_replacement()
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
@@ -425,7 +425,7 @@ def run_cost_simulation_S1(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status()
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
@@ -491,7 +491,7 @@ def run_cost_simulation_S2(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
 
             el_line_segment_array[i].update_underground_status()
-            el_line_segment_array[i].update_age()
+            el_line_segment_array[i].update_age_and_check_replacement()
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
@@ -520,7 +520,7 @@ def run_cost_simulation_S2(data, data_broadband):
         for i in range (len(br_line_segment_array)):
             convert_new=False
             disaggregated_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -596,7 +596,7 @@ def run_cost_simulation_S3(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
 
             el_line_segment_array[i].update_underground_status()
-            el_line_segment_array[i].update_age()
+            el_line_segment_array[i].update_age_and_check_replacement()
             el_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             el_line_segment_array[i].calculate_capex()
             el_line_segment_array[i].calculate_opex()
@@ -626,7 +626,7 @@ def run_cost_simulation_S3(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             aggressive_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -699,7 +699,7 @@ def run_cost_simulation_S4(data, data_broadband):
         for i in range (len(el_line_segment_array)):
             convert_new=False
             disaggregated_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -741,7 +741,7 @@ def run_cost_simulation_S4(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status()
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
@@ -805,7 +805,7 @@ def run_cost_simulation_S5(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             aggressive_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -848,7 +848,7 @@ def run_cost_simulation_S5(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
 
             br_line_segment_array[i].update_underground_status()
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].calculate_replcost()
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
@@ -911,7 +911,7 @@ def run_cost_simulation_S6(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             joint_trench_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -953,7 +953,7 @@ def run_cost_simulation_S6(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             joint_trench_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1027,7 +1027,7 @@ def run_cost_simulation_S7(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             joint_trench_current=False
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1068,7 +1068,7 @@ def run_cost_simulation_S7(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             joint_trench_current=False
-            lifespan_exceeded=br_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1155,7 +1155,7 @@ def run_cost_simulation_S8(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             joint_trench_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1181,7 +1181,7 @@ def run_cost_simulation_S8(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
 
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1260,7 +1260,7 @@ def run_cost_simulation_S9(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             joint_trench_current=False
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1286,7 +1286,7 @@ def run_cost_simulation_S9(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
 
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1354,7 +1354,7 @@ def run_cost_simulation_S10(data, data_broadband):
             disaggregated_current=True
             joint_trench_current=True
             aggressive_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1396,7 +1396,7 @@ def run_cost_simulation_S10(data, data_broadband):
             disaggregated_current=True
             joint_trench_current=True
             aggressive_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1472,7 +1472,7 @@ def run_cost_simulation_S11(data, data_broadband):
             disaggregated_current=True
             aggressive_current=True
             joint_trench_current=False
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1496,12 +1496,12 @@ def run_cost_simulation_S11(data, data_broadband):
             el_line_segment_array[i].calculate_total_cost()
         el_under_mileage_percent= el_underground_mileage/el_underground_base
         el_underground_mileage=0
+   
     # Independent aggressive conversion for broadband line segment
     br_line_segment_array=[]
     br_line_segment_length_array=[]
     br_underground_base=data_broadband.parameter_dict['total_length_underground']
     br_underground_mileage = 0 #data.parameter_dict['total_length_underground']
-
     for i in range (data_broadband.parameter_dict['segment_number']):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
@@ -1514,8 +1514,7 @@ def run_cost_simulation_S11(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             aggressive_current=True
-            joint_trench_current=False
-            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1525,8 +1524,9 @@ def run_cost_simulation_S11(data, data_broadband):
                     convert_new=False
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
+
             br_line_segment_array[i].update_underground_status(convert=convert_new)
-            br_line_segment_array[i].calculate_replcost( joint_trench=joint_trench_current)
+            br_line_segment_array[i].calculate_replcost(disaggregated_function=disaggregated_current)
             br_line_segment_array[i].calculate_capex()
             br_line_segment_array[i].calculate_opex()
             br_line_segment_array[i].add_opex_interest_rate()
@@ -1535,8 +1535,7 @@ def run_cost_simulation_S11(data, data_broadband):
             br_line_segment_array[i].calculate_non_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_fatal_cost(under_len_pro=br_under_mileage_percent)
             br_line_segment_array[i].calculate_total_safety()
-            br_line_segment_array[i].calculate_total_cost()
-                                        
+            br_line_segment_array[i].calculate_total_cost()                                        
             df_new=pd.DataFrame({
                                  'year': [t],
                                  'segment number':[i],
@@ -1602,7 +1601,7 @@ def run_cost_simulation_S12(data, data_broadband):
             disaggregated_current=True
             aggressive_current=True
             joint_trench_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1626,7 +1625,7 @@ def run_cost_simulation_S12(data, data_broadband):
 
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
-            br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1705,7 +1704,7 @@ def run_cost_simulation_S13(data, data_broadband):
             disaggregated_current=True
             aggressive_current=True
             joint_trench_current=False
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1729,7 +1728,7 @@ def run_cost_simulation_S13(data, data_broadband):
 
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += el_line_segment_array[i].length
-            br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             br_line_segment_array[i].update_underground_status(convert=convert_new)
             br_line_segment_array[i].calculate_replcost(joint_trench=joint_trench_current)
             br_line_segment_array[i].calculate_capex()
@@ -1802,7 +1801,7 @@ def run_benefit_simulation_S1(data, data_broadband):
             if el_line_segment_array[i].underground[-1] == 1:
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
-            el_line_segment_array[i].update_age()
+            el_line_segment_array[i].update_age_and_check_replacement()
             el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
@@ -1846,7 +1845,7 @@ def run_benefit_simulation_S1(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status()
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
@@ -1895,7 +1894,7 @@ def run_benefit_simulation_S2(data, data_broadband):
             if el_line_segment_array[i].underground[-1] == 1:
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
-            el_line_segment_array[i].update_age()
+            el_line_segment_array[i].update_age_and_check_replacement()
             el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
@@ -1939,7 +1938,7 @@ def run_benefit_simulation_S2(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
-            lifespan_exceeded=br_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -1998,7 +1997,7 @@ def run_benefit_simulation_S3(data, data_broadband):
             if el_line_segment_array[i].underground[-1] == 1:
                 el_underground_mileage += el_line_segment_array[i].length
             el_line_segment_array[i].update_underground_status()
-            el_line_segment_array[i].update_age()
+            el_line_segment_array[i].update_age_and_check_replacement()
             el_line_segment_array[i].calculate_economic_loss() 
             el_line_segment_array[i].calculate_aesthetic_benefits()
             el_line_segment_array[i].add_aesthetic_benefits_interest_rate()
@@ -2042,7 +2041,7 @@ def run_benefit_simulation_S3(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
             aggressive_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2099,7 +2098,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             if el_line_segment_array[i].underground[-1] == 1:
                 el_underground_mileage += el_line_segment_array[i].length
             convert_new=False
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2150,7 +2149,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status()
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
@@ -2200,7 +2199,7 @@ def run_benefit_simulation_S5(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             convert_new=False
             aggressive_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2251,7 +2250,7 @@ def run_benefit_simulation_S5(data, data_broadband):
             if br_line_segment_array[i].underground[-1] == 1:
                 br_underground_mileage += br_line_segment_array[i].length
             br_line_segment_array[i].update_underground_status()
-            br_line_segment_array[i].update_age()
+            br_line_segment_array[i].update_age_and_check_replacement()
             br_line_segment_array[i].calculate_economic_loss()
             br_line_segment_array[i].calculate_aesthetic_benefits()            
             df_new2=pd.DataFrame({
@@ -2300,7 +2299,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
             if el_line_segment_array[i].underground[-1] == 1:
                 el_underground_mileage += el_line_segment_array[i].length
             convert_new=False
-            lifespan_exceeded=el_line_segment_array[i].update_age()
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2353,7 +2352,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
                 br_underground_mileage += br_line_segment_array[i].length
             convert_new=False
             disaggregated_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age()
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement()
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2411,7 +2410,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
                 el_underground_mileage += el_line_segment_array[i].length
             convert_new=False
             aggressive_current=True
-            lifespan_exceeded=el_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=el_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:
@@ -2466,7 +2465,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
             convert_new=False
             disaggregated_current=True
             aggressive_current=True
-            lifespan_exceeded=br_line_segment_array[i].update_age(aggressive=aggressive_current)
+            lifespan_exceeded=br_line_segment_array[i].update_age_and_check_replacement(aggressive=aggressive_current)
             if lifespan_exceeded==True:
                 convert_new+=True
             else:

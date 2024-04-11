@@ -42,13 +42,16 @@ class Electric_model_inputs:
             "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
             "SAIDI":4.17,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
-            "USD_per_Customer_Hour_Interruption_Residential":4.2,
+            "USD_per_Customer_Hour_Interruption_Residential": 3.38,
             "USD_per_Customer_Hour_Interruption_Commercial":1260,
             "USD_per_Customer_Hour_Interruption_Industry":42600,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
-            "Total_Customers_Residential_Shrewsbury":6400,
-            "Total_Customers_Commercial_Shrewsbury":8000,
-            "Total_Customers_Industry_Shrewsbury":1600,
+            #"Total_Customers_Residential_Shrewsbury":6400,
+            #"Total_Customers_Commercial_Shrewsbury":8000,
+            #"Total_Customers_Industry_Shrewsbury":1600,
+            "Total_Customers_Residential_Shrewsbury":30660,
+            "Total_Customers_Commercial_Shrewsbury":3833,
+            "Total_Customers_Industry_Shrewsbury":3833,
             "total_length":55.43, #summation of underground and overhead miles generated based on gamma simulation
             "total_length_overhead":36.68, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":18.75, #summation of underground miles generated based on gamma simulation}
@@ -57,7 +60,7 @@ class Electric_model_inputs:
             #"aesthetic_benefit_proportion":0.03,
             "aesthetic_benefit_proportion":0.05,
             "inflation_rate_benefit":0,
-            "shrewsbury_population":39774,
+            "shrewsbury_population":38325,
             "residential_percentage":0.8,
             "industrial_percentage":0.1,
             "commercial_percentage":0.1,
@@ -125,8 +128,9 @@ class Broadband_model_inputs:
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
-            "aesthetic_benefit_proportion":0.03,
-            "Shrewsbury_tax_levy_2021": 85713912.0,
+            "aesthetic_benefit_proportion":0.05,
+            #"Shrewsbury_tax_levy_2021": 85713912.0,
+            "Shrewsbury_tax_levy_2021": 6873609623,#85713912.0/(12.47/1000) the tax levy is $85,713,912 and the tax rate is $12.47 per $1,000 of assessed value
             "inflation_rate_benefit":0,
             "service_area": 21.7, # square mile (town of Shrewsbury area)
             "single_phase_probability":0.6,
@@ -137,9 +141,13 @@ class Broadband_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "total_employees":3000,
+            #"total_employees":3000,
+            "total_employees":24834, # total population * employment rate = 38,325 * 64.8%
             "affected_employees": 0.25,
-            "cost_per_hour": 24,
+            "cost_per_hour_residential": 20.07,
+            "affected_Customers_Residential_Shrewsbury":18396,# total_population*residential%*work_from_home%=38325*0.8*0.6=18396
+            #"cost_per_hour": 24,
+            "cost_per_hour_commercial_residencial": 830, # Average lost per minute= (137+17244)/2=8690, Average lost per hour= 8690 *60 = 521430, 521430/(0.25*24834)
             "outage_hours": 40,
             "outage_overhead":0.8,
             "outage_underground":0.2,
@@ -238,43 +246,106 @@ class Electric_line_segment:
         
     ###Lifecycle Infrastructure Costs:
     # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
-    def update_age(self,replace=False, aggressive=False):
-        if aggressive==False:
-            if self.underground[-1]==1:
-                lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
-            else:
-                lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
-        else:
-            if self.underground[:-1]==[0]*len(self.underground[:-1]):
-                if self.underground[-1]==1:
-                    lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
-                else:
-                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
-            else:
-                if self.underground[-1]==1:
-                    lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
-                else:
-                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])                 
-        age_current=self.age[-1]
-        if age_current>lifespan_current:
-            self.age.append(1)
-            replace=True
-        else:
-            age_current+=1
-            self.age.append(age_current)
-            replace=False
-        return(replace)
+    #def update_age_and_check_replacement(self, aggressive=False):
+        """
+        Updates the age and determines whether it should be replaced.
     
-    # Add underground status based on if convert is true or not to self.underground list.                  
-    def update_underground_status(self,convert=False):
-        status=self.underground[-1]
-        if convert==True:
-            if status==0:
-                status+=1
-            else:
-                status=self.underground[-1]
+        This function increments the age of a line segment based on its current age and lifespan. 
+        It also checks if it has replaced from overhead (0) to underground (1).
+    
+        :param aggressive: Boolean indicating if the aggressive replacement policy is used.
+        :return: Boolean indicating if the asset was marked for replacement.
+        """
+    #    age_current = self.age[-1]
+    #    lifespan_dict = 'underground_line' if self.underground[-1] == 1 else 'overhead_line'
+    #    lifespan_current = int(self.inputs.parameter_dict[lifespan_dict]['lifespan'])
+    
+    #    replace = False
+    #    if aggressive and len(self.underground) > 1 and self.underground[-2] == 0 and self.underground[-1] == 1:
+    #        threshold = 0.5 * lifespan_current
+    #        if age_current > threshold:
+    #            self.age.append(1)
+    #            replace = True
+    #        else:
+    #            age_current += 1
+    #    else:
+    #        if age_current > lifespan_current:
+    #            self.age.append(1)
+    #            replace = True
+    #        else:
+    #            age_current += 1
+    
+    #    self.age.append(age_current)
+    #    return replace
+
+
+        
+# Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
+    #def update_age_and_check_replacement(self,replace=False, aggressive=False):
+    #    if aggressive==False:
+    #        if self.underground[-1]==1:
+    #            treshhold= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    #        else:
+    #            treshhold= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    #    else:
+    #        if self.underground[:-1]==[0]*len(self.underground[:-1]):
+    #            if self.underground[-1]==1:
+    #                treshhold= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    #            else:
+    #                treshhold= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    #        else:
+    #            if self.underground[-1]==1:
+    #                treshhold= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    #            else:
+    #                treshhold= int(self.inputs.parameter_dict['overhead_line']['lifespan'])                 
+    #    age_current=self.age[-1]
+    #    if age_current>treshhold:
+    #        self.age.append(1)
+    #        replace=True
+    #    else:
+    #        age_current+=1
+    #        self.age.append(age_current)
+    #        replace=False
+    #    return(replace)
+    
+    # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
+    def update_age_and_check_replacement(self, aggressive=False):
+        if self.underground[-1] == 1:
+            threshold = int(self.inputs.parameter_dict['underground_line']['lifespan'])
         else:
-            status=self.underground[-1]
+            threshold = int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    
+        if aggressive and self.underground[-1] == 0:
+            threshold = 0.5 * int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    
+        age_current = self.age[-1]
+        if age_current > threshold:
+            self.age.append(1)
+            replace = True
+        else:
+            age_current += 1
+            self.age.append(age_current)
+            replace = False
+    
+        return replace
+    
+    def update_underground_status(self,convert=False):
+        """
+        Updates the underground status of the asset.
+    
+        If conversion is indicated (convert=True), the method changes the status from overhead (0) 
+        to underground (1). Otherwise, the status remains unchanged.
+    
+        :param convert: Boolean indicating if a conversion from overhead to underground should occur.
+        """
+        # Get the current underground status
+        status = self.underground[-1]
+    
+        # Convert from 0 to 1 if necessary
+        if convert and status == 0:
+            status = 1
+    
+        # Append the (possibly updated) status to the underground list
         self.underground.append(status)
             
     #Disaggregated cost model
@@ -488,46 +559,7 @@ class Electric_line_segment:
         return(self.total_inflated_economic_losses)    
 
 
-# =============================================================================
-#     def calculate_aesthetic_benefits(self):
-#         if self.underground[-1]==1:
-#             if self.underground[0]==0:
-#                 self.total_aesthetic_benefits.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
-#             else:
-#                 self.total_aesthetic_benefits.append(0)
-#         else:
-#             self.total_aesthetic_benefits.append(0)
-#         return(self.total_aesthetic_benefits) 
-# 
-#     #Add interest rate to aesthetic benefit.
-#     def add_aesthetic_benefits_interest_rate(self):
-#         aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
-#         self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
-#         return(self.total_inflated_aesthetic_benefits)
-# =============================================================================
-
-# =============================================================================
-#     def calculate_aesthetic_losses(self):
-#         if self.underground[-1]==1:
-#             if self.underground[0]==0:
-#                 self.total_aesthetic_losses.append(0)
-#             else:
-#                 self.total_aesthetic_losses.append(0)
-#                 
-#         else:
-#             self.total_aesthetic_losses.append((self.inputs.parameter_dict['Shrewsbury_tax_levy_2021']/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['aesthetic_benefit_proportion'])
-#         return(self.total_aesthetic_losses) 
-# 
-#     def add_aesthetic_losses_interest_rate(self):
-#         aesthetic_loss_new=self.total_aesthetic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
-#         self.total_inflated_aesthetic_losses.append(aesthetic_loss_new)
-#         return(self.total_inflated_aesthetic_losses)    
-# 
-#     def calculate_total_losses(self):
-#         self.total_losses.append(self.total_inflated_aesthetic_losses[-1]+self.total_inflated_economic_losses[-1])
-#         return(self.total_losses)         
-# =============================================================================
-
+    # Calculate aesthetic benefit
     def calculate_aesthetic_benefits(self):
         if self.underground[-1]==1:
             corridor_width_current=self.inputs.parameter_dict['overhead_line']['corridor_width']
@@ -628,46 +660,110 @@ class Broadband_line_segment:
         self.conversion_cost=[0]
         
     ###Lifecycle Infrastructure Costs:
-    # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
-    def update_age(self,replace=False, aggressive=False):
-        if aggressive==False:
-            if self.underground[-1]==1:
-                lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
-            else:
-                lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
-        else:
-            if self.underground[:-1]==[0]*len(self.underground[:-1]):
-                if self.underground[-1]==1:
-                    lifespan_current= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
-                else:
-                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
-            else:
-                if self.underground[-1]==1:
-                    lifespan_current= int(self.inputs.parameter_dict['underground_line']['lifespan'])
-                else:
-                    lifespan_current= int(self.inputs.parameter_dict['overhead_line']['lifespan'])                 
-        age_current=self.age[-1]
-        if age_current>lifespan_current:
-            self.age.append(1)
-            replace=True
-        else:
-            age_current+=1
-            self.age.append(age_current)
-            replace=False
-        return(replace)
+    #def update_age_and_check_replacement(self, aggressive=False):
+        """
+        Updates the age and determines whether it should be replaced.
     
-    # Add underground status based on if convert is true or not to self.underground list.                  
-    def update_underground_status(self,convert=False):
-        status=self.underground[-1]
-        if convert==True:
-            if status==0:
-                status+=1
-            else:
-                status=self.underground[-1]
+        This function increments the age of a line segment based on its current age and lifespan. 
+        It also checks if it has replaced from overhead (0) to underground (1).
+    
+        :param aggressive: Boolean indicating if the aggressive replacement policy is used.
+        :return: Boolean indicating if the asset was marked for replacement.
+        """
+    #    age_current = self.age[-1]
+    #    lifespan_dict = 'underground_line' if self.underground[-1] == 1 else 'overhead_line'
+    #    lifespan_current = int(self.inputs.parameter_dict[lifespan_dict]['lifespan'])
+    
+    #    replace = False
+    #    if aggressive and len(self.underground) > 1 and self.underground[-2] == 0 and self.underground[-1] == 1:
+    #        threshold = 0.5 * lifespan_current
+    #        if age_current > threshold:
+    #            self.age.append(1)
+    #            replace = True
+    #        else:
+    #            age_current += 1
+    #    else:
+    #        if age_current > lifespan_current:
+    #            self.age.append(1)
+    #            replace = True
+    #        else:
+    #            age_current += 1
+    
+    #    self.age.append(age_current)
+    #    return replace
+    
+
+    # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
+    #def update_age_and_check_replacement(self,replace=False, aggressive=False):
+    #    if aggressive==False:
+    #        if self.underground[-1]==1:
+    #            treshhold= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    #        else:
+    #            treshhold= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    #    else:
+    #        if self.underground[:-1]==[0]*len(self.underground[:-1]):
+    #            if self.underground[-1]==1:
+    #                treshhold= 0.5*int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    #            else:
+    #                treshhold= int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    #        else:
+    #            if self.underground[-1]==1:
+    #                treshhold= int(self.inputs.parameter_dict['underground_line']['lifespan'])
+    #            else:
+    #                treshhold= int(self.inputs.parameter_dict['overhead_line']['lifespan'])                 
+    #    age_current=self.age[-1]
+    #    if age_current>treshhold:
+    #        self.age.append(1)
+    #        replace=True
+    #    else:
+    #        age_current+=1
+    #        self.age.append(age_current)
+    #        replace=False
+    #    return(replace)
+
+
+    # Add one year to the age of line segment,compare it to the lifespan, starts from 1 when reaches to lifespan and append this age to age list.                  
+    def update_age_and_check_replacement(self, aggressive=False):
+        if self.underground[-1] == 1:
+            threshold = int(self.inputs.parameter_dict['underground_line']['lifespan'])
         else:
-            status=self.underground[-1]
+            threshold = int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    
+        if aggressive and self.underground[-1] == 0:
+            threshold = 0.5 * int(self.inputs.parameter_dict['overhead_line']['lifespan'])
+    
+        age_current = self.age[-1]
+        if age_current > threshold:
+            self.age.append(1)
+            replace = True
+        else:
+            age_current += 1
+            self.age.append(age_current)
+            replace = False
+    
+        return replace
+
+    # Add underground status based on if convert is true or not to self.underground list.  
+                
+    def update_underground_status(self,convert=False):
+        """
+        Updates the underground status of the asset.
+    
+        If conversion is indicated (convert=True), the method changes the status from overhead (0) 
+        to underground (1). Otherwise, the status remains unchanged.
+    
+        :param convert: Boolean indicating if a conversion from overhead to underground should occur.
+        """
+        # Get the current underground status
+        status = self.underground[-1]
+    
+        # Convert from 0 to 1 if necessary
+        if convert and status == 0:
+            status = 1
+    
+        # Append the (possibly updated) status to the underground list
         self.underground.append(status)
-            
+    
     #Disaggregated cost model
     def calculate_disaggregated_conversion_cost(self):
         if self.underground[-1]==0:
@@ -682,30 +778,6 @@ class Broadband_line_segment:
                 self.conversion_cost.append(conversion_cost_current)
         return(self.conversion_cost)
         
-    #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
-    #def calculate_replcost(self, disaggregated_function=False, joint_trench=False):            
-    #    if joint_trench==True:
-    #        conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_joint_proportion_convertcost']*self.inputs.parameter_dict['underground_line']['over_under_convertcost']
-    #    else:
-    #        conversion_cost_current=self.inputs.parameter_dict['underground_line']['over_under_convertcost']
-    #
-    #    underground_current=self.underground[-1]
-    #    underground_baseyear=self.underground[0]
-    #    if underground_current==1:
-    #        replcost_growth_rate_current=self.inputs.parameter_dict['underground_line']['replcost_growth_rate']
-    #    else:
-    #        replcost_growth_rate_current=self.inputs.parameter_dict['overhead_line']['replcost_growth_rate']
-    #    if underground_current==underground_baseyear:        
-    #        replcost_new=(self.replcost[-1])+((replcost_growth_rate_current)*(self.replcost[-1]))
-    #        self.replcost.append(replcost_new)
-    #    else:
-    #        if self.underground[:-1]==[0]*len(self.underground[:-1]):
-    #            replcost_new=conversion_cost_current*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-    #            self.replcost.append(replcost_new)
-    #        else:
-    #            replcost_new=self.inputs.parameter_dict['underground_line']['replcost']*((1+replcost_growth_rate_current)**(len(self.underground)-1))
-    #            self.replcost.append(replcost_new)
-    #    return(self.replcost)
     
     #Add interest rate to the replacement cost and also cansider different replacementcost rate when underground=1        
     def calculate_replcost(self,disaggregated_function=False, joint_trench=False):
@@ -834,7 +906,9 @@ class Broadband_line_segment:
     def calculate_economic_loss(self): 
         """A method to quantify employee productivity cost based on line segment status"""    
         status = self.underground[-1]
-        economic_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour']*self.inputs.parameter_dict['outage_hours']
+        residential_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_Customers_Residential_Shrewsbury']*self.inputs.parameter_dict['cost_per_hour_residential']*self.inputs.parameter_dict['outage_hours']
+        commercial_industrial_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour_commercial_residencial']*self.inputs.parameter_dict['outage_hours']
+        economic_loss = residential_loss + commercial_industrial_loss
         if status==1: #underground line
             outage_probability=self.inputs.parameter_dict['outage_underground']
             #percentage=proportion

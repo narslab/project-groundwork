@@ -1,0 +1,36 @@
+Strategy,aesthetic_benefit_el,economic_losses_el,aesthetic_benefit_br,economic_loss_br
+S1,"0    0.0
+Name: aesthetic_benefit_el, dtype: float64","0    1.931202e+09
+Name: economic_losses_el, dtype: float64","0    0.0
+Name: aesthetic_benefit_br, dtype: float64","0    4.194097e+06
+Name: economic_loss_br, dtype: float64"
+S2,"0    0.0
+Name: aesthetic_benefit_el, dtype: float64","0    1.901166e+09
+Name: economic_losses_el, dtype: float64","0    1903.175339
+Name: aesthetic_benefit_br, dtype: float64","0    3.294244e+06
+Name: economic_loss_br, dtype: float64"
+S3,"0    0.0
+Name: aesthetic_benefit_el, dtype: float64","0    1.901166e+09
+Name: economic_losses_el, dtype: float64","0    1903.175339
+Name: aesthetic_benefit_br, dtype: float64","0    3.294244e+06
+Name: economic_loss_br, dtype: float64"
+S4,"0    254367.193165
+Name: aesthetic_benefit_el, dtype: float64","0    1.493266e+09
+Name: economic_losses_el, dtype: float64","0    0.0
+Name: aesthetic_benefit_br, dtype: float64","0    4.194097e+06
+Name: economic_loss_br, dtype: float64"
+S5,"0    254367.193165
+Name: aesthetic_benefit_el, dtype: float64","0    1.493266e+09
+Name: economic_losses_el, dtype: float64","0    0.0
+Name: aesthetic_benefit_br, dtype: float64","0    4.194097e+06
+Name: economic_loss_br, dtype: float64"
+S6,"0    254367.193165
+Name: aesthetic_benefit_el, dtype: float64","0    1.493266e+09
+Name: economic_losses_el, dtype: float64","0    1903.175339
+Name: aesthetic_benefit_br, dtype: float64","0    3.294244e+06
+Name: economic_loss_br, dtype: float64"
+S10,"0    254367.193165
+Name: aesthetic_benefit_el, dtype: float64","0    1.493266e+09
+Name: economic_losses_el, dtype: float64","0    1903.175339
+Name: aesthetic_benefit_br, dtype: float64","0    3.294244e+06
+Name: economic_loss_br, dtype: float64"
