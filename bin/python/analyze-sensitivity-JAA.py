@@ -1,4 +1,4 @@
-import analyze_sensitivity
+import sensitivity as analyze_sensitivity
 import pandas as pd
 
 #cost sensitivity results for JAA
