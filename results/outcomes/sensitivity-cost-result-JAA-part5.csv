@@ -1,0 +1,16 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+vsl_el,"0    0.222946
+dtype: float64","0   -0.222946
+dtype: float64"
+employees_el,"0    0.759546
+dtype: float64","0   -0.759546
+dtype: float64"
+fir_el,"0    0.222946
+dtype: float64","0   -0.222946
+dtype: float64"
+nfir_el,"0    0.5366
+dtype: float64","0   -0.5366
+dtype: float64"
+r_el,"0   -2.188164
+dtype: float64","0    2.486869
+dtype: float64"
