@@ -59,13 +59,13 @@ def run_sensitivity_cost_JAA(parameter1, percentage_change1,
         if  parameter2==None:           
             new_data1=network.Broadband_model_inputs()
             new_data1.modify_parameter(parameter1, percentage_change1)
-            original_result=calculate_cost_npv_S10(data, model_data)
-            new_result=calculate_cost_npv_S10(data, new_data1)
+            original_result=calculate_cost_npv_S10(model_data, data)
+            new_result=calculate_cost_npv_S10(model_data, new_data1)
         else:
             new_data1=network.Broadband_model_inputs()
             new_data1.modify_parameter(parameter1, percentage_change1, parameter2)
-            original_result=calculate_cost_npv_S10(data, model_data)
-            new_result=calculate_cost_npv_S10(data, new_data1)
+            original_result=calculate_cost_npv_S10(model_data, data)
+            new_result=calculate_cost_npv_S10(model_data, new_data1)
     else:
         data=network.Broadband_model_inputs()
         model_data=network.Electric_model_inputs()

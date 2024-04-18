@@ -1,0 +1,16 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+r,"0   -3.294048
+dtype: float64","0    2.486869
+dtype: float64"
+over_corridor_width,"0    0.0
+dtype: float64","0    0.0
+dtype: float64"
+under_corridor_width,"0    0.501391
+dtype: float64","0   -0.501391
+dtype: float64"
+over_replcost_el,"0    0.000842
+dtype: float64","0   -0.000842
+dtype: float64"
+under_replcost_el,"0    0.203305
+dtype: float64","0   -0.203305
+dtype: float64"

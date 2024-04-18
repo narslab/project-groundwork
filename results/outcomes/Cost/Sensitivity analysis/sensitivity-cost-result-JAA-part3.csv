@@ -1,0 +1,16 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+length_shape,"0    4.207883
+dtype: float64","0   -3.623626
+dtype: float64"
+length_scale,"0    8.254367
+dtype: float64","0   -8.108035
+dtype: float64"
+age_shape,"0    1.681409
+dtype: float64","0   -2.648523
+dtype: float64"
+age_scale,"0    1.428008
+dtype: float64","0   -2.169869
+dtype: float64"
+average_length,"0    0.0
+dtype: float64","0    0.0
+dtype: float64"
