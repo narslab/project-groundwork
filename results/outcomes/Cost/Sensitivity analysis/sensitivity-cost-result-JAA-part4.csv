@@ -1,0 +1,19 @@
+Parameter,%change in cost resulted from +%10 change in parameter,%change in cost resulted from -%10 change in parameter
+over_replcost_br,"0   -1.596712
+dtype: float64","0   -0.000458
+dtype: float64"
+under_replcost_br,"0    0.109785
+dtype: float64","0   -0.109785
+dtype: float64"
+over_om_percentage_replcost_br,"0    0.000458
+dtype: float64","0   -0.000458
+dtype: float64"
+under_om_percentage_replcost_br,"0    0.060261
+dtype: float64","0   -0.060261
+dtype: float64"
+over_under_joint_proportion_convertcost,"0    1.639576
+dtype: float64","0   -1.639576
+dtype: float64"
+joint_trench_additional,"0    0.128824
+dtype: float64","0   -0.128824
+dtype: float64"

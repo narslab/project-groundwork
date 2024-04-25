@@ -486,53 +486,28 @@ class Electric_line_segment:
         self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total_cost)
     
+### Ver01
 # =============================================================================
-#     #Calculation of Total Dollar Amount of Revenue lost per Customer Hour Interruption in Shrewsbury, MA based on SAIDI for MA in the Residential, Commercial and Industry sectors in 2019, for overhead    
-#     def calculate_economic_benefits(self):
+#     def calculate_economic_loss(self):
 #         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-#         total_length_current=0
-#         total_economic_benefit_current= 0
-#         """ if self.underground[-1]==1:
-#             SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-#             total_length_current=self.inputs.parameter_dict['total_length_underground']            
-#         else:
-#             SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-#             total_length_current=self.inputs.parameter_dict['total_length_overhead']"""
 #         if self.underground[-1]==1:
-#             total_length_current=self.inputs.parameter_dict['total_length_underground'] 
-#             if self.underground[0]==0:
-#                 residential_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*(self.inputs.parameter_dict['Total_Customers_Residential_Shrewsbury'])
-#                 commercial_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*(self.inputs.parameter_dict['Total_Customers_Commercial_Shrewsbury'])
-#                 industry_benefit_current=SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*(self.inputs.parameter_dict['Total_Customers_Industry_Shrewsbury'])
-#                 self.residential_benefit.append(residential_benefit_current)
-#                 self.commercial_benefit.append(commercial_benefit_current)
-#                 self.industry_benefit.append(industry_benefit_current)
-#             else:
-#                 residential_benefit_current=0
-#                 commercial_benefit_current=0
-#                 industry_benefit_current=0
-#                 self.residential_benefit.append(residential_benefit_current)
-#                 self.commercial_benefit.append(commercial_benefit_current)
-#                 self.industry_benefit.append(industry_benefit_current)
+#             outage_percentage_current=self.inputs.parameter_dict['outage_underground']
+#             #percentage=proportion
 #         else:
-#             total_length_current=self.inputs.parameter_dict['total_length_overhead']
-#             residential_benefit_current=0
-#             commercial_benefit_current=0
-#             industry_benefit_current=0
-#             self.residential_benefit.append(residential_benefit_current)
-#             self.commercial_benefit.append(commercial_benefit_current)
-#             self.industry_benefit.append(industry_benefit_current)
-#         total_economic_benefit_current = (self.length/total_length_current) * (residential_benefit_current + commercial_benefit_current + industry_benefit_current)
-#         self.total_economic_benefits.append(total_economic_benefit_current)
-#         return(self.total_economic_benefits)  
-# 
-#     #Add interest rate to economic benefit.
-#     def add_economic_benefits_interest_rate(self):
-#         economic_benefit_new=self.total_economic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
-#         self.total_inflated_economic_benefits.append(economic_benefit_new)
-#         return(self.total_inflated_economic_benefits)  
+#             outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
+#             #percentage=1-proportion
+#         residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
+#         commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
+#         industry_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
+#         self.residential_loss.append(residential_loss_current)
+#         self.commercial_loss.append(commercial_loss_current)
+#         self.industry_loss.append(industry_loss_current)
+#         total_economic_loss_current = (residential_loss_current + commercial_loss_current + industry_loss_current)
+#         self.total_economic_losses.append(total_economic_loss_current)
+#         return(self.total_economic_losses)      
 # =============================================================================
 
+### Ver02
     def calculate_economic_loss(self):
         SAIDI_Current=self.inputs.parameter_dict['SAIDI']
         if self.underground[-1]==1:
@@ -549,7 +524,7 @@ class Electric_line_segment:
         self.industry_loss.append(industry_loss_current)
         total_economic_loss_current = (residential_loss_current + commercial_loss_current + industry_loss_current)
         self.total_economic_losses.append(total_economic_loss_current)
-        return(self.total_economic_losses)  
+        return(self.total_economic_losses)      
 
 
     #Add interest rate to economic benefit.
