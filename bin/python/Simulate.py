@@ -2284,9 +2284,9 @@ def run_benefit_simulation_S2(data, data_broadband):
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S2-benefit-simulation.csv', index = False)
     #df_economic_loss.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-loss-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S2-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))#, df_economic_loss.set_index(["year"]))
 
 
@@ -2549,9 +2549,9 @@ def run_benefit_simulation_S3(data, data_broadband):
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S3-benefit-simulation.csv', index = False)
     #df_economic_loss.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-loss-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S3-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))#, df_economic_loss.set_index(["year"]))
 
 # =============================================================================
@@ -2813,9 +2813,9 @@ def run_benefit_simulation_S4(data, data_broadband):
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S4-benefit-simulation.csv', index = False)
     #df_economic_loss.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-loss-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S4-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))#, df_economic_loss.set_index(["year"]))
 
 # =============================================================================
@@ -3038,6 +3038,7 @@ def run_benefit_simulation_S5(data, data_broadband):
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
+            'year': [t],
             'economic_losses_br':[br_line_segment_array[i].total_inflated_economic_losses[t]],
                                      })   
         df4=df4.append(df_new4, ignore_index = True)       
@@ -3078,9 +3079,9 @@ def run_benefit_simulation_S5(data, data_broadband):
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S5-benefit-simulation.csv', index = False)
     #df_economic_loss.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-loss-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S5-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))#, df_economic_loss.set_index(["year"]))
 
 # =============================================================================
@@ -3364,9 +3365,9 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S6-to-S9-benefit-simulation.csv', index = False)
     #df_economic_loss.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-loss-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S6-to-S9-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))#, df_economic_loss.set_index(["year"]))
 
 # =============================================================================
@@ -3599,9 +3600,9 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
-    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-benefit-simulation.csv', index = False)
+    df.to_csv(r'../../results/outcomes/Benefit/Simulation/S10-to-S13-benefit-simulation.csv', index = False)
     #df_economic_loss.to_csv(r'../../results/outcomes/Benefit/Simulation/S1-loss-simulation.csv', index = False)
-    df_under_pro.to_csv(r'../../results/outcomes/S1-under-proportion.csv', index = False)
+    df_under_pro.to_csv(r'../../results/outcomes/S10-to-S13-under-proportion.csv', index = False)
     return(df.set_index(["year","segment number"]))#, df_economic_loss.set_index(["year"]))
 
 
