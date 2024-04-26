@@ -40,18 +40,18 @@ class Electric_model_inputs:
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
             "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
-            "SAIDI":4.17,
+            "SAIDI":1.38,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
-            "USD_per_Customer_Hour_Interruption_Residential": 3.38,
-            "USD_per_Customer_Hour_Interruption_Commercial":1260,
-            "USD_per_Customer_Hour_Interruption_Industry":42600,
+            "USD_per_Customer_Hour_Interruption_Residential": 2.10,
+            "USD_per_Customer_Hour_Interruption_Commercial":205.70,
+            "USD_per_Customer_Hour_Interruption_Industry":15048,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
             #"Total_Customers_Residential_Shrewsbury":6400,
             #"Total_Customers_Commercial_Shrewsbury":8000,
             #"Total_Customers_Industry_Shrewsbury":1600,
-            "Total_Customers_Residential_Shrewsbury":30660,
-            "Total_Customers_Commercial_Shrewsbury":3833,
-            "Total_Customers_Industry_Shrewsbury":3833,
+            "Total_Customers_Residential_Shrewsbury":14424,
+            "Total_Customers_Commercial_Shrewsbury":838,
+            "Total_Customers_Industry_Shrewsbury":269,
             "total_length":55.43, #summation of underground and overhead miles generated based on gamma simulation
             "total_length_overhead":36.68, #summation of overhead miles generated based on gamma simulation
             "total_length_underground":18.75, #summation of underground miles generated based on gamma simulation}
@@ -73,7 +73,8 @@ class Electric_model_inputs:
             "log_density_sigma": 0.76,
             "length_s": 0.711,
             "length_scale": 0.019,
-            "length_loc": -0.004
+            "length_loc": -0.004,
+            "alpha":0.8
             }
     
     
@@ -149,8 +150,20 @@ class Broadband_model_inputs:
             #"cost_per_hour": 24,
             "cost_per_hour_commercial_residencial": 830, # Average lost per minute= (137+17244)/2=8690, Average lost per hour= 8690 *60 = 521430, 521430/(0.25*24834)
             "outage_hours": 40,
+            "SAIDI":1.38,
             "outage_overhead":0.8,
             "outage_underground":0.2,
+            "USD_per_Customer_Hour_Interruption_Residential": 15,
+            "USD_per_Customer_Hour_Interruption_Commercial":205.70,
+            "USD_per_Customer_Hour_Interruption_Industry":8220,
+            #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
+            #"Total_Customers_Residential_Shrewsbury":6400,
+            #"Total_Customers_Commercial_Shrewsbury":8000,
+            #"Total_Customers_Industry_Shrewsbury":1600,
+            "Total_Customers_Residential_Shrewsbury":6449,
+            "Total_Customers_Commercial_Shrewsbury":838,
+            "Total_Customers_Industry_Shrewsbury":135,
+            "alpha":0.8
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
@@ -508,17 +521,13 @@ class Electric_line_segment:
 # =============================================================================
 
 ### Ver02
-    def calculate_economic_loss(self):
-        SAIDI_Current=self.inputs.parameter_dict['SAIDI']
-        if self.underground[-1]==1:
-            outage_percentage_current=self.inputs.parameter_dict['outage_underground']
-            #percentage=proportion
-        else:
-            outage_percentage_current=self.inputs.parameter_dict['outage_overhead']
-            #percentage=1-proportion
-        residential_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
-        commercial_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
-        industry_loss_current=self.length/self.inputs.parameter_dict["total_length"]*self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*outage_percentage_current*SAIDI_Current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
+    def calculate_economic_loss(self,lam):
+        SAIDI_init=self.inputs.parameter_dict['SAIDI']
+        lamb_current=lam
+        SAIDI_current=SAIDI_init*(self.inputs.parameter_dict['alpha']+lamb_current*(1-self.inputs.parameter_dict['alpha']))
+        residential_loss_current=self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*lamb_current
+        commercial_loss_current=self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*lamb_current
+        industry_loss_current=self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*lamb_current
         self.residential_loss.append(residential_loss_current)
         self.commercial_loss.append(commercial_loss_current)
         self.industry_loss.append(industry_loss_current)
@@ -878,20 +887,45 @@ class Broadband_line_segment:
         self.total_cost.append(self.total_infra[-1]+self.environmental_restoration[-1]+self.total_safety[-1])
         return(self.total_cost)
 
-    def calculate_economic_loss(self): 
-        """A method to quantify employee productivity cost based on line segment status"""    
-        status = self.underground[-1]
-        residential_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_Customers_Residential_Shrewsbury']*self.inputs.parameter_dict['cost_per_hour_residential']*self.inputs.parameter_dict['outage_hours']
-        commercial_industrial_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour_commercial_residencial']*self.inputs.parameter_dict['outage_hours']
-        economic_loss = residential_loss + commercial_industrial_loss
-        if status==1: #underground line
-            outage_probability=self.inputs.parameter_dict['outage_underground']
-            #percentage=proportion
-        else:
-            outage_probability=self.inputs.parameter_dict['outage_overhead']
-            #percentage=1-proportion
-        self.total_economic_losses.append(economic_loss*outage_probability)
-        return (self.total_economic_losses)
+### Ver001
+# =============================================================================
+#     def calculate_economic_loss(self): 
+#         """A method to quantify employee productivity cost based on line segment status"""    
+#         status = self.underground[-1]
+#         residential_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_Customers_Residential_Shrewsbury']*self.inputs.parameter_dict['cost_per_hour_residential']*self.inputs.parameter_dict['outage_hours']
+#         commercial_industrial_loss = (self.length/self.inputs.parameter_dict["total_length"])*self.inputs.parameter_dict['affected_employees']*self.inputs.parameter_dict['total_employees']*self.inputs.parameter_dict['cost_per_hour_commercial_residencial']*self.inputs.parameter_dict['outage_hours']
+#         economic_loss = residential_loss + commercial_industrial_loss
+#         if status==1: #underground line
+#             outage_probability=self.inputs.parameter_dict['outage_underground']
+#             #percentage=proportion
+#         else:
+#             outage_probability=self.inputs.parameter_dict['outage_overhead']
+#             #percentage=1-proportion
+#         self.total_economic_losses.append(economic_loss*outage_probability)
+#         return (self.total_economic_losses)
+# =============================================================================
+
+### Ver02
+    def calculate_economic_loss(self,lam):
+        SAIDI_init=self.inputs.parameter_dict['SAIDI']
+        lamb_current=lam
+        SAIDI_current=SAIDI_init*(self.inputs.parameter_dict['alpha']+lamb_current*(1-self.inputs.parameter_dict['alpha']))
+        residential_loss_current=self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*lamb_current
+        commercial_loss_current=self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*lamb_current
+        industry_loss_current=self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*lamb_current
+        self.residential_loss.append(residential_loss_current)
+        self.commercial_loss.append(commercial_loss_current)
+        self.industry_loss.append(industry_loss_current)
+        total_economic_loss_current = (residential_loss_current + commercial_loss_current + industry_loss_current)
+        self.total_economic_losses.append(total_economic_loss_current)
+        return(self.total_economic_losses)    
+    
+    #Add interest rate to economic benefit.
+    def add_economic_loss_interest_rate(self):
+        economic_loss_new=self.total_economic_losses[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_economic_losses.append(economic_loss_new)
+        return(self.total_inflated_economic_losses)    
+
 
     #Define a function to calculate aesthetic benefit
     def calculate_aesthetic_benefits(self):
@@ -908,6 +942,12 @@ class Broadband_line_segment:
         else:
             self.total_aesthetic_benefits.append(0)
         return(self.total_aesthetic_benefits) 
+    
+    #Add interest rate to aesthetic benefit.
+    def add_aesthetic_benefits_interest_rate(self):
+        aesthetic_benefit_new=self.total_aesthetic_benefits[-1]*((1+self.inputs.parameter_dict['inflation_rate_benefit'])**(len(self.underground)-1))
+        self.total_inflated_aesthetic_benefits.append(aesthetic_benefit_new)
+        return(self.total_inflated_aesthetic_benefits)
 
 
     
