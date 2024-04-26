@@ -2012,6 +2012,9 @@ def run_benefit_simulation_S1(data, data_broadband):
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
     
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
+    
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
@@ -2275,6 +2278,9 @@ def run_benefit_simulation_S2(data, data_broadband):
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
     
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
+    
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
@@ -2537,6 +2543,9 @@ def run_benefit_simulation_S3(data, data_broadband):
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
     
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
+    
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
@@ -2797,6 +2806,9 @@ def run_benefit_simulation_S4(data, data_broadband):
     
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
+    
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
     
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
@@ -3059,6 +3071,9 @@ def run_benefit_simulation_S5(data, data_broadband):
     
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
+    
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
     
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
@@ -3343,6 +3358,9 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
     
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
+    
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
     df_under_pro=pd.concat([df_under_pro1, df_under_pro2], axis=1)
@@ -3574,6 +3592,9 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
     
     # Drop duplicated columns
     df = df.loc[:, ~df.columns.duplicated()]
+    
+    # Rename the columns
+    df = df.rename(columns={'distributed_losses_el': 'economic_losses_el', 'distributed_losses_br': 'economic_losses_br'})
     
     #df=pd.concat([df1, df2], axis=1)
     #df_economic_loss=pd.concat([df3, df4], axis=1)
