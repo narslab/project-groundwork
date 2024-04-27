@@ -2775,7 +2775,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             'year': [t],
             'economic_losses_br':[br_line_segment_array[i].total_inflated_economic_losses[t]],
                                      })   
-        df4=df4.append(df_new4, ignore_index = True)       
+        df4=df4.append(df_new4, ignore_index = True)          
     
     # Calculate total length of each type of line at each time point
     total_lengths_el = df1.groupby('year')['length'].sum().rename('total_length_el')
@@ -3042,7 +3042,7 @@ def run_benefit_simulation_S5(data, data_broadband):
             'year': [t],
             'economic_losses_br':[br_line_segment_array[i].total_inflated_economic_losses[t]],
                                      })   
-        df4=df4.append(df_new4, ignore_index = True)       
+        df4=df4.append(df_new4, ignore_index = True)        
     
     # Calculate total length of each type of line at each time point
     total_lengths_el = df1.groupby('year')['length'].sum().rename('total_length_el')
