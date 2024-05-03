@@ -150,7 +150,7 @@ class Broadband_model_inputs:
             #"cost_per_hour": 24,
             "cost_per_hour_commercial_residencial": 830, # Average lost per minute= (137+17244)/2=8690, Average lost per hour= 8690 *60 = 521430, 521430/(0.25*24834)
             "outage_hours": 40,
-            "SAIDI":3,
+            "SAIDI":5,
             "outage_overhead":0.8,
             "outage_underground":0.2,
             "USD_per_Customer_Hour_Interruption_Residential": 15,
