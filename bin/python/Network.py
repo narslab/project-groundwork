@@ -153,7 +153,7 @@ class Broadband_model_inputs:
             "SAIDI":1.38,
             "outage_overhead":0.8,
             "outage_underground":0.2,
-            "USD_per_Customer_Hour_Interruption_Residential": 5,
+            "USD_per_Customer_Hour_Interruption_Residential": 2.10,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":8220,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
