@@ -18,7 +18,7 @@ class Electric_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.12, # Discount rate=10%
+            "r":0.1, # Discount rate=10%
             "easment_value":4081, # per-acre price of a conservation easement in MA
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -74,7 +74,7 @@ class Electric_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "alpha":0.8
+            "alpha":0.1
             }
     
     
@@ -112,7 +112,7 @@ class Broadband_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.12, # Discount rate=10%
+            "r":0.1, # Discount rate=10%
             "easment_value":4081, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -163,7 +163,7 @@ class Broadband_model_inputs:
             "Total_Customers_Residential_Shrewsbury":6449,
             "Total_Customers_Commercial_Shrewsbury":838,
             "Total_Customers_Industry_Shrewsbury":135,
-            "alpha":0.8
+            "alpha":0.1
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
