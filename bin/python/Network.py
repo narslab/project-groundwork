@@ -58,7 +58,7 @@ class Electric_model_inputs:
             #"Shrewsbury_tax_levy_2021": 85713912.0,
             "Shrewsbury_tax_levy_2021": 6873609623,#85713912.0/(12.47/1000) the tax levy is $85,713,912 and the tax rate is $12.47 per $1,000 of assessed value
             #"aesthetic_benefit_proportion":0.03,
-            "aesthetic_benefit_proportion":0.07,
+            "aesthetic_benefit_proportion":0.05,
             "inflation_rate_benefit":0,
             "shrewsbury_population":38325,
             "residential_percentage":0.8,
@@ -122,14 +122,14 @@ class Broadband_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
+            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.36},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
-            "aesthetic_benefit_proportion":0.07,
+            "aesthetic_benefit_proportion":0.05,
             #"Shrewsbury_tax_levy_2021": 85713912.0,
             "Shrewsbury_tax_levy_2021": 6873609623,#85713912.0/(12.47/1000) the tax levy is $85,713,912 and the tax rate is $12.47 per $1,000 of assessed value
             "inflation_rate_benefit":0,
