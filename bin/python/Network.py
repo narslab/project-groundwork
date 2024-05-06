@@ -18,7 +18,7 @@ class Electric_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.1, # Discount rate=10%
+            "r":0.07, # Discount rate=10%
             "easment_value":4081, # per-acre price of a conservation easement in MA
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -112,7 +112,7 @@ class Broadband_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.1, # Discount rate=10%
+            "r":0.07, # Discount rate=10%
             "easment_value":4081, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -122,7 +122,7 @@ class Broadband_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.20},
+            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
