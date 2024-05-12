@@ -6,8 +6,8 @@ import random
 class Electric_model_inputs:
     ###Model Variables and Parameters for Electric line segments
     def __init__(self):
-        np.random.seed(10101)  # Ensuring deterministic initialization
-        random.seed(10102)
+        #np.random.seed(10101)  # Ensuring deterministic initialization
+        #random.seed(10102)
         self.parameter_dict = {
             "analysis_years":40, #Analysis_years
             "average_age":27, # Average ages in base year for underground and overhead distribution lines (in years)=0.5(0.66*60+0.36*40)
