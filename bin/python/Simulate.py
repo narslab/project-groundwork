@@ -1914,7 +1914,7 @@ def run_benefit_simulation_S1(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -1924,6 +1924,7 @@ def run_benefit_simulation_S1(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S1 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -1966,7 +1967,7 @@ def run_benefit_simulation_S1(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -1976,6 +1977,7 @@ def run_benefit_simulation_S1(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S1 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
@@ -2070,7 +2072,7 @@ def run_benefit_simulation_S1(data, data_broadband):
 #                                  })   
 #             df1=df1.append(df_new, ignore_index = True)
 #         el_underground_proportion = el_underground_mileage/el_total_mileage
-#         print('el under proportion:',el_underground_proportion)
+#         #print('el under proportion:',el_underground_proportion)
 #         el_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']    
 #         df_under_pro_new=pd.DataFrame({
 #             'el_underground_proportion': [el_underground_proportion],
@@ -2173,7 +2175,7 @@ def run_benefit_simulation_S2(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -2183,6 +2185,7 @@ def run_benefit_simulation_S2(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S2 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -2234,7 +2237,7 @@ def run_benefit_simulation_S2(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -2244,6 +2247,7 @@ def run_benefit_simulation_S2(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S2 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
@@ -2440,7 +2444,7 @@ def run_benefit_simulation_S3(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -2450,6 +2454,7 @@ def run_benefit_simulation_S3(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S3 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -2501,7 +2506,7 @@ def run_benefit_simulation_S3(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -2511,6 +2516,7 @@ def run_benefit_simulation_S3(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S3 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
@@ -2716,7 +2722,7 @@ def run_benefit_simulation_S4(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -2726,6 +2732,7 @@ def run_benefit_simulation_S4(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S4 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -2767,7 +2774,7 @@ def run_benefit_simulation_S4(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -2777,6 +2784,7 @@ def run_benefit_simulation_S4(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S4 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
@@ -2985,7 +2993,7 @@ def run_benefit_simulation_S5(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -2995,6 +3003,7 @@ def run_benefit_simulation_S5(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S5 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -3036,7 +3045,7 @@ def run_benefit_simulation_S5(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -3046,6 +3055,7 @@ def run_benefit_simulation_S5(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S5 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
@@ -3262,7 +3272,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -3272,6 +3282,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S6 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -3325,7 +3336,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -3335,6 +3346,7 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S6 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({
@@ -3500,7 +3512,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)   
         
         el_underground_proportion = el_underground_mileage/el_total_mileage
-        print('el under proportion:',el_underground_proportion)
+        #print('el under proportion:',el_underground_proportion)
         el_underground_mileage = 0 
         df_under_pro_new=pd.DataFrame({
             'el_underground_proportion': [el_underground_proportion],
@@ -3510,6 +3522,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S10 el in t=', t, 'lamba t is:',lambda_t)
         el_line_segment_array[i].calculate_economic_loss(lambda_t) 
         el_line_segment_array[i].add_economic_loss_interest_rate()
         df_new3=pd.DataFrame({
@@ -3562,7 +3575,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
          
         
         br_underground_proportion = br_underground_mileage/br_total_mileage
-        print('br under proportion:',br_underground_proportion)
+        #print('br under proportion:',br_underground_proportion)
         br_underground_mileage = 0#data_broadband.parameter_dict['total_length_underground']
         df_under_pro_new2=pd.DataFrame({
             'br_underground_proportion': [br_underground_proportion],
@@ -3572,6 +3585,7 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         lambda_t = data.parameter_dict['total_length_underground']/under_t
+        print('for S10 br in t=', t, 'lamba t is:',lambda_t)
         br_line_segment_array[i].calculate_economic_loss(lambda_t) 
         br_line_segment_array[i].add_economic_loss_interest_rate()
         df_new4=pd.DataFrame({

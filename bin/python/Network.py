@@ -40,7 +40,7 @@ class Electric_model_inputs:
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
             "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
-            "SAIDI":3,
+            "SAIDI":1.38,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
             "USD_per_Customer_Hour_Interruption_Residential": 2.10,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
@@ -150,7 +150,7 @@ class Broadband_model_inputs:
             #"cost_per_hour": 24,
             "cost_per_hour_commercial_residencial": 830, # Average lost per minute= (137+17244)/2=8690, Average lost per hour= 8690 *60 = 521430, 521430/(0.25*24834)
             "outage_hours": 40,
-            "SAIDI":3,
+            "SAIDI":1.38,
             "outage_overhead":0.8,
             "outage_underground":0.2,
             "USD_per_Customer_Hour_Interruption_Residential": 15,
@@ -525,9 +525,9 @@ class Electric_line_segment:
         SAIDI_init=self.inputs.parameter_dict['SAIDI']
         lamb_current=lam
         SAIDI_current=SAIDI_init*(self.inputs.parameter_dict['alpha']+lamb_current*(1-self.inputs.parameter_dict['alpha']))
-        residential_loss_current=self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*lamb_current
-        commercial_loss_current=self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*lamb_current
-        industry_loss_current=self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*lamb_current
+        residential_loss_current=self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
+        commercial_loss_current=self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
+        industry_loss_current=self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
         self.residential_loss.append(residential_loss_current)
         self.commercial_loss.append(commercial_loss_current)
         self.industry_loss.append(industry_loss_current)
@@ -910,9 +910,9 @@ class Broadband_line_segment:
         SAIDI_init=self.inputs.parameter_dict['SAIDI']
         lamb_current=lam
         SAIDI_current=SAIDI_init*(self.inputs.parameter_dict['alpha']+lamb_current*(1-self.inputs.parameter_dict['alpha']))
-        residential_loss_current=self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])*lamb_current
-        commercial_loss_current=self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])*lamb_current
-        industry_loss_current=self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])*lamb_current
+        residential_loss_current=self.inputs.parameter_dict["Total_Customers_Residential_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Residential'])
+        commercial_loss_current=self.inputs.parameter_dict["Total_Customers_Commercial_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Commercial'])
+        industry_loss_current=self.inputs.parameter_dict["Total_Customers_Industry_Shrewsbury"]*SAIDI_current*(self.inputs.parameter_dict['USD_per_Customer_Hour_Interruption_Industry'])
         self.residential_loss.append(residential_loss_current)
         self.commercial_loss.append(commercial_loss_current)
         self.industry_loss.append(industry_loss_current)
