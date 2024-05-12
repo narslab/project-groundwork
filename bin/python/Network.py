@@ -865,20 +865,20 @@ class Broadband_line_segment:
     
     ###Safety and health Costs:
     #Return fatal cost which is one element of safety cost
-    def calculate_non_fatal_cost(self, under_len_pro=1):
-        self.non_fatal.append((self.length/self.inputs.parameter_dict['total_length'])*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
-        #print("under_len_pro_br:", under_len_pro)
+    def calculate_non_fatal_cost(self,under_len_pro=1):
+        self.non_fatal.append(under_len_pro*(self.length/self.inputs.parameter_dict['total_length'])*(self.inputs.parameter_dict['nfir'])*(self.inputs.parameter_dict['employees']/100000)*(self.inputs.parameter_dict['injurycost']))
+        #print("under_len_pro_el:", under_len_pro)
         return(self.non_fatal)
     
     #Return non-fatal cost which is one element of safety cost
     def calculate_fatal_cost(self, under_len_pro=1):
-        self.fatal.append((self.length/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['fir']*self.inputs.parameter_dict['employees']/100000*self.inputs.parameter_dict['vsl'])
-        #print("under_len_pro_br:", under_len_pro)
+        self.fatal.append(under_len_pro*(self.length/self.inputs.parameter_dict['total_length'])*self.inputs.parameter_dict['fir']*(self.inputs.parameter_dict['employees']/100000)*self.inputs.parameter_dict['vsl'])
+        #print("under_len_pro_el:", under_len_pro)
         return(self.fatal)
     
     #Return total safety cost which is summation of fatal and non fatal cost
     def calculate_total_safety(self):
-        self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])
+        self.total_safety.append(self.non_fatal[-1]+self.fatal[-1])       
         return(self.total_safety)
     
     ###Total cost
