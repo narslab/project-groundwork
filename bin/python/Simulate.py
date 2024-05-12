@@ -1873,6 +1873,8 @@ def run_cost_simulation_S13(data, data_broadband):
     
 # S1 benefit simulation function 
 def run_benefit_simulation_S1(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -1883,8 +1885,8 @@ def run_benefit_simulation_S1(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -1941,8 +1943,8 @@ def run_benefit_simulation_S1(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
@@ -2130,6 +2132,8 @@ def run_benefit_simulation_S1(data, data_broadband):
 
 # S2 benefit simulation function 
 def run_benefit_simulation_S2(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -2140,8 +2144,8 @@ def run_benefit_simulation_S2(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -2198,8 +2202,8 @@ def run_benefit_simulation_S2(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
@@ -2395,6 +2399,8 @@ def run_benefit_simulation_S2(data, data_broadband):
     
 # S3 benefit simulation function 
 def run_benefit_simulation_S3(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -2405,8 +2411,8 @@ def run_benefit_simulation_S3(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -2462,8 +2468,8 @@ def run_benefit_simulation_S3(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
@@ -2658,6 +2664,8 @@ def run_benefit_simulation_S3(data, data_broadband):
 
 # S4 benefit simulation function 
 def run_benefit_simulation_S4(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -2668,8 +2676,8 @@ def run_benefit_simulation_S4(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -2736,8 +2744,8 @@ def run_benefit_simulation_S4(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
@@ -2924,6 +2932,8 @@ def run_benefit_simulation_S4(data, data_broadband):
     
 # S5 benefit simulation function 
 def run_benefit_simulation_S5(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -2934,8 +2944,8 @@ def run_benefit_simulation_S5(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -3003,8 +3013,8 @@ def run_benefit_simulation_S5(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
@@ -3200,6 +3210,8 @@ def run_benefit_simulation_S5(data, data_broadband):
     
 ### S6 to S9 benefit simulation functions
 def run_benefit_simulation_S6_to_s9(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -3210,8 +3222,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -3279,8 +3291,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
@@ -3435,6 +3447,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
  
 ### S10 to S13 benefit simulation functions
 def run_benefit_simulation_S10_to_s13(data, data_broadband):
+    np.random.seed(10101)  # Set seeds at the start
+    random.seed(10102)
     #electric line segment
     el_line_segment_array=[]
     el_line_segment_length_array=[]
@@ -3445,8 +3459,8 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     df1=pd.DataFrame()
     df2=pd.DataFrame()
@@ -3514,8 +3528,8 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
         br_segment=network.Broadband_line_segment(data_broadband)
         br_line_segment_array.append(br_segment)
         br_line_segment_length_array.append(br_segment.length)
-    np.random.seed(10101)
-    random.seed(10102)
+    #np.random.seed(10101)
+    #random.seed(10102)
     df=pd.DataFrame()
     for t in range (data_broadband.parameter_dict['analysis_years']):
         for i in range (len(br_line_segment_array)):
