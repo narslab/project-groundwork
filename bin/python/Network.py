@@ -6,6 +6,8 @@ import random
 class Electric_model_inputs:
     ###Model Variables and Parameters for Electric line segments
     def __init__(self):
+        np.random.seed(10101)  # Ensuring deterministic initialization
+        random.seed(10102)
         self.parameter_dict = {
             "analysis_years":40, #Analysis_years
             "average_age":27, # Average ages in base year for underground and overhead distribution lines (in years)=0.5(0.66*60+0.36*40)
@@ -189,6 +191,8 @@ class Electric_line_segment:
     ## The __init__ function as the constructor, which assigns random length, age and underground status for the base year to each line segment.
     #data=Electric_model_inputs()
     def __init__(self, inputs): 
+        np.random.seed(10101)  # Ensuring deterministic initialization
+        random.seed(10102)
         self.inputs = inputs
         self.age = [np.random.gamma(self.inputs.parameter_dict['age_shape'], self.inputs.parameter_dict['age_scale'])] # set the age as a list, which can be dynamically expanded
         #self.length = np.random.gamma(self.inputs.parameter_dict['length_shape'],self.inputs.parameter_dict['length_scale']) # we can assume the length is fixed over time
