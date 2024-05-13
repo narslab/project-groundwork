@@ -23,14 +23,14 @@ class Electric_model_inputs:
             "r":0.1, # Discount rate=10%
             "easment_value":2692, # per-acre price of a conservation easement in MA
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
-            "fir":10, # Fatality incidence rates, number of accidents per 100000 workers 
+            "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
             "employees":40, #The number of IOU employees
             "injurycost":130658, # A randomly determined annual injury cost, per accident
             "vsl":7600000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':40,'replcost':51000,'replcost_growth_rate':0.01,'om_growth_rate':0.01,'om_proportion_replcost':0.003,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':154000,'replcost_growth_rate':0.01 ,'om_growth_rate':0.01,'om_proportion_replcost':0.003,'corridor_width':15 ,'over_under_convertcost':378000},
+            "overhead_line":{'lifespan':40,'replcost':51000,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':154000,'replcost_growth_rate':0.02 ,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -117,14 +117,14 @@ class Broadband_model_inputs:
             "r":0.1, # Discount rate=10%
             "easment_value":2692, # per-acre price of a conservation easement
             "nfir":2100, # Non-fatality incidence rates, number of accidents per 100000 workers
-            "fir":10, # Fatality incidence rates, number of accidents per 100000 workers 
+            "fir":15, # Fatality incidence rates, number of accidents per 100000 workers 
             "employees":40, #The number of IOU employees
             "injurycost":130658, # A randomly determined annual injury cost, per accident
             "vsl":7600000,#The value of a statistical life
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
-            "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.01,'om_growth_rate':0.01,'om_proportion_replcost':0.003,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.01,'om_growth_rate':0.01,'om_proportion_replcost':0.003,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
+            "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
+            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
