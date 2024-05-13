@@ -78,7 +78,7 @@ class Electric_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "alpha":0.5
+            "alpha":0.4
             }
     
     
@@ -160,15 +160,15 @@ class Broadband_model_inputs:
             "outage_underground":0.2,
             "USD_per_Customer_Hour_Interruption_Residential": 15,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
-            "USD_per_Customer_Hour_Interruption_Industry":12000,
+            "USD_per_Customer_Hour_Interruption_Industry":9600,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
             #"Total_Customers_Residential_Shrewsbury":6400,
             #"Total_Customers_Commercial_Shrewsbury":8000,
             #"Total_Customers_Industry_Shrewsbury":1600,
             "Total_Customers_Residential_Shrewsbury":6449,
             "Total_Customers_Commercial_Shrewsbury":838,
-            "Total_Customers_Industry_Shrewsbury":202,
-            "alpha":0.5
+            "Total_Customers_Industry_Shrewsbury":189,
+            "alpha":0.4
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
