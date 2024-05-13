@@ -78,7 +78,7 @@ class Electric_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "alpha":0.8
+            "alpha":0.6
             }
     
     
