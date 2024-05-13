@@ -78,7 +78,7 @@ class Electric_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "alpha":0.5
+            "alpha":0.4
             }
     
     
@@ -127,7 +127,7 @@ class Broadband_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.28},
+            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.20},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
@@ -160,15 +160,15 @@ class Broadband_model_inputs:
             "outage_underground":0.2,
             "USD_per_Customer_Hour_Interruption_Residential": 15,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
-            "USD_per_Customer_Hour_Interruption_Industry":8220,
+            "USD_per_Customer_Hour_Interruption_Industry":9600,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
             #"Total_Customers_Residential_Shrewsbury":6400,
             #"Total_Customers_Commercial_Shrewsbury":8000,
             #"Total_Customers_Industry_Shrewsbury":1600,
             "Total_Customers_Residential_Shrewsbury":6449,
             "Total_Customers_Commercial_Shrewsbury":838,
-            "Total_Customers_Industry_Shrewsbury":135,
-            "alpha":0.5
+            "Total_Customers_Industry_Shrewsbury":162,
+            "alpha":0.4
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
