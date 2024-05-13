@@ -384,6 +384,7 @@ def run_cost_simulation_S1(data, data_broadband):
         el_segment=network.Electric_line_segment(data)
         el_line_segment_array.append(el_segment)
         el_line_segment_length_array.append(el_segment.length)
+    #print('total_length_array', sum(el_line_segment_length_array))
     np.random.seed(10101)
     random.seed(10102)
     df1=pd.DataFrame()
