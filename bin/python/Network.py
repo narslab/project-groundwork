@@ -78,7 +78,7 @@ class Electric_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "alpha":0.6
+            "alpha":0.7
             }
     
     
@@ -168,7 +168,7 @@ class Broadband_model_inputs:
             "Total_Customers_Residential_Shrewsbury":6449,
             "Total_Customers_Commercial_Shrewsbury":838,
             "Total_Customers_Industry_Shrewsbury":189,
-            "alpha":0.6
+            "alpha":0.7
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
