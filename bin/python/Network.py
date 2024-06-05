@@ -62,7 +62,7 @@ class Electric_model_inputs:
             #"Shrewsbury_tax_levy_2021": 85713912.0,
             "Shrewsbury_tax_levy_2021": 6873609623,#85713912.0/(12.47/1000) the tax levy is $85,713,912 and the tax rate is $12.47 per $1,000 of assessed value
             #"aesthetic_benefit_proportion":0.03,
-            "aesthetic_benefit_proportion":0.03,
+            "aesthetic_benefit_proportion":0.07,
             "inflation_rate_benefit":0,
             "shrewsbury_population":38325,
             "residential_percentage":0.8,
@@ -134,7 +134,7 @@ class Broadband_model_inputs:
             # om_proportion_replcost= percentage of the overall replacement costs which equals to annual O&M expenses (OPEX) for each type of line
             # corridor_width= length of the corridor in feet needed for calculating environmental cost.
             # over_under_convertcost= replacement cost associated with replacing an overhead line with an underground line.
-            "aesthetic_benefit_proportion":0.03,
+            "aesthetic_benefit_proportion":0.07,
             #"Shrewsbury_tax_levy_2021": 85713912.0,
             "Shrewsbury_tax_levy_2021": 6873609623,#85713912.0/(12.47/1000) the tax levy is $85,713,912 and the tax rate is $12.47 per $1,000 of assessed value
             "inflation_rate_benefit":0,
