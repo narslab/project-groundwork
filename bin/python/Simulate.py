@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 import random
 
-np.random.seed(10101)
-random.seed(10102)
 
 data = network.Electric_model_inputs()
 data_broadband=network.Broadband_model_inputs()
