@@ -1,6 +1,12 @@
 import pandas as pd
 import Network
 import Simulate
+import random
+import numpy as np
+
+
+np.random.seed(10101)
+random.seed(10102)
 
 data  = Network.Electric_model_inputs()
 data_broadband  = Network.Broadband_model_inputs()
