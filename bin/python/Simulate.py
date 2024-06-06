@@ -1923,6 +1923,8 @@ def run_benefit_simulation_S1(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -1979,6 +1981,8 @@ def run_benefit_simulation_S1(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()
@@ -2190,6 +2194,8 @@ def run_benefit_simulation_S2(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)    
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -2255,6 +2261,8 @@ def run_benefit_simulation_S2(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()
@@ -2465,6 +2473,8 @@ def run_benefit_simulation_S3(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -2530,6 +2540,8 @@ def run_benefit_simulation_S3(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()
@@ -2749,6 +2761,8 @@ def run_benefit_simulation_S4(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -2804,6 +2818,8 @@ def run_benefit_simulation_S4(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()
@@ -3026,6 +3042,8 @@ def run_benefit_simulation_S5(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -3081,6 +3099,8 @@ def run_benefit_simulation_S5(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()
@@ -3311,6 +3331,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -3378,6 +3400,8 @@ def run_benefit_simulation_S6_to_s9(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()
@@ -3557,6 +3581,8 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
             }) 
         df_under_pro1=df_under_pro1.append(df_under_pro_new, ignore_index = True)
     
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data.parameter_dict['analysis_years']):
         under_t = df1.loc[(df1['year'] == t) & (df1['under_el'] == 1), 'length'].sum()
         #under_0 = df1.loc[(df1['year'] == 0) & (df1['under_el'] == 1), 'length'].sum()
@@ -3623,6 +3649,8 @@ def run_benefit_simulation_S10_to_s13(data, data_broadband):
             }) 
         df_under_pro2=df_under_pro2.append(df_under_pro_new2, ignore_index = True)
 
+    np.random.seed(10101)
+    random.seed(10102)
     for t in range (data_broadband.parameter_dict['analysis_years']):
         under_t = df2.loc[(df2['year'] == t) & (df2['under_br'] == 1), 'length'].sum()
         #under_0 = df2.loc[(df2['year'] == 0) & (df2['under_br'] == 1), 'length'].sum()

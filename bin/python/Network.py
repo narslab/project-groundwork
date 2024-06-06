@@ -46,7 +46,7 @@ class Electric_model_inputs:
             "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
             "SAIDI":1.38,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
-            "USD_per_Customer_Hour_Interruption_Residential": 10,
+            "USD_per_Customer_Hour_Interruption_Residential": 15,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":15048,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
@@ -158,7 +158,7 @@ class Broadband_model_inputs:
             "SAIDI":1.38,
             "outage_overhead":0.8,
             "outage_underground":0.2,
-            "USD_per_Customer_Hour_Interruption_Residential": 10,
+            "USD_per_Customer_Hour_Interruption_Residential": 15,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":9600,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
