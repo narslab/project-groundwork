@@ -20,7 +20,7 @@ class Electric_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.05, # Discount rate=10%
+            "r":0.03, # Discount rate=10%
             "easment_value":2692, # per-acre price of a conservation easement in MA
             "nfir":2000, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":10, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -116,7 +116,7 @@ class Broadband_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.05, # Discount rate=10%
+            "r":0.03, # Discount rate=10%
             "easment_value":2692, # per-acre price of a conservation easement
             "nfir":2000, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":10, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -158,7 +158,7 @@ class Broadband_model_inputs:
             "SAIDI":1.38,
             "outage_overhead":0.8,
             "outage_underground":0.2,
-            "USD_per_Customer_Hour_Interruption_Residential": 2,
+            "USD_per_Customer_Hour_Interruption_Residential": 15,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":9600,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
