@@ -127,7 +127,7 @@ class Broadband_model_inputs:
             "overhead_proportion":0.66, #The value showing the proportion of underground lines in Shrewsbury
             #Assigning overhead and underground line's specification (parameters) as a dictionary
             "overhead_line":{'lifespan':40,'replcost':27720,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':7.5},
-            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.10},
+            "underground_line":{'lifespan':50,'replcost':83160,'replcost_growth_rate':0.02,'om_growth_rate':0.02,'om_proportion_replcost':0.005,'corridor_width':15 ,'over_under_convertcost':378000, 'over_under_joint_proportion_convertcost':0.05},
             #lifespan=Useful lifespan of overhead line and underground lines
             #replcost=Cost associated with replacing a line with the same line type after it reaches its life span. 
             #replcost_growth_rate= replacement cost annual growth/decay rate 
