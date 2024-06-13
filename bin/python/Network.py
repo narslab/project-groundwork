@@ -20,7 +20,7 @@ class Electric_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.07, # Discount rate=10%
+            "r":0.1, # Discount rate=10%
             "easment_value":2692, # per-acre price of a conservation easement in MA
             "nfir":2000, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":10, # Fatality incidence rates, number of accidents per 100000 workers 
@@ -116,7 +116,7 @@ class Broadband_model_inputs:
             "baseyear":2021, #the year in which we are going to start conducting cost analysis 
             "underground_baseyear":167, #Length of undergeound lines in miles in base year
             "overhead_baseyear":325, #Length of overhead lines in miles in base year
-            "r":0.07, # Discount rate=10%
+            "r":0.1, # Discount rate=10%
             "easment_value":2692, # per-acre price of a conservation easement
             "nfir":2000, # Non-fatality incidence rates, number of accidents per 100000 workers
             "fir":10, # Fatality incidence rates, number of accidents per 100000 workers 
