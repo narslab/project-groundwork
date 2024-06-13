@@ -44,9 +44,9 @@ class Electric_model_inputs:
             #"SAIDI_overhead": 5.72, #in hours #0.66x + 0.34y = 4.17, and y = 0.2x --> which is the current SAIDI for MASS according to patch.com
             #"SAIDI_underground": 1.15, #0.66 is the percentage of overhead lines in Shrewsbury, MA and 0.34 is the percentage of undergrounded lines, taking into consideration our assumption that 80% of outages happen via overhead lines and 20% due to unerground lines
             "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
-            "SAIDI":1.38,
+            "SAIDI":3,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
-            "USD_per_Customer_Hour_Interruption_Residential": 20,
+            "USD_per_Customer_Hour_Interruption_Residential": 10,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":15048,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
@@ -155,7 +155,7 @@ class Broadband_model_inputs:
             #"cost_per_hour": 24,
             "cost_per_hour_commercial_residencial": 830, # Average lost per minute= (137+17244)/2=8690, Average lost per hour= 8690 *60 = 521430, 521430/(0.25*24834)
             "outage_hours": 40,
-            "SAIDI":1.38,
+            "SAIDI":3,
             "outage_overhead":0.8,
             "outage_underground":0.2,
             "USD_per_Customer_Hour_Interruption_Residential": 15,
