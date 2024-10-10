@@ -721,37 +721,37 @@ def aggregate_benefits_S1_to_S13(data, data_broadband):
     df_output_S1=Simulate.run_benefit_simulation_S1(data, data_broadband)
     df_analyze_result_S1=df_output_S1.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S1.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S1.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S1.csv', index = False)
+    #df_analyze_result_S1.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S1.csv', index = False)
     # S2
     df_output_S2=Simulate.run_benefit_simulation_S2(data, data_broadband)
     df_analyze_result_S2=df_output_S2.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S2.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S2.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S2.csv', index = False)
+    #df_analyze_result_S2.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S2.csv', index = False)
     # S3
     df_output_S3=Simulate.run_benefit_simulation_S3(data, data_broadband)
     df_analyze_result_S3=df_output_S3.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S3.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S3.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S3.csv', index = False)
+    #df_analyze_result_S3.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S3.csv', index = False)
     # S4
     df_output_S4=Simulate.run_benefit_simulation_S4(data, data_broadband)
     df_analyze_result_S4=df_output_S4.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S4.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S4.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S4.csv', index = False)
+    #df_analyze_result_S4.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S4.csv', index = False)
     # S5
     df_output_S5=Simulate.run_benefit_simulation_S5(data, data_broadband)
     df_analyze_result_S5=df_output_S5.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S5.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S5.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S5.csv', index = False)
+    #df_analyze_result_S5.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S5.csv', index = False)
     # S6-S9
     df_output_S6=Simulate.run_benefit_simulation_S6_to_s9(data, data_broadband)
     df_analyze_result_S6=df_output_S6.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S6.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S6.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S6.csv', index = False)
+    #df_analyze_result_S6.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S6.csv', index = False)
     # S10-S13
     df_output_S10=Simulate.run_benefit_simulation_S10_to_s13(data, data_broadband)
     df_analyze_result_S10=df_output_S10.groupby(level=[0])[['aesthetic_benefit_el','economic_losses_el','aesthetic_benefit_br','economic_loss_br']].sum()
     df_analyze_result_S10.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S10.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S10.csv', index = False)
+    #df_analyze_result_S10.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-analyze-result-S10.csv', index = False)
     return(df_analyze_result_S1, df_analyze_result_S2, df_analyze_result_S3, df_analyze_result_S4, df_analyze_result_S5, df_analyze_result_S6, df_analyze_result_S10)
 
 
@@ -777,7 +777,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S1_total_aesthetic_benefit_br],
                              'economic_loss_br':[S1_total_economic_loss_br]},
                             )
-    S1_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S1.csv', index = False)
+    #S1_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S1.csv', index = False)
     # S2
     S2_npv_aesthetic_benefit_el=[]
     S2_npv_economic_losses_el=[]
@@ -797,7 +797,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S2_total_aesthetic_benefit_br],
                              'economic_loss_br':[S2_total_economic_loss_br]},
                             )
-    S2_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S2.csv', index = False)
+    #S2_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S2.csv', index = False)
     # S3
     S3_npv_aesthetic_benefit_el=[]
     S3_npv_economic_losses_el=[]
@@ -817,7 +817,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S3_total_aesthetic_benefit_br],
                              'economic_loss_br':[S3_total_economic_loss_br]},
                             )
-    S3_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S3.csv', index = False)
+    #S3_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S3.csv', index = False)
     # S4
     S4_npv_aesthetic_benefit_el=[]
     S4_npv_economic_losses_el=[]
@@ -837,7 +837,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S4_total_aesthetic_benefit_br],
                              'economic_loss_br':[S4_total_economic_loss_br]},
                             )
-    S4_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S4.csv', index = False)
+    #S4_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S4.csv', index = False)
     # S5
     S5_npv_aesthetic_benefit_el=[]
     S5_npv_economic_losses_el=[]
@@ -857,7 +857,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S5_total_aesthetic_benefit_br],
                              'economic_loss_br':[S5_total_economic_loss_br]},
                             )
-    S5_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S5.csv', index = False)
+    #S5_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S5.csv', index = False)
     # S6
     S6_npv_aesthetic_benefit_el=[]
     S6_npv_economic_losses_el=[]
@@ -877,7 +877,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S6_total_aesthetic_benefit_br],
                              'economic_loss_br':[S6_total_economic_loss_br]},
                             )
-    S6_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S6.csv', index = False)
+    #S6_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S6.csv', index = False)
     # S10
     S10_npv_aesthetic_benefit_el=[]
     S10_npv_economic_losses_el=[]
@@ -897,7 +897,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
                              'aesthetic_benefit_br':[S10_total_aesthetic_benefit_br],
                              'economic_loss_br':[S10_total_economic_loss_br]},
                             )
-    S10_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S10.csv', index = False)
+    #S10_df_npv.to_csv(r'../../results/outcomes/Benefit/Analyze result/benefit-npv-S10.csv', index = False)
 
     npv_benefit = pd.DataFrame({
     'Strategy': ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S10'],
@@ -939,7 +939,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
     ]
 })
 
-    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit.csv', index = False) 
+    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit_VLL_E,R25.csv', index = False) 
     return([S10_total_aesthetic_benefit_el, S10_total_economic_losses_el, S10_total_aesthetic_benefit_br, S10_total_economic_loss_br])
 
 
