@@ -102,7 +102,7 @@ class Broadband_model_inputs:
     ###Model Variables and Parameters
     def __init__(self):
         self.parameter_dict = {
-            "analysis_years":40, #Analysis_years
+            "analysis_years":30, #Analysis_years
             "average_age":27, # Average ages in base year for underground and overhead distribution lines (in years)=0.5(0.66*60+0.36*40)
             "age_shape":13.5, # We selected age shape and scale in a way that age_shape*age_scale=average_age
             "age_scale":2,  # We selected age shape and scale in a way that age_shape*age scale=average_length
