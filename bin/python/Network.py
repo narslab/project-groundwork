@@ -9,7 +9,7 @@ class Electric_model_inputs:
         #np.random.seed(10101)  # Ensuring deterministic initialization
         #random.seed(10102)
         self.parameter_dict = {
-            "analysis_years":40, #Analysis_years
+            "analysis_years":30, #Analysis_years
             "average_age":27, # Average ages in base year for underground and overhead distribution lines (in years)=0.5(0.66*60+0.36*40)
             "age_shape":13.5, # We selected age shape and scale in a way that age_shape*age_scale=average_age
             "age_scale":2,  # We selected age shape and scale in a way that age_shape*age scale=average_length
@@ -46,7 +46,7 @@ class Electric_model_inputs:
             "joint_trench_additional":0.022, # 2.2% additioanal cost for bigger trench (0.22*10%=0.022)
             "SAIDI":1.38,
             #Dollar Amount Lost per Customer Hour Interruption in Shrewsbury in 2019, costs from 2.1 Estimating customer interruption costs using customer interruption cost surveys, page 21: https://eta-publications.lbl.gov/sites/default/files/hybrid_paper_final_22feb2021.pdf
-            "USD_per_Customer_Hour_Interruption_Residential": 25,
+            "USD_per_Customer_Hour_Interruption_Residential": 10,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":15048,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019

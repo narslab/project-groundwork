@@ -15,91 +15,91 @@ def aggregate_costs_S1_to_S13(data, data_broadband):
     df_output_S1=Simulate.run_cost_simulation_S1(data, data_broadband)
     df_analyze_result_S1=df_output_S1.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S1.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S1.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S1.csv', index = False)
+    #df_analyze_result_S1.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S1.csv', index = False)
     print("Done aggregating costs of S1")
     
     # S2
     df_output_S2=Simulate.run_cost_simulation_S2(data, data_broadband)
     df_analyze_result_S2=df_output_S2.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S2.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S2.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S2.csv', index = False)
+    #df_analyze_result_S2.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S2.csv', index = False)
     print("Done aggregating costs of S2")
 
     # S3
     df_output_S3=Simulate.run_cost_simulation_S3(data, data_broadband)
     df_analyze_result_S3=df_output_S3.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S3.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S3.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S3.csv', index = False)
+    #df_analyze_result_S3.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S3.csv', index = False)
     print("Done aggregating costs of S3")
 
     # S4
     df_output_S4=Simulate.run_cost_simulation_S4(data, data_broadband)
     df_analyze_result_S4=df_output_S4.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S4.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S4.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S4.csv', index = False)
+    #df_analyze_result_S4.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S4.csv', index = False)
     print("Done aggregating costs of S4")
 
     # S5
     df_output_S5=Simulate.run_cost_simulation_S5(data, data_broadband)
     df_analyze_result_S5=df_output_S5.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S5.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S5.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S5.csv', index = False)
+    #df_analyze_result_S5.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S5.csv', index = False)
     print("Done aggregating costs of S5")
     
     # S6
     df_output_S6=Simulate.run_cost_simulation_S6(data, data_broadband)
     df_analyze_result_S6=df_output_S6.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S6.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S6.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S6.csv', index = False)
+    #df_analyze_result_S6.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S6.csv', index = False)
     print("Done aggregating costs of S6")
     
     # S7
     df_output_S7=Simulate.run_cost_simulation_S7(data, data_broadband)
     df_analyze_result_S7=df_output_S7.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S7.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S7.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S7.csv', index = False)
+    #df_analyze_result_S7.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S7.csv', index = False)
     print("Done aggregating costs of S7")
 
     # S8
     df_output_S8=Simulate.run_cost_simulation_S8(data, data_broadband)
     df_analyze_result_S8=df_output_S8.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S8.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S8.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S8.csv', index = False)
+    #df_analyze_result_S8.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S8.csv', index = False)
     print("Done aggregating costs of S8")
 
     # S9
     df_output_S9=Simulate.run_cost_simulation_S9(data, data_broadband)
     df_analyze_result_S9=df_output_S9.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S9.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S9.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S9.csv', index = False)
+    #df_analyze_result_S9.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S9.csv', index = False)
     print("Done aggregating costs of S9")
 
     # S10
     df_output_S10=Simulate.run_cost_simulation_S10(data, data_broadband)
     df_analyze_result_S10=df_output_S10.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S10.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S10.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S10.csv', index = False)
+    #df_analyze_result_S10.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S10.csv', index = False)
     print("Done aggregating costs of S10")
     
     # S11
     df_output_S11=Simulate.run_cost_simulation_S11(data, data_broadband)
     df_analyze_result_S11=df_output_S11.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S11.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S11.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S11.csv', index = False)
+    #df_analyze_result_S11.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S11.csv', index = False)
     print("Done aggregating costs of S11")
     
     # S12
     df_output_S12=Simulate.run_cost_simulation_S12(data, data_broadband)
     df_analyze_result_S12=df_output_S12.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S12.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S12.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S12.csv', index = False)
+    #df_analyze_result_S12.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S12.csv', index = False)
     print("Done aggregating costs of S12")
     
     # S13
     df_output_S13=Simulate.run_cost_simulation_S13(data, data_broadband)
     df_analyze_result_S13=df_output_S13.groupby(level=[0])[['capex_el','opex_el','lifecycle_infrastructure_el','environmental_restoration_el','non_fatal_el','fatal_el','safety_el','total_cost_el','capex_br','opex_br','lifecycle_infrastructure_br','environmental_restoration_br','non_fatal_br','fatal_br','safety_br','total_cost_br']].sum()
     df_analyze_result_S13.insert(0, "year", range(data.parameter_dict['analysis_years']), True)
-    df_analyze_result_S13.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S13.csv', index = False)
+    #df_analyze_result_S13.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-analyze-result-S13.csv', index = False)
     print("Done aggregating costs of S13")
     return(df_analyze_result_S1, df_analyze_result_S2, df_analyze_result_S3, df_analyze_result_S4, df_analyze_result_S5, df_analyze_result_S6, df_analyze_result_S7, df_analyze_result_S8, df_analyze_result_S9, df_analyze_result_S10, df_analyze_result_S11, df_analyze_result_S12, df_analyze_result_S13)
 
@@ -142,7 +142,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S1_total_safety_br],
                              'total_cost_br':[S1_total_cost_br]},
                             )
-    S1_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S1.csv', index = False)
+    #S1_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S1.csv', index = False)
     # S2
     S2_npv_infrastructure_cost_el=[]
     S2_npv_environmental_cost_el=[]
@@ -178,7 +178,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S2_total_safety_br],
                              'total_cost_br':[S2_total_cost_br]},
                             )
-    S2_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S2.csv', index = False)
+    #S2_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S2.csv', index = False)
     # S3
     S3_npv_infrastructure_cost_el=[]
     S3_npv_environmental_cost_el=[]
@@ -214,7 +214,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S3_total_safety_br],
                              'total_cost_br':[S3_total_cost_br]},
                             )
-    S3_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S3.csv', index = False)    
+    #S3_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S3.csv', index = False)    
     # S4
     S4_npv_infrastructure_cost_el=[]
     S4_npv_environmental_cost_el=[]
@@ -250,7 +250,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S4_total_safety_br],
                              'total_cost_br':[S4_total_cost_br]},
                             )
-    S4_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S4.csv', index = False) 
+    #S4_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S4.csv', index = False) 
     # S5
     S5_npv_infrastructure_cost_el=[]
     S5_npv_environmental_cost_el=[]
@@ -286,7 +286,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S5_total_safety_br],
                              'total_cost_br':[S5_total_cost_br]},
                             )
-    S5_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S5.csv', index = False) 
+    #S5_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S5.csv', index = False) 
     # S6
     S6_npv_infrastructure_cost_el=[]
     S6_npv_environmental_cost_el=[]
@@ -322,7 +322,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S6_total_safety_br],
                              'total_cost_br':[S6_total_cost_br]},
                             )
-    S6_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S6.csv', index = False) 
+    #S6_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S6.csv', index = False) 
     # S7
     S7_npv_infrastructure_cost_el=[]
     S7_npv_environmental_cost_el=[]
@@ -358,7 +358,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S7_total_safety_br],
                              'total_cost_br':[S7_total_cost_br]},
                             )
-    S7_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S7.csv', index = False) 
+    #S7_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S7.csv', index = False) 
     # S8
     S8_npv_infrastructure_cost_el=[]
     S8_npv_environmental_cost_el=[]
@@ -394,7 +394,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S8_total_safety_br],
                              'total_cost_br':[S8_total_cost_br]},
                             )
-    S8_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S8.csv', index = False)     
+    #S8_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S8.csv', index = False)     
     # S9
     S9_npv_infrastructure_cost_el=[]
     S9_npv_environmental_cost_el=[]
@@ -430,7 +430,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S9_total_safety_br],
                              'total_cost_br':[S9_total_cost_br]},
                             )
-    S9_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S9.csv', index = False) 
+    #S9_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S9.csv', index = False) 
     # S10
     S10_npv_infrastructure_cost_el=[]
     S10_npv_environmental_cost_el=[]
@@ -466,7 +466,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S10_total_safety_br],
                              'total_cost_br':[S10_total_cost_br]},
                             )
-    S10_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S10.csv', index = False) 
+    #S10_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S10.csv', index = False) 
     # S11
     S11_npv_infrastructure_cost_el=[]
     S11_npv_environmental_cost_el=[]
@@ -502,7 +502,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S11_total_safety_br],
                              'total_cost_br':[S11_total_cost_br]},
                             )
-    S11_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S11.csv', index = False) 
+    #S11_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S11.csv', index = False) 
     # S12
     S12_npv_infrastructure_cost_el=[]
     S12_npv_environmental_cost_el=[]
@@ -538,7 +538,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S12_total_safety_br],
                              'total_cost_br':[S12_total_cost_br]},
                             )
-    S12_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S12.csv', index = False) 
+    #S12_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S12.csv', index = False) 
     # S13
     S13_npv_infrastructure_cost_el=[]
     S13_npv_environmental_cost_el=[]
@@ -574,7 +574,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
                              'safety_br':[S13_total_safety_br],
                              'total_cost_br':[S13_total_cost_br]},
                             )
-    S13_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S13.csv', index = False) 
+    #S13_df_npv.to_csv(r'../../results/outcomes/Cost/Analyze result/cost-npv-S13.csv', index = False) 
 
     #npv_cost= pd.DataFrame({'Strategy':['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12','S13'],
     #                        'lifecycle_infrastructure_el':[S1_df_npv['lifecycle_infrastructure_el'],S2_df_npv['lifecycle_infrastructure_el'],S3_df_npv['lifecycle_infrastructure_el'],S4_df_npv['lifecycle_infrastructure_el'],S5_df_npv['lifecycle_infrastructure_el'],S6_df_npv['lifecycle_infrastructure_el'],S7_df_npv['lifecycle_infrastructure_el'],S8_df_npv['lifecycle_infrastructure_el'],S9_df_npv['lifecycle_infrastructure_el'],S10_df_npv['lifecycle_infrastructure_el'],S11_df_npv['lifecycle_infrastructure_el'],S12_df_npv['lifecycle_infrastructure_el'],S13_df_npv['lifecycle_infrastructure_el']],
@@ -711,7 +711,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
     ]
 })
     
-    npv_cost.to_csv(r'../../results/outcomes/Cost/Analyze result/ npv_cost.csv', index = False) 
+    npv_cost.to_csv(r'../../results/outcomes/Cost/Analyze result/ npv_cost_simulationYear30.csv', index = False) 
     return([S1_total_infrastructre_el, S1_total_environmental_el, S1_total_safety_el, S1_total_cost_el, S1_total_infrastructre_br, S1_total_environmental_br, S1_total_safety_br, S1_total_cost_br])
 
 ## Benefits and losses
@@ -939,7 +939,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
     ]
 })
 
-    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit_VLL_E,R25.csv', index = False) 
+    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit_simulationYear30.csv', index = False) 
     return([S10_total_aesthetic_benefit_el, S10_total_economic_losses_el, S10_total_aesthetic_benefit_br, S10_total_economic_loss_br])
 
 

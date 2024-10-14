@@ -467,7 +467,7 @@ def run_cost_simulation_S1(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S1-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S1-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -572,7 +572,7 @@ def run_cost_simulation_S2(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S2-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S2-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -678,7 +678,7 @@ def run_cost_simulation_S3(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S3-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S3-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -783,7 +783,7 @@ def run_cost_simulation_S4(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S4-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S4-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -889,7 +889,7 @@ def run_cost_simulation_S5(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S5-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S5-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1005,7 +1005,7 @@ def run_cost_simulation_S6(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S6-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1121,7 +1121,7 @@ def run_cost_simulation_S7(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S7-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S7-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1226,7 +1226,7 @@ def run_cost_simulation_S8(data, data_broadband):
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         el_underground_mileage=0
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S8-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S8-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1331,7 +1331,7 @@ def run_cost_simulation_S9(data, data_broadband):
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         el_underground_mileage=0
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S9-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S9-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1448,7 +1448,7 @@ def run_cost_simulation_S10(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S10-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S10-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1566,7 +1566,7 @@ def run_cost_simulation_S11(data, data_broadband):
             df1=df1.append(df_new, ignore_index = True)
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S11-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S11-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1670,7 +1670,7 @@ def run_cost_simulation_S12(data, data_broadband):
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         el_underground_mileage=0
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S12-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S12-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
@@ -1773,7 +1773,7 @@ def run_cost_simulation_S13(data, data_broadband):
         br_under_mileage_percent= br_underground_mileage/br_underground_base 
         el_underground_mileage=0
         br_underground_mileage=0
-    df1.to_csv(r'../../results/outcomes/Cost/Simulation/S13-cost-simulation.csv', index = False)
+    #df1.to_csv(r'../../results/outcomes/Cost/Simulation/S13-cost-simulation.csv', index = False)
     return(df1.set_index(["year","segment number"]))
     #return(df1)
 
