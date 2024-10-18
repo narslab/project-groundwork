@@ -711,7 +711,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
     ]
 })
     
-    npv_cost.to_csv(r'../../results/outcomes/Cost/Analyze result/ npv_cost_simulationYear50.csv', index = False) 
+    npv_cost.to_csv(r'../../results/outcomes/Cost/Analyze result/ npv_cost_VLL_B_R7.csv', index = False) 
     return([S1_total_infrastructre_el, S1_total_environmental_el, S1_total_safety_el, S1_total_cost_el, S1_total_infrastructre_br, S1_total_environmental_br, S1_total_safety_br, S1_total_cost_br])
 
 ## Benefits and losses
@@ -939,7 +939,7 @@ def calculate_benefits_npv_S1_to_S13(data, data_broadband):
     ]
 })
 
-    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit_simulationYear50.csv', index = False) 
+    npv_benefit.to_csv(r'../../results/outcomes/Benefit/Analyze result/ npv_benefit_VLL_B_R7.csv', index = False) 
     return([S10_total_aesthetic_benefit_el, S10_total_economic_losses_el, S10_total_aesthetic_benefit_br, S10_total_economic_loss_br])
 
 
