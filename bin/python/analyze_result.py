@@ -711,7 +711,7 @@ def calculate_cost_npv_S1_to_S13(data, data_broadband):
     ]
 })
     
-    npv_cost.to_csv(r'../../results/outcomes/Cost/Analyze result/ npv_cost_inflation3percent.csv', index = False) 
+    npv_cost.to_csv(r'../../results/outcomes/Cost/Analyze result/ npv_cost_inflation5percent.csv', index = False) 
     return([S1_total_infrastructre_el, S1_total_environmental_el, S1_total_safety_el, S1_total_cost_el, S1_total_infrastructre_br, S1_total_environmental_br, S1_total_safety_br, S1_total_cost_br])
 
 ## Benefits and losses
