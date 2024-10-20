@@ -78,7 +78,8 @@ class Electric_model_inputs:
             "length_s": 0.711,
             "length_scale": 0.019,
             "length_loc": -0.004,
-            "alpha":0.4
+            "alpha":0.4,
+            "inflation": 0.03
             }
     
     
@@ -158,7 +159,7 @@ class Broadband_model_inputs:
             "SAIDI": 1.38,
             "outage_overhead":0.8,
             "outage_underground":0.2,
-            "USD_per_Customer_Hour_Interruption_Residential": 7,
+            "USD_per_Customer_Hour_Interruption_Residential": 15,
             "USD_per_Customer_Hour_Interruption_Commercial":205.70,
             "USD_per_Customer_Hour_Interruption_Industry":9600,
             #Number of Customers in Each Sector in Shrewsbury Municipal Electric (SELCO) in 2019
@@ -168,7 +169,8 @@ class Broadband_model_inputs:
             "Total_Customers_Residential_Shrewsbury":6449,
             "Total_Customers_Commercial_Shrewsbury":838,
             "Total_Customers_Industry_Shrewsbury":189,
-            "alpha":0.4
+            "alpha":0.4,
+            "inflation": 0.03
             }
         
     #defining a function to modify parameters for sensitivity anlysis based on percentage change
@@ -376,6 +378,7 @@ class Electric_line_segment:
         else:
             if self.underground[:-1]==[0]*len(self.underground[:-1]):
                 conversion_cost_current=5280*((-61*self.log_density[-1])-(64*self.single_phase[-1])+(137*self.log_clay[-1]))
+                conversion_cost_current = conversion_cost_current * (1 + self.inputs.parameter_dict['inflation']) ** 13
                 self.conversion_cost.append(conversion_cost_current)
             else:
                 conversion_cost_current=0
@@ -763,6 +766,7 @@ class Broadband_line_segment:
         else:
             if self.underground[:-1]==[0]*len(self.underground[:-1]):
                 conversion_cost_current=5280*((-61*self.log_density[-1])-(64*self.single_phase[-1])+(137*self.log_clay[-1]))
+                conversion_cost_current = conversion_cost_current * (1 + self.inputs.parameter_dict['inflation']) ** 13
                 self.conversion_cost.append(conversion_cost_current)
             else:
                 conversion_cost_current=0
