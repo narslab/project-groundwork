@@ -1,6 +1,6 @@
 # **Project Groundwork: Cost-Benefit Analysis of Undergrounding Utility Lines**
 
-This repository contains the data and code used in the research article [Benefits of aggressively co-undergrounding electric and broadband lines outweigh costs (Arabi et al., 2025, *Cell Reports Sustainability*)](https://www.cell.com/action/showPdf?pii=S2949-7906%2825%2900030-8). The study introduces a novel data-driven cost-benefit framework and evaluates undergrounding strategies through a detailed case study in Shrewsbury, Massachusetts. The findings indicate that aggressively co-undergrounding electricity and broadband networks provides the highest net benefit when undergrounding is justified.
+This repository contains the data and code used in the research article [Benefits of aggressively co-undergrounding electric and broadband lines outweigh costs](https://www.cell.com/action/showPdf?pii=S2949-7906%2825%2900030-8). (*Cell Reports Sustainability*, 2025). The study introduces a novel data-driven cost-benefit framework and evaluates undergrounding strategies through a detailed case study in Shrewsbury, Massachusetts. The findings indicate that aggressively co-undergrounding electricity and broadband networks provides the highest net benefit when undergrounding is justified.
 
 ## **Overview**
 This research investigates the economic feasibility and policy implications of undergrounding electricity and broadband networks. The key objectives are:
